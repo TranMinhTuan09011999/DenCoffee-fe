@@ -7,7 +7,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PageComponent } from './components/page/page.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PageComponent } from './components/page/page.component';
     FooterComponent,
     SidebarComponent,
     DashboardComponent,
-    PageComponent
+    AttendanceComponent,
+    EmployeeComponent
   ],
   imports: [
     CommonModule,

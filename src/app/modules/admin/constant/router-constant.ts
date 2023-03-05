@@ -8,4 +8,12 @@ export class RouterConstant {
   public static DASHBOARD: IRoute = {
     path: 'dashboard'
   };
+
+  public static ATTENDANCE: IRoute = {
+    path: 'attendance'
+  };
+
+  public static EMPLOYEE: IRoute = {
+    path: 'employee'
+  };
 }
