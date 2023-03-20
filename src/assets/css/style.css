@@ -210,10 +210,7 @@
 
   /* Card */
   .card {
-	margin-bottom: 30px;
-	border: none;
-	border-radius: 5px;
-	box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+	border-radius: 10px;
   }
 
   .card-header, .card-footer {
@@ -354,7 +351,6 @@
 	transition: all 0.5s;
 	z-index: 997;
 	height: 60px;
-	box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
 	background-color: #30419b;
 	padding-left: 20px;
 	/* Toggle Sidebar Button */
@@ -442,6 +438,13 @@
 	font-size: 14px;
 	font-weight: 600;
   }
+
+  .header-nav .nav-profile:hover,
+  .header-nav .nav-profile img:hover,
+  .header-nav .nav-profile span:hover {
+    cursor: pointer;
+  }
+
   .header-nav .badge-number {
 	position: absolute;
 	inset: 4px 6px auto auto;
@@ -539,8 +542,6 @@
 	overflow-y: auto;
 	scrollbar-width: thin;
 	scrollbar-color: #aab7cf transparent;
-	box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-	background-color: #222437;
   }
   @media (max-width: 1199px) {
 	.sidebar {
@@ -1290,8 +1291,6 @@ input[aria-label=multiselect-select-all]+div{
   Card
 ===================*/
 .card {
-  border: none;
-  margin-bottom: 30px;
   background: #222437;
 }
 
@@ -1333,6 +1332,10 @@ input[aria-label=multiselect-select-all]+div{
   border-bottom: 2px solid #dee2e6;
 }
 
+.table tr td {
+  vertical-align: middle;
+}
+
 .table td, .table th {
   vertical-align: middle;
   border-color: rgba(255, 255, 255, 0.05) !important;
@@ -1345,7 +1348,6 @@ input[aria-label=multiselect-select-all]+div{
 
 .table td, .table th {
   padding: 0.75rem;
-  vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
 
