@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
+import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,11 @@ import {DOCUMENT} from "@angular/common";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(@Inject(DOCUMENT) private document: Document) { }
+  public modalId = 'modalId';
+  public header = 'Đăng Nhập';
+
+  constructor(@Inject(DOCUMENT) private document: Document,
+              private contentDialogService: ContentDialogService) { }
 
   ngOnInit(): void {
   }
@@ -16,6 +21,10 @@ export class HeaderComponent implements OnInit {
   sidebarToggle() {
     //toggle sidebar function
     this.document.body.classList.toggle('toggle-sidebar');
+  }
+
+  loginForm() {
+    this.contentDialogService.open(this.modalId);
   }
 
 }

@@ -1,0 +1,19 @@
+<span data-bs-toggle="modal" [attr.data-bs-target]="'#' + contentId" [attr.id]="id"></span>
+<div class="modal fade" [attr.id]="contentId" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" [style]="setWidth()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{header}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div #bodyContainer></div>
+      </div>
+      <div class="modal-footer">
+        <template #footerContainer></template>
+      </div>
+    </div>
+  </div>
+</div>

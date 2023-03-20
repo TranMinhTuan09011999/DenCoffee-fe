@@ -1,0 +1,15 @@
+.modal-dialog {
+  max-width: none;
+}
+
+.modal-header {
+  background-color: #30419b;
+  max-height: 45px;
+  color: #f6f6f6;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-content {
+  border-radius: 15px;
+}

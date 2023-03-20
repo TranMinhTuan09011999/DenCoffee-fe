@@ -9,6 +9,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { EmployeeComponent } from './components/employee/employee.component';
+import {SharedModule} from '../shared/shared.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { EmployeeComponent } from './components/employee/employee.component';
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SharedModule
   ]
 })
 export class AdminModule { }
