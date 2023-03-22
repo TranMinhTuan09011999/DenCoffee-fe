@@ -10,6 +10,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { EmployeeComponent } from './components/employee/employee.component';
 import {SharedModule} from '../shared/shared.module';
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -25,7 +27,10 @@ import {SharedModule} from '../shared/shared.module';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class AdminModule { }
