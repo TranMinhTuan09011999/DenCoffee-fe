@@ -134,6 +134,7 @@
   }
   .dropdown-menu .dropdown-item:hover {
 	background-color: #f6f9ff;
+    cursor: pointer;
   }
 
   @media (min-width: 768px) {

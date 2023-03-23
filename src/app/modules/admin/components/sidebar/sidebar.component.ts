@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {RouterConstant} from "../../constant/router-constant";
+import {AuthorizeService} from "../../services/authorize.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -9,9 +10,16 @@ import {RouterConstant} from "../../constant/router-constant";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  public hasRoleAdmin!: boolean;
+
+  constructor(private router: Router,
+              private authorizeService: AuthorizeService) { }
 
   ngOnInit(): void {
+  }
+
+  hasRole(roles: any) {
+    return this.authorizeService.hasRole(roles);
   }
 
   toDashboardPage() {

@@ -2,7 +2,7 @@ import {FormGroup} from "@angular/forms";
 
 export class CustomHandleValidate {
 
-  private formClone = {};
+  private formClone: any = {};
   constructor(private form: FormGroup) {
   }
 
@@ -23,6 +23,13 @@ export class CustomHandleValidate {
         value:  this.form.controls[key].value
       };
     }
+  }
+
+  hasError(key: string, errorCode: string) {
+    if (!this.formClone[key] || !this.formClone[key]['errors'] || !this.formClone[key]['errors'][errorCode]) {
+      return false;
+    }
+    return this.formClone[key]['errors'][errorCode];
   }
 
 }

@@ -4,13 +4,13 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {StringUtil} from "../util/string-util";
 import {PortalType} from "../constant/portal-type.enum";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpDaoService {
 
-  private baseURI = 'http://localhost:8181/api/';
   private baseURINonAuth = 'auth';
   private baseURIUser = 'user';
   private baseSession = 'session';
@@ -32,7 +32,7 @@ export class HttpDaoService {
   }
 
   pathAPI(pathAPI: API, params?: {}): string {
-    let apiFull = this.baseURI;
+    let apiFull = environment.baseURL;
     if (pathAPI.module == PortalType.NON_AUTH) {
       apiFull += this.baseURINonAuth;
     }
