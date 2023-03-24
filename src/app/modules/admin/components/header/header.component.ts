@@ -35,6 +35,9 @@ export class HeaderComponent implements OnInit {
       password: ['', Validators.required],
     });
     this.customValidate = new CustomHandleValidate(this.loginForm);
+    $(() => {
+      (window as any).showMain();
+    });
   }
 
   hasRole(roles: any) {
