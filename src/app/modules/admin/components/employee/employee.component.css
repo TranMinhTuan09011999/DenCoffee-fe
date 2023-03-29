@@ -1,6 +1,17 @@
 .margin-left {
   margin-left: 0.5rem!important;
 }
+.card-body .row {
+  height: 60px;
+}
+
+.dropdown {
+  margin-right: 10px;
+}
+
+.add-button {
+  margin: auto 0px;
+}
 
 @media (max-width: 1654px) {
   .table {
@@ -16,4 +27,65 @@
   .display-100 {
     width: 100%;
   }
+
+  .search {
+    text-align: center !important;
+    padding-bottom: 10px;
+  }
+
+  .card-body .row {
+    text-align: center;
+    height: 90px;
+  }
+
+  .card-headers {
+    display: grid;
+    grid-template-columns: none !important;
+    padding-bottom: 0px !important;
+  }
+
+  .add-button {
+    width: 60%;
+    text-align: end;
+  }
+}
+
+.status {
+  color: #f6f6f6;
+}
+
+.search-item {
+  text-align: center;
+}
+
+.search {
+  text-align: right;
+}
+
+.bg-color:hover {
+  background-color: #222437;
+}
+
+.search-form input {
+  background-color: #222437;
+  box-shadow: none;
+  border: solid 1px #a5a6ad;
+  color: #fff;
+  border-radius: 5px;
+  width: 186px;
+  margin: 5px auto;
+}
+
+.dropdown-menu_display {
+  min-width: 185px;
+}
+
+.dropdown-menu_display li a {
+  border-bottom: solid 1px #dee2e6;
+}
+
+.card-headers {
+  display: grid;
+  grid-template-columns: 60% auto;
+  padding-bottom: 15px;
 }

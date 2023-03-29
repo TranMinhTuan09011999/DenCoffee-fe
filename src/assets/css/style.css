@@ -214,10 +214,9 @@
 	border-radius: 10px;
   }
 
-  .card-header, .card-footer {
-	border-color: #ebeef4;
-	background-color: #fff;
-	color: #798eb3;
+  .card-footer {
+	border-top: none !important;
+	background-color: #222437;
 	padding: 15px;
   }
 
@@ -1370,3 +1369,11 @@ input[aria-label=multiselect-select-all]+div{
 .message-error p {
   color: red;
 }
+
+/* ------------ Drop down ----------- */
+.bg-color {
+  background-color: #222437;
+}
+
+/* ----------- search -------------- */
+

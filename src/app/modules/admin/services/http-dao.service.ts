@@ -14,6 +14,7 @@ export class HttpDaoService {
   private baseURINonAuth = 'auth';
   private baseURIUser = 'user';
   private baseSession = 'session';
+  private baseURIEmployee = 'employee';
 
   private headerApplicationJson = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -41,6 +42,9 @@ export class HttpDaoService {
     }
     if (pathAPI.module == PortalType.SESSION) {
       apiFull += this.baseSession;
+    }
+    if (pathAPI.module == PortalType.EMPLOYEE) {
+      apiFull += this.baseURIEmployee;
     }
     let tmpURI = pathAPI.uri;
     if (params) {

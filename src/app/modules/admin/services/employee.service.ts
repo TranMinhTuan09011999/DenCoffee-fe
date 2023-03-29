@@ -17,4 +17,10 @@ export class EmployeeService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  getAllEmployee(): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_GET_ALL_EMPLOYEE).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

@@ -20,134 +20,66 @@
         <div class="col-xl-12">
           <div class="card m-b-30">
             <div class="card-body">
-              <h4 class="mt-0 header-title mb-4">Thông Tin Nhân Viên</h4>
+              <div class="card-headers">
+                <div class="">
+                  <div class="d-flex">
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle bg-color" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Nhân viên đang làm
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu_display" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Nhân viên đang làm</a></li>
+                        <li><a class="dropdown-item" href="#">Tất cả nhân viên</a></li>
+                        <li><a class="dropdown-item" href="#">Nhân viên đã nghỉ</a></li>
+                      </ul>
+                    </div>
+                    <div class="add-button">
+                      <a href="#" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Thêm</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="search">
+                  <div class="search-bar">
+                    <form class="search-form" method="POST" action="#"><input type="text"
+                    name="query" placeholder="Search" title="Enter search keyword">
+                    </form>
+                  </div>
+                </div>
+              </div>
               <div class="table-responsive">
                 <table class="table table-hover">
                   <thead>
                   <tr>
-                    <th scope="col">Họ Tên</th>
+                    <th scope="col">Họ Và Tên</th>
                     <th scope="col">Ngày Sinh</th>
+                    <th scope="col">Giới Tính</th>
                     <th scope="col">Số Điện Thoại</th>
                     <th scope="col">Địa Chỉ</th>
                     <th scope="col">Trạng Thái</th>
-                    <th scope="col" colspan="2">Ghi Chú</th>
+                    <th scope="col" colspan="2"></th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
+                  <tr *ngFor="let item of pageOfItems">
+                    <td>{{item.fullname}}</td>
+                    <td>{{item.birthday}}</td>
+                    <td>{{setGender(item.gender)}}</td>
+                    <td>{{item.phoneNumber}}</td>
+                    <td>{{item.address}}</td>
+                    <td class="status">{{setStatus(item.status)}}</td>
                     <td>
                       <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>15/1/2021</td>
-                    <td>095547384</td>
-                    <td>83/6 đường 385, phường tăng nhơn phú A, Quận 9, thành phồ thủ đức</td>
-                    <td><span class="badge badge-success">Đang Làm</span></td>
-                    <td>Không có</td>
-                    <td>
-                      <div>
-                        <a href="#" class="btn btn-primary btn-sm" (click)="addEmployee()">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Delete</a>
+                        <a href="#" class="btn btn-primary btn-sm">Chi Tiết</a>
+                        <a href="#" class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
+                        <a href="#" class="btn btn-danger btn-sm margin-left">Xóa</a>
                       </div>
                     </td>
                   </tr>
                   </tbody>
                 </table>
+              </div>
+              <div class="card-footer">
+                <pagination [items]="items" (changePage)="onChangePage($event)"></pagination>
               </div>
             </div>
           </div>

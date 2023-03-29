@@ -7,6 +7,8 @@ import {SessionAttribute} from "../../constant/session-attribute";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {AuthorizeService} from "../../services/authorize.service";
+import {Router} from "@angular/router";
+import {RouterConstant} from "../../constant/router-constant";
 
 @Component({
   selector: 'app-header',
@@ -27,7 +29,8 @@ export class HeaderComponent implements OnInit {
               private contentDialogService: ContentDialogService,
               private nonAuthenticateService: NonAuthenticateService,
               private formBuilder: FormBuilder,
-              private authorizeService: AuthorizeService) { }
+              private authorizeService: AuthorizeService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -79,6 +82,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     sessionStorage.removeItem(SessionAttribute.TOKEN);
     sessionStorage.removeItem(SessionAttribute.ROLES)
+    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.DASHBOARD.path]);
     window.location.reload();
   }
 
