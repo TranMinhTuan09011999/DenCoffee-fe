@@ -1094,7 +1094,7 @@
 	border: solid 1px #9BA4AD;
 	line-height: 34px;
 	display: inline-block;
-	width: 160px;
+	width: 197px;
 	border-radius: 3px 0 0 3px;
 	vertical-align: middle;
 }
@@ -1377,3 +1377,11 @@ input[aria-label=multiselect-select-all]+div{
 
 /* ----------- search -------------- */
 
+/* ----------- Calender -------------- */
+.date-width {
+  width: 150px;
+}
+/* ----------- Form -------------- */
+.form-check-input:hover, form-check-label:hover {
+  cursor: pointer;
+}

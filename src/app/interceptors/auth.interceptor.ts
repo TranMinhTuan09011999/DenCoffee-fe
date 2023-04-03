@@ -16,7 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       if (sessionStorage.getItem(SessionAttribute.TOKEN) != null) {
-        console.log(sessionStorage.getItem(SessionAttribute.TOKEN));
         request = request.clone({
           setHeaders: {
             Authorization: 'Bearer ' + sessionStorage.getItem(SessionAttribute.TOKEN)

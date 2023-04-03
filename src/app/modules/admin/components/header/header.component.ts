@@ -20,7 +20,6 @@ export class HeaderComponent implements OnInit {
   public modalId = 'modalId';
   public header = 'Đăng Nhập';
   public messageError!: string;
-  public hasRoleAdmin!: boolean;
 
   public loginForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -57,19 +56,15 @@ export class HeaderComponent implements OnInit {
   }
 
   login() {
-    console.log(this.customValidate);
     if (!this.customValidate.isValidForm()) {
       return;
     }
     const dataLogin = this.loginForm.value;
-    console.log(dataLogin);
     const jwtRequestDTO = new JwtRequestDTO();
     jwtRequestDTO.username = dataLogin.username;
     jwtRequestDTO.password = dataLogin.password;
-    console.log(jwtRequestDTO);
     this.nonAuthenticateService.login(jwtRequestDTO).subscribe(data => {
       if (data) {
-        console.log(data);
         sessionStorage.setItem(SessionAttribute.TOKEN, data.token);
         sessionStorage.setItem(SessionAttribute.ROLES, JSON.stringify(data.roles))
         window.location.reload();

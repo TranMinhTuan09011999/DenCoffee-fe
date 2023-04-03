@@ -12,7 +12,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import {SharedModule} from '../shared/shared.module';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
+import {NgbDatepickerModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbDatepickerModule
   ]
 })
 export class AdminModule { }

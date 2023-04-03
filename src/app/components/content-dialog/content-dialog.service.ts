@@ -43,4 +43,15 @@ export class ContentDialogService {
       throwError('can not get modal');
     }
   }
+
+  close = (dlgId?: string) => {
+    if (dlgId !== undefined) {
+      const tmpModal = this.getModal(dlgId);
+      if (tmpModal && tmpModal.modalRef) {
+        tmpModal.modalRef.close();
+      }
+    } else {
+      this.model.close();
+    }
+  }
 }

@@ -24,24 +24,25 @@
                 <div class="">
                   <div class="d-flex">
                     <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle bg-color" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhân viên đang làm
+                      <button class="btn btn-secondary dropdown-toggle bg-color" type="button" id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown" aria-expanded="false">
+                        {{title}}
                       </button>
                       <ul class="dropdown-menu dropdown-menu_display" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Nhân viên đang làm</a></li>
-                        <li><a class="dropdown-item" href="#">Tất cả nhân viên</a></li>
-                        <li><a class="dropdown-item" href="#">Nhân viên đã nghỉ</a></li>
+                        <li><a class="dropdown-item" (click)="getAllEmployeeByStatus(workingStatus)">Nhân viên đang làm</a></li>
+                        <li><a class="dropdown-item" (click)="getAllEmployeeByStatus(notWorkingStatus)">Nhân viên đã nghỉ</a></li>
                       </ul>
                     </div>
                     <div class="add-button">
-                      <a href="#" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Thêm</a>
+                      <a class="btn btn-primary btn-sm" (click)="openEmployeeAdditionModal()"><i class="bi bi-plus"></i>Thêm</a>
                     </div>
                   </div>
                 </div>
                 <div class="search">
                   <div class="search-bar">
                     <form class="search-form" method="POST" action="#"><input type="text"
-                    name="query" placeholder="Search" title="Enter search keyword">
+                                                                              name="query" placeholder="Search"
+                                                                              title="Enter search keyword">
                     </form>
                   </div>
                 </div>
@@ -55,7 +56,6 @@
                     <th scope="col">Giới Tính</th>
                     <th scope="col">Số Điện Thoại</th>
                     <th scope="col">Địa Chỉ</th>
-                    <th scope="col">Trạng Thái</th>
                     <th scope="col" colspan="2"></th>
                   </tr>
                   </thead>
@@ -66,12 +66,11 @@
                     <td>{{setGender(item.gender)}}</td>
                     <td>{{item.phoneNumber}}</td>
                     <td>{{item.address}}</td>
-                    <td class="status">{{setStatus(item.status)}}</td>
                     <td>
                       <div>
                         <a href="#" class="btn btn-primary btn-sm">Chi Tiết</a>
                         <a href="#" class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Xóa</a>
+                        <a href="#" class="btn btn-danger btn-sm margin-left">Nghỉ</a>
                       </div>
                     </td>
                   </tr>
@@ -90,3 +89,101 @@
     <!-- container-fluid -->
   </div>
 </div>
+
+<ng-container>
+  <ng-template #body>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="message-error">
+            <p>{{messageError}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <form [formGroup]="employeeAdditionForm">
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-bold">Họ và tên: </label>
+              <div class="col-sm-8">
+                <input type="text" formControlName="fullname" class="form-control">
+                <div class="message-error" *ngIf="hasError('fullname','required')">
+                  <p class="mb-0">* Vui lòng nhập họ và tên.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-bold">Giới tính: </label>
+              <div class="col-sm-8">
+                <div class="form-check form-check-inline">
+                  <input formControlName="gender" class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                         value="1">
+                  <label class="form-check-label" for="inlineRadio1">Nam</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input formControlName="gender" class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                         value="0">
+                  <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-bold">Ngày sinh: </label>
+              <div class="col-sm-8">
+                <input type="date" name="birthday" class="form-control date-width" formControlName="birthday">
+                <div class="message-error" *ngIf="hasError('birthday','required')">
+                  <p class="mb-0">* Vui lòng nhập ngày sinh.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-bold">Số điện thoại: </label>
+              <div class="col-sm-8">
+                <input type="text" formControlName="phoneNumber" class="form-control"
+                       (keypress)="numericOnly($event)">
+                <div class="message-error" *ngIf="hasError('phoneNumber','required')">
+                  <p class="mb-0">* Vui lòng nhập số điện thoại.</p>
+                </div>
+                <div class="message-error" *ngIf="hasError('phoneNumber','minlength') || hasError('phoneNumber','maxlength')">
+                  <p class="mb-0">* Số điện thoại phải là 10 số.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label fw-bold">Địa chỉ: </label>
+              <div class="col-sm-8">
+                <textarea type="text" formControlName="address" class="form-control"></textarea>
+                <div class="message-error" *ngIf="hasError('address','required')">
+                  <p class="mb-0">* Vui lòng nhập địa chỉ.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+  <ng-template #footer>
+    <div>
+      <a class="btn btn-primary btn-sm margin-right" (click)="addEmployee()">Thêm</a>
+      <a class="btn btn-danger btn-sm">Thoát</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="employeeAdditionModalId" [width]="'500px'" [header]="header" [body]="body"
+                      [footer]="footer">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #messageBody>
+    <p>Thêm nhân viên thành công !!!</p>
+  </ng-template>
+  <ng-template #messageFooter>
+    <div>
+      <a class="btn btn-danger btn-sm" (click)="exit()">Thoát</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="successAddModalId" [width]="'300px'" [header]="message" [body]="messageBody"
+                      [footer]="messageFooter">
+  </app-content-dialog>
+</ng-container>

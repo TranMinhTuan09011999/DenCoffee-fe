@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges} from '@angular/core';
 import {Pager} from "../../models/pager.interface";
 
 @Component({
@@ -6,7 +6,7 @@ import {Pager} from "../../models/pager.interface";
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnInit, OnChanges {
 
   @Input() items?: Array<any>;
   @Output() changePage = new EventEmitter<any>(true);
@@ -29,9 +29,10 @@ export class PaginationComponent implements OnInit {
   }
 
   setPage(page: number) {
-    if (!this.items?.length)
+    if (!this.items?.length) {
+      this.changePage.emit([]);
       return;
-
+    }
     // get new pager object for specified page
     this.pager = this.paginate(this.items.length, page, this.pageSize, this.maxPages);
 

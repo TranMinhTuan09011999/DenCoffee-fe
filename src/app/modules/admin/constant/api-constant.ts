@@ -13,9 +13,14 @@ export class ApiConstant {
     uri: '/{username}'
   };
 
-  public static API_GET_ALL_EMPLOYEE: API = {
+  public static API_GET_ALL_EMPLOYEE_BY_STATUS: API = {
     module: PortalType.EMPLOYEE,
-    uri: '/all-employee'
+    uri: '/all-employee/{status}'
+  };
+
+  public static API_REGISTER_EMPLOYEE: API = {
+    module: PortalType.EMPLOYEE,
+    uri: '/register-employee'
   };
 
   // ------------------ session ------------------
