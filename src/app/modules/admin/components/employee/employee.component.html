@@ -70,7 +70,12 @@
                       <div>
                         <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
                         <a class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
-                        <a class="btn btn-danger btn-sm margin-left">Nghỉ</a>
+                        <ng-container *ngIf="item.status === 1">
+                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 0, 1)">Nghỉ</a>
+                        </ng-container>
+                        <ng-container *ngIf="item.status === 0">
+                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 1, 0)">Làm lại</a>
+                        </ng-container>
                       </div>
                     </td>
                   </tr>
@@ -166,7 +171,7 @@
   <ng-template #footer>
     <div>
       <a class="btn btn-primary btn-sm margin-right" (click)="addEmployee()">Thêm</a>
-      <a class="btn btn-danger btn-sm">Thoát</a>
+      <a class="btn btn-danger btn-sm" (click)="cancelEmployeeAddition()">Thoát</a>
     </div>
   </ng-template>
   <app-content-dialog [id]="employeeAdditionModalId" [width]="'500px'" [header]="header" [body]="body"
@@ -216,5 +221,25 @@
   </ng-template>
   <app-content-dialog [id]="workHistoryModalId" [width]="'500px'" [header]="workHistory" [body]="workHistoryBody"
                       [footer]="workHistoryFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #changeStatusBody>
+    <ng-container *ngIf="statusForChangeStatus === 0">
+      <p>Bạn có chắc chắn cho nhân viên nghỉ không ???</p>
+    </ng-container>
+    <ng-container *ngIf="statusForChangeStatus === 1">
+      <p>Bạn có chắc chắn cho nhân viên làm lại không ???</p>
+    </ng-container>
+  </ng-template>
+  <ng-template #changeStatusFooter>
+    <div>
+      <a class="btn btn-primary btn-sm" (click)="changeStatus(employeeIdForChangeStatus, statusForChangeStatus, currentStatus)">Chấp nhận</a>
+      <a class="btn btn-danger btn-sm margin-left" (click)="cancelChangeStatus()">Hủy</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="changeStatusModalId" [width]="'300px'" [header]="message" [body]="changeStatusBody"
+                      [footer]="changeStatusFooter">
   </app-content-dialog>
 </ng-container>

@@ -48,10 +48,10 @@ export class ContentDialogService {
     if (dlgId !== undefined) {
       const tmpModal = this.getModal(dlgId);
       if (tmpModal && tmpModal.modalRef) {
-        tmpModal.modalRef.close();
+        tmpModal.modalRef.closeModal();
       }
     } else {
-      this.model.close();
+      this.model.closeModal();
     }
   }
 }

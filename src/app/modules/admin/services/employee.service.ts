@@ -30,4 +30,11 @@ export class EmployeeService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  updateStatusForEmployee(employeeId: number, status: number): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_STATUS_FOR_EMPLOYEE_ID, {},{employeeId, status}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
+
 }

@@ -19,7 +19,6 @@ export class ContentDialogComponent implements OnInit {
   @Input() footer!: TemplateRef<any>;
 
   public contentId!: string;
-  private isOpening = false;
 
   @ViewChild('bodyContainer', { read: ViewContainerRef, static: true }) bodyContainer!: ViewContainerRef;
   @ViewChild('footerContainer', { read: ViewContainerRef, static: true }) footerContainer!: ViewContainerRef;
@@ -57,25 +56,8 @@ export class ContentDialogComponent implements OnInit {
   }
 
   onClose = (cb?: any) => {
-    if (this.isOpening) {
-      (window as any).$('.m-modal-content').css('display', 'none');
-      // Note: Add node_modules/jquery/dist/jquery.min.js into angular.json
-      $(() => {
-        // (window as any).$('.modalTrigger--close').click();
-        // $('.m-modal').fadeOut();
-        // (window as any).clearTabIndex();
-        // Note:
-        // if (cb && 'function' === typeof cb) { // check cb has value + cb is a function or not
-        //   cb(data); // call cb function -> bc function in line 45 / close()
-        // }
-        if (cb && typeof cb === 'function') {
-          cb();
-        }
-      });
-    } else {
-      if (cb && typeof cb === 'function') {
-        cb();
-      }
+    if (cb && typeof cb === 'function') {
+      cb();
     }
   }
 
@@ -85,6 +67,10 @@ export class ContentDialogComponent implements OnInit {
       style = style.concat('width: ' + this.width + ';');
     }
     return this.sanitizer.bypassSecurityTrustStyle(style);
+  }
+
+  closeModal() {
+    $(".btn-close").trigger('click');
   }
 
 }

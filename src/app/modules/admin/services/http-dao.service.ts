@@ -22,8 +22,8 @@ export class HttpDaoService {
 
   constructor(private http: HttpClient) { }
 
-  doPost(pathAPI: API, body: any): Observable<any> {
-    const href = this.pathAPI(pathAPI);
+  doPost(pathAPI: API, body: any, params?: {}): Observable<any> {
+    const href = this.pathAPI(pathAPI, params);
     return this.http.post<any>(href, body, {headers: this.headerApplicationJson});
   }
 

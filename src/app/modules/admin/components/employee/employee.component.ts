@@ -22,6 +22,9 @@ export class EmployeeComponent implements OnInit {
   workingStatus = 1;
   notWorkingStatus = 0;
   title!: string;
+  employeeIdForChangeStatus: any;
+  statusForChangeStatus: any;
+  currentStatus: any;
 
   public employeeAdditionForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -29,6 +32,7 @@ export class EmployeeComponent implements OnInit {
   public employeeAdditionModalId = 'employeeAdditionModalId';
   public successAddModalId = 'successAddModalId';
   public workHistoryModalId = 'workHistoryModalId';
+  public changeStatusModalId = 'changeStatusModalId';
   public header = 'Thêm nhân viên';
   public message = 'Thông báo';
   public workHistory = 'Lịch sử làm việc';
@@ -145,6 +149,36 @@ export class EmployeeComponent implements OnInit {
     }, (error) => {
 
     });
+  }
+
+  showChangeStatusModal(employeeId: any, status: any, statusCurrent: any) {
+    this.employeeIdForChangeStatus = employeeId;
+    this.statusForChangeStatus = status;
+    this.currentStatus = statusCurrent;
+    this.contentDialogService.open(this.changeStatusModalId);
+  }
+
+  cancelChangeStatus() {
+    this.employeeIdForChangeStatus = null;
+    this.statusForChangeStatus = null;
+    this.currentStatus = null;
+    this.contentDialogService.close(this.changeStatusModalId);
+  }
+
+  changeStatus(employeeId: any, statusUpdate: any, statusCurrent: any) {
+    this.employeeService.updateStatusForEmployee(employeeId, statusUpdate).subscribe(data => {
+      if (data) {
+        console.log(data);
+        this.contentDialogService.close(this.changeStatusModalId);
+        this.getAllEmployeeByStatus(statusCurrent);
+      }
+    }, (error) => {
+
+    });
+  }
+
+  cancelEmployeeAddition() {
+    this.contentDialogService.close(this.employeeAdditionModalId);
   }
 
 }
