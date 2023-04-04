@@ -25,7 +25,7 @@ export class EmployeeService {
     );
   }
 
-  registerEmployee(employee: Employee): Observable<ResponseLoginDTO> {
+  registerEmployee(employee: Employee): Observable<any> {
     return this.httpDaoService.doPost(ApiConstant.API_REGISTER_EMPLOYEE, employee).pipe(
       catchError(ExceptionUtil.handleError)
     );
@@ -37,4 +37,9 @@ export class EmployeeService {
     );
   }
 
+  updateEmployee(employee: Employee): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_EMPLOYEE, employee).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

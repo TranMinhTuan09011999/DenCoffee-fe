@@ -28,6 +28,11 @@ export class ApiConstant {
     uri: '/employee/update-status/{employeeId}/{status}'
   };
 
+  public static API_UPDATE_EMPLOYEE: API = {
+    module: PortalType.ADMIN,
+    uri: '/employee/update-employee'
+  };
+
   // ------------------ work history --------------------
 
   public static API_GET_WORK_HISTORY_BY_EMPLOYEE_ID: API = {

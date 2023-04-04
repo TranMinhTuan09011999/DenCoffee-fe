@@ -7,6 +7,7 @@ import {ValidatorsCharacters} from "../../../shared/util/validators-characters";
 import {Employee} from "../../models/Employee";
 import {PaginationComponent} from "../../../../components/pagination/pagination.component";
 import {WorkHistoryService} from "../../services/work-history.service";
+import {DateUtil} from "../../util/date-util";
 
 @Component({
   selector: 'app-employee',
@@ -25,6 +26,8 @@ export class EmployeeComponent implements OnInit {
   employeeIdForChangeStatus: any;
   statusForChangeStatus: any;
   currentStatus: any;
+  statusForm: any; // 1: add, 2: edit
+  employeeIdForEdit: any;
 
   public employeeAdditionForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -33,7 +36,7 @@ export class EmployeeComponent implements OnInit {
   public successAddModalId = 'successAddModalId';
   public workHistoryModalId = 'workHistoryModalId';
   public changeStatusModalId = 'changeStatusModalId';
-  public header = 'Thêm nhân viên';
+  public header: any;
   public message = 'Thông báo';
   public workHistory = 'Lịch sử làm việc';
   public messageError!: string;
@@ -96,6 +99,7 @@ export class EmployeeComponent implements OnInit {
     employee.phoneNumber = employeeInfor.phoneNumber;
     employee.address = employeeInfor.address;
     employee.status = 1;
+    console.log(employee);
     this.employeeService.registerEmployee(employee).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.employeeAdditionModalId);
@@ -114,8 +118,36 @@ export class EmployeeComponent implements OnInit {
     return status == 1 ? 'Đang làm' : 'Đã nghỉ';
   }
 
-  openEmployeeAdditionModal() {
+  showEmployeeAdditionModal() {
+    this.header = 'Thêm nhân viên';
+    this.statusForm = 1;
+    this.openEmployeeModal();
+  }
+
+  showEmployeeEditionModal(employeeId: any) {
+    this.header = 'Sửa nhân viên';
+    this.statusForm = 2;
+    this.employeeIdForEdit = employeeId;
+    this.openEmployeeModal();
+    this.items.forEach(data => {
+      if (data.employeeId === employeeId) {
+        console.log(data);
+        var birth = DateUtil.formatStr2ObjectDate(data.birthday);
+        console.log(birth);
+        this.employeeAdditionForm.patchValue({
+          fullname: data.fullname,
+          gender: data.gender + '',
+          birthday: birth.year + '-' + birth.month + '-' + birth.day,
+          phoneNumber: data.phoneNumber,
+          address: data.address
+        });
+      }
+    });
+  }
+
+  openEmployeeModal() {
     this.contentDialogService.open(this.employeeAdditionModalId);
+    this.setEmployeeAdditionForm();
   }
 
   hasError(key: string, errorCode: string) {
@@ -132,7 +164,8 @@ export class EmployeeComponent implements OnInit {
   }
 
   exit() {
-    window.location.reload();
+    this.getAllEmployeeByStatus(this.workingStatus);
+    this.contentDialogService.close(this.successAddModalId);
   }
 
   exitWorkHistory() {
@@ -151,26 +184,24 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  showChangeStatusModal(employeeId: any, status: any, statusCurrent: any) {
+  showChangeStatusModal(employeeId: any, status: any) {
     this.employeeIdForChangeStatus = employeeId;
     this.statusForChangeStatus = status;
-    this.currentStatus = statusCurrent;
     this.contentDialogService.open(this.changeStatusModalId);
   }
 
   cancelChangeStatus() {
     this.employeeIdForChangeStatus = null;
     this.statusForChangeStatus = null;
-    this.currentStatus = null;
     this.contentDialogService.close(this.changeStatusModalId);
   }
 
-  changeStatus(employeeId: any, statusUpdate: any, statusCurrent: any) {
+  changeStatus(employeeId: any, statusUpdate: any) {
     this.employeeService.updateStatusForEmployee(employeeId, statusUpdate).subscribe(data => {
       if (data) {
         console.log(data);
         this.contentDialogService.close(this.changeStatusModalId);
-        this.getAllEmployeeByStatus(statusCurrent);
+        this.getAllEmployeeByStatus(this.workingStatus);
       }
     }, (error) => {
 
@@ -181,4 +212,23 @@ export class EmployeeComponent implements OnInit {
     this.contentDialogService.close(this.employeeAdditionModalId);
   }
 
+  editEmployee() {
+    const employeeInfor = this.employeeAdditionForm.value;
+    const employee = new Employee();
+    employee.employeeId = this.employeeIdForEdit;
+    employee.fullname = employeeInfor.fullname;
+    employee.gender = employeeInfor.gender;
+    employee.birthday = employeeInfor.birthday;
+    employee.phoneNumber = employeeInfor.phoneNumber;
+    employee.address = employeeInfor.address;
+    employee.status = 1;
+    this.employeeService.updateEmployee(employee).subscribe(data => {
+      if (data) {
+        this.contentDialogService.close(this.employeeAdditionModalId);
+        this.contentDialogService.open(this.successAddModalId);
+      }
+    }, (error) => {
+
+    });
+  }
 }

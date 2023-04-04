@@ -34,7 +34,7 @@
                       </ul>
                     </div>
                     <div class="add-button">
-                      <a class="btn btn-primary btn-sm" (click)="openEmployeeAdditionModal()"><i class="bi bi-plus"></i>Thêm</a>
+                      <a class="btn btn-primary btn-sm" (click)="showEmployeeAdditionModal()"><i class="bi bi-plus"></i>Thêm</a>
                     </div>
                   </div>
                 </div>
@@ -51,11 +51,11 @@
                 <table class="table table-hover">
                   <thead>
                   <tr>
-                    <th scope="col">Họ Và Tên</th>
-                    <th scope="col">Ngày Sinh</th>
-                    <th scope="col">Giới Tính</th>
-                    <th scope="col">Số Điện Thoại</th>
-                    <th scope="col">Địa Chỉ</th>
+                    <th scope="col" class="width-20">Họ Và Tên</th>
+                    <th scope="col" class="width-13">Ngày Sinh</th>
+                    <th scope="col" class="width-10">Giới Tính</th>
+                    <th scope="col" class="width-15">Số Điện Thoại</th>
+                    <th scope="col" class="width-25">Địa Chỉ</th>
                     <th scope="col" colspan="2"></th>
                   </tr>
                   </thead>
@@ -69,12 +69,12 @@
                     <td>
                       <div>
                         <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
-                        <a class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
+                        <a class="btn btn-primary btn-sm margin-left" (click)="showEmployeeEditionModal(item.employeeId)">Sửa</a>
                         <ng-container *ngIf="item.status === 1">
-                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 0, 1)">Nghỉ</a>
+                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 0)">Nghỉ</a>
                         </ng-container>
                         <ng-container *ngIf="item.status === 0">
-                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 1, 0)">Làm lại</a>
+                          <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 1)">Làm lại</a>
                         </ng-container>
                       </div>
                     </td>
@@ -170,7 +170,12 @@
   </ng-template>
   <ng-template #footer>
     <div>
-      <a class="btn btn-primary btn-sm margin-right" (click)="addEmployee()">Thêm</a>
+      <ng-container *ngIf="statusForm == 1">
+        <a class="btn btn-primary btn-sm margin-right" (click)="addEmployee()">Thêm</a>
+      </ng-container>
+      <ng-container *ngIf="statusForm == 2">
+        <a class="btn btn-primary btn-sm margin-right" (click)="editEmployee()">Sửa</a>
+      </ng-container>
       <a class="btn btn-danger btn-sm" (click)="cancelEmployeeAddition()">Thoát</a>
     </div>
   </ng-template>
@@ -181,11 +186,16 @@
 
 <ng-container>
   <ng-template #messageBody>
-    <p>Thêm nhân viên thành công !!!</p>
+    <ng-container *ngIf="statusForm == 1">
+      <p>Thêm nhân viên thành công !!!</p>
+    </ng-container>
+    <ng-container *ngIf="statusForm == 2">
+      <p>Sửa nhân viên thành công !!!</p>
+    </ng-container>
   </ng-template>
   <ng-template #messageFooter>
     <div>
-      <a class="btn btn-danger btn-sm" (click)="exit()">Thoát</a>
+      <a class="btn btn-danger btn-sm" (click)="exit()">OK</a>
     </div>
   </ng-template>
   <app-content-dialog [id]="successAddModalId" [width]="'300px'" [header]="message" [body]="messageBody"
@@ -235,7 +245,7 @@
   </ng-template>
   <ng-template #changeStatusFooter>
     <div>
-      <a class="btn btn-primary btn-sm" (click)="changeStatus(employeeIdForChangeStatus, statusForChangeStatus, currentStatus)">Chấp nhận</a>
+      <a class="btn btn-primary btn-sm" (click)="changeStatus(employeeIdForChangeStatus, statusForChangeStatus)">Chấp nhận</a>
       <a class="btn btn-danger btn-sm margin-left" (click)="cancelChangeStatus()">Hủy</a>
     </div>
   </ng-template>
