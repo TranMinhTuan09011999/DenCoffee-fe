@@ -1365,6 +1365,10 @@ input[aria-label=multiselect-select-all]+div{
   color: #a5a6ad !important;
 }
 
+.table-modal td, .table-modal th {
+  color: #3e3e42 !important;
+}
+
 /* ------- Message Error ------- */
 .message-error p {
   color: red;

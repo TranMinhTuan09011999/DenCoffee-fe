@@ -68,9 +68,9 @@
                     <td>{{item.address}}</td>
                     <td>
                       <div>
-                        <a href="#" class="btn btn-primary btn-sm">Chi Tiết</a>
-                        <a href="#" class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
-                        <a href="#" class="btn btn-danger btn-sm margin-left">Nghỉ</a>
+                        <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
+                        <a class="btn btn-primary btn-sm margin-left" (click)="addEmployee()">Sửa</a>
+                        <a class="btn btn-danger btn-sm margin-left">Nghỉ</a>
                       </div>
                     </td>
                   </tr>
@@ -185,5 +185,36 @@
   </ng-template>
   <app-content-dialog [id]="successAddModalId" [width]="'300px'" [header]="message" [body]="messageBody"
                       [footer]="messageFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #workHistoryBody>
+    <div class="table-responsive">
+      <table class="table table-modal">
+        <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Ngày bắt đầu</th>
+          <th scope="col">Ngày nghỉ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of workHistoryListByEmployeeId; let i = index">
+          <td>Lần {{i+1}}</td>
+          <td>{{item.startDate}}</td>
+          <td>{{item.endDate | nullHyphen}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+  <ng-template #workHistoryFooter>
+    <div>
+      <a class="btn btn-danger btn-sm" (click)="exitWorkHistory()">Thoát</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="workHistoryModalId" [width]="'500px'" [header]="workHistory" [body]="workHistoryBody"
+                      [footer]="workHistoryFooter">
   </app-content-dialog>
 </ng-container>

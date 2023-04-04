@@ -17,6 +17,10 @@
   .table {
     width: 1500px;
   }
+
+  .table-modal {
+    width: 450px !important;
+  }
 }
 
 @media (max-width: 580px) {

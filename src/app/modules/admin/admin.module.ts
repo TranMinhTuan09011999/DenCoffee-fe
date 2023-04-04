@@ -12,7 +12,8 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import {SharedModule} from '../shared/shared.module';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgbDatepickerModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
+import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {NgbDatepickerModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
     SidebarComponent,
     DashboardComponent,
     AttendanceComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    NullHyphenPipe
   ],
   imports: [
     CommonModule,

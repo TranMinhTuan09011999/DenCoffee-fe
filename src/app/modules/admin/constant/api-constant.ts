@@ -14,13 +14,20 @@ export class ApiConstant {
   };
 
   public static API_GET_ALL_EMPLOYEE_BY_STATUS: API = {
-    module: PortalType.EMPLOYEE,
-    uri: '/all-employee/{status}'
+    module: PortalType.ADMIN,
+    uri: '/employee/all-employee/{status}'
   };
 
   public static API_REGISTER_EMPLOYEE: API = {
-    module: PortalType.EMPLOYEE,
-    uri: '/register-employee'
+    module: PortalType.ADMIN,
+    uri: '/employee/register-employee'
+  };
+
+  // ------------------ work history --------------------
+
+  public static API_GET_WORK_HISTORY_BY_EMPLOYEE_ID: API = {
+    module: PortalType.ADMIN,
+    uri: '/work-history/{employeeId}'
   };
 
   // ------------------ session ------------------

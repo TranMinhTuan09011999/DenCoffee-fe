@@ -6,6 +6,7 @@ import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {ValidatorsCharacters} from "../../../shared/util/validators-characters";
 import {Employee} from "../../models/Employee";
 import {PaginationComponent} from "../../../../components/pagination/pagination.component";
+import {WorkHistoryService} from "../../services/work-history.service";
 
 @Component({
   selector: 'app-employee',
@@ -15,6 +16,7 @@ import {PaginationComponent} from "../../../../components/pagination/pagination.
 export class EmployeeComponent implements OnInit {
 
   items: any[] = [];
+  workHistoryListByEmployeeId: any[] = [];
   pageOfItems?: Array<any>;
   selectedGender = 1;
   workingStatus = 1;
@@ -26,8 +28,10 @@ export class EmployeeComponent implements OnInit {
 
   public employeeAdditionModalId = 'employeeAdditionModalId';
   public successAddModalId = 'successAddModalId';
+  public workHistoryModalId = 'workHistoryModalId';
   public header = 'Thêm nhân viên';
   public message = 'Thông báo';
+  public workHistory = 'Lịch sử làm việc';
   public messageError!: string;
 
   @ViewChild(
@@ -35,6 +39,7 @@ export class EmployeeComponent implements OnInit {
   ) paginationComponent!: PaginationComponent;
 
   constructor(private employeeService: EmployeeService,
+              private workHistoryService: WorkHistoryService,
               private contentDialogService: ContentDialogService,
               private formBuilder: FormBuilder,
               ) { }
@@ -124,6 +129,22 @@ export class EmployeeComponent implements OnInit {
 
   exit() {
     window.location.reload();
+  }
+
+  exitWorkHistory() {
+    this.contentDialogService.close(this.workHistoryModalId);
+  }
+
+  showWorkHistory(employeeId: any) {
+    this.contentDialogService.open(this.workHistoryModalId);
+    this.workHistoryService.getWorkHistoryByEmployeeId(employeeId).subscribe(data => {
+      if (data) {
+        this.workHistoryListByEmployeeId = data;
+        console.log(data);
+      }
+    }, (error) => {
+
+    });
   }
 
 }
