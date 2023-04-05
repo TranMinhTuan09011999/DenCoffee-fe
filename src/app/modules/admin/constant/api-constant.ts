@@ -33,6 +33,11 @@ export class ApiConstant {
     uri: '/employee/update-employee'
   };
 
+  public static API_GET_ALL_EMPLOYEE_NAME_BY_STATUS: API = {
+    module: PortalType.BASE,
+    uri: '/employee/employee-name/{status}'
+  };
+
   // ------------------ work history --------------------
 
   public static API_GET_WORK_HISTORY_BY_EMPLOYEE_ID: API = {

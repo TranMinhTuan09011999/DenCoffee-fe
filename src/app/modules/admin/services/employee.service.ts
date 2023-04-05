@@ -42,4 +42,10 @@ export class EmployeeService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  getAllEmployeeNameByStatus(status: number): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_GET_ALL_EMPLOYEE_NAME_BY_STATUS, {status}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AdminModule} from "./modules/admin/admin.module";
 import {HttpInterceptorProviders} from "./interceptors/auth.interceptor";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -14,8 +13,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AdminModule,
-    NgbModule
+    AdminModule
   ],
   providers: [HttpInterceptorProviders],
   bootstrap: [AppComponent]

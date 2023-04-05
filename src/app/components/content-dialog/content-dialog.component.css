@@ -13,3 +13,11 @@
 .modal-content {
   border-radius: 15px;
 }
+
+.modal-footer {
+  justify-content: center;
+}
+
+.m-modal-content {
+  overflow: unset;
+}

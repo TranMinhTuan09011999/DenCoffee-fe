@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
 
 export class DateUtil {
@@ -12,6 +13,11 @@ export class DateUtil {
         year: arrDt[2],
       };
     }
+  }
+
+  public static formatDateToStrWithFormat(date: Date, format = 'yyyy/MM/dd HH:mm:ss'): string {
+    const pipe = new DatePipe('en-US'); // Use your own locale
+    return <string>pipe.transform(date, format);
   }
 
 }

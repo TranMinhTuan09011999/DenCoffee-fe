@@ -12,8 +12,8 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import {SharedModule} from '../shared/shared.module';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbDatepickerModule
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class AdminModule { }

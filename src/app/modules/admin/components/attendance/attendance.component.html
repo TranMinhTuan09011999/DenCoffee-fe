@@ -1,1 +1,96 @@
-<p>attendance works!</p>
+<div class="content-page">
+  <!-- Start content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="page-title-box">
+        <div class="row align-items-center">
+          <div class="col-sm-6 display-100">
+            <h4 class="page-title">Điểm danh</h4>
+          </div>
+          <div class="col-sm-6 display-none">
+            <ol class="breadcrumb float-right">
+              <li class="breadcrumb-item"><a href="#">Den-coffee</a></li>
+              <li class="breadcrumb-item active">Điểm danh</li>
+            </ol>
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card m-b-30">
+            <div class="card-body">
+              <div class="row mb-3">
+                <div class="col-lg-2 width-btn">
+                  <div class="add-button">
+                    <a class="btn btn-primary btn-sm" (click)="showInputNameForm()"><i class="bi bi-plus"></i>Điểm Danh</a>
+                  </div>
+                </div>
+                <div class="col-lg-10 margin-date">
+                  <div class="today-date">
+                    <span>(Hôm nay, {{today.day}}, ngày {{today.date}}, tháng {{today.month}}, năm {{today.year}})</span>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th scope="col" class="width-20">Họ và tên</th>
+                    <th scope="col" class="width-13">Giờ bắt đầu</th>
+                    <th scope="col" class="width-10">Giờ kết thúc</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Trần Minh Tuấn</td>
+                    <td>22-03-11 22:22:22</td>
+                    <td>22-03-11 22:22:22</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END ROW -->
+    </div>
+    <!-- container-fluid -->
+  </div>
+</div>
+
+<ng-container>
+  <ng-template #body>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <form [formGroup]="inputNameForm" (keyup.enter)="search()">
+            <div class="row">
+              <label class="col-sm-12 col-form-label fw-bold text-center">Nhập họ tên</label>
+              <div class="col-sm-12">
+                <ng-multiselect-dropdown
+                  formControlName="fullname"
+                  [data]="nameList"
+                  [settings]="dropdownSingleSettings">
+                </ng-multiselect-dropdown>
+                <div class="message-error" *ngIf="hasError('fullname','required')">
+                  <p class="mb-0">* Vui lòng chọn họ và tên.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+  <ng-template #footer>
+    <div class="search-button">
+      <a class="btn btn-primary btn-sm margin-right" (click)="search()">Tìm kiếm</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="inputNameModalId" [width]="'300px'" [header]="header" [body]="body" [footer]="footer">
+  </app-content-dialog>
+</ng-container>
+
+
