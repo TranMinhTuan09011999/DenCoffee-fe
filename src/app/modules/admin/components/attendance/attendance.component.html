@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-lg-10 margin-date">
                   <div class="today-date">
-                    <span>(Hôm nay, {{today.day}}, ngày {{today.date}}, tháng {{today.month}}, năm {{today.year}})</span>
+                    <span>(Hôm nay - {{today.day}}, ngày {{today.date}}, tháng {{today.month}}, năm {{today.year}})</span>
                   </div>
                 </div>
               </div>
@@ -72,7 +72,9 @@
                 <ng-multiselect-dropdown
                   formControlName="fullname"
                   [data]="nameList"
-                  [settings]="dropdownSingleSettings">
+                  [settings]="dropdownSingleSettings"
+                  [placeholder]="' '"
+                  (onSelect)="onSelectEmpoyeeName($event)">
                 </ng-multiselect-dropdown>
                 <div class="message-error" *ngIf="hasError('fullname','required')">
                   <p class="mb-0">* Vui lòng chọn họ và tên.</p>

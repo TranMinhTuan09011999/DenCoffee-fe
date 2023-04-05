@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import {EmployeeService} from "../../services/employee.service";
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-attendance',
@@ -48,7 +49,6 @@ export class AttendanceComponent implements OnInit {
     }
     this.getInputNameForm();
     this.getNameList();
-    console.log(this.today);
   }
 
   getInputNameForm() {
@@ -69,7 +69,9 @@ export class AttendanceComponent implements OnInit {
   }
 
   showInputNameForm() {
-    this.getInputNameForm();
+    this.inputNameForm.patchValue({
+      fullname: null
+    });
     this.contentDialogService.open(this.inputNameModalId);
   }
 
@@ -102,6 +104,10 @@ export class AttendanceComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  onSelectEmpoyeeName($event: any) {
+    $(".dropdown-multiselect__caret").trigger('click');
   }
 
 }
