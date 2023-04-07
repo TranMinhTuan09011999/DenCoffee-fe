@@ -11,7 +11,6 @@ import {environment} from "../../../../environments/environment";
 })
 export class HttpDaoService {
 
-  private baseURI = '';
   private baseURINonAuth = '/auth';
   private baseURIUser = '/user';
   private baseSession = '/session';
@@ -35,9 +34,6 @@ export class HttpDaoService {
 
   pathAPI(pathAPI: API, params?: {}): string {
     let apiFull = environment.baseURL;
-    if (pathAPI.module == PortalType.BASE) {
-      apiFull += this.baseURI;
-    }
     if (pathAPI.module == PortalType.NON_AUTH) {
       apiFull += this.baseURINonAuth;
     }

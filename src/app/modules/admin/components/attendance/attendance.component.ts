@@ -4,6 +4,8 @@ import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import {EmployeeService} from "../../services/employee.service";
 import * as $ from "jquery";
+import {AttendaceSaveRequest} from "../../models/AttendaceSaveRequest";
+import {AttendanceService} from "../../services/attendance.service";
 
 @Component({
   selector: 'app-attendance',
@@ -31,24 +33,27 @@ export class AttendanceComponent implements OnInit {
   header = '';
   public inputNameModalId = 'inputNameModalId';
   nameList!: Array<any>;
+  attendanceForTodayList!: Array<any>;
 
   public inputNameForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
 
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
+              private attendanceService: AttendanceService,
               private contentDialogService: ContentDialogService) { }
 
   ngOnInit(): void {
-    var today = new Date('2023-04-06');
+    var today = new Date();
     this.today = {
       day: this.getDay(today.getDay()),
       date: today.getDate(),
-      month: today.getMonth(),
+      month: today.getMonth() + 1,
       year: today.getFullYear(),
     }
     this.getInputNameForm();
     this.getNameList();
+    this.getAttendanceForToday();
   }
 
   getInputNameForm() {
@@ -69,6 +74,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   showInputNameForm() {
+    this.customValidate.reset();
     this.inputNameForm.patchValue({
       fullname: null
     });
@@ -76,9 +82,44 @@ export class AttendanceComponent implements OnInit {
   }
 
   search() {
+    if (this.attendanceForTodayList.length > 0) {
+      this.attendanceForTodayList.find(item => {
+        if (this.inputNameForm.value.fullname != null) {
+          if (this.inputNameForm.value.fullname.length != 0) {
+            if (item.employee.employeeId == this.inputNameForm.value.fullname[0].employeeId
+              && item.endDateTime == null) {
+              this.inputNameForm.controls['fullname'].setErrors({noCheckAttendance: true});
+              return;
+            }
+          }
+        }
+      })
+    }
     if (!this.customValidate.isValidForm()) {
       return;
     }
+
+    const attendaceSaveRequest = new AttendaceSaveRequest;
+    attendaceSaveRequest.employeeId = this.inputNameForm.value.fullname[0].employeeId;
+    attendaceSaveRequest.startDateTime = new Date();
+    this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
+      if (data) {
+        this.getAttendanceForToday();
+        this.contentDialogService.close(this.inputNameModalId);
+      }
+    }, (error) => {
+
+    });
+  }
+
+  getAttendanceForToday() {
+    this.attendanceService.getAttendanceForToday().subscribe(data => {
+      if (data) {
+        this.attendanceForTodayList = data;
+      }
+    }, (error) => {
+
+    })
   }
 
   hasError(key: string, errorCode: string) {
@@ -88,19 +129,19 @@ export class AttendanceComponent implements OnInit {
   getDay(day: any): string {
     switch (day) {
       case 0:
-        return 'Thứ 2';
-      case 1:
-        return 'Thứ 3';
-      case 2:
-        return 'Thứ 4';
-      case 3:
-        return 'Thứ 5';
-      case 4:
-        return 'Thứ 6';
-      case 5:
-        return 'Thứ 7';
-      case 6:
         return 'Chủ nhật';
+      case 1:
+        return 'Thứ 2';
+      case 2:
+        return 'Thứ 3';
+      case 3:
+        return 'Thứ 4';
+      case 4:
+        return 'Thứ 5';
+      case 5:
+        return 'Thứ 6';
+      case 6:
+        return 'Thứ 7';
       default:
         return '';
     }

@@ -42,11 +42,18 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Trần Minh Tuấn</td>
-                    <td>22-03-11 22:22:22</td>
-                    <td>22-03-11 22:22:22</td>
-                  </tr>
+                  <ng-container *ngFor="let item of attendanceForTodayList">
+                    <tr>
+                      <td>{{item.employee.fullname}}</td>
+                      <td>{{item.startDateTime}}</td>
+                      <td *ngIf="item.endDateTime == null; else noEndDateTime">
+                        <a class="btn btn-primary btn-sm">Kết thúc</a>
+                      </td>
+                      <ng-template #noEndDateTime>
+                        <td>{{item.endDateTime}}</td>
+                      </ng-template>
+                    </tr>
+                  </ng-container>
                   </tbody>
                 </table>
               </div>
@@ -78,6 +85,9 @@
                 </ng-multiselect-dropdown>
                 <div class="message-error" *ngIf="hasError('fullname','required')">
                   <p class="mb-0">* Vui lòng chọn họ và tên.</p>
+                </div>
+                <div class="message-error" *ngIf="hasError('fullname','noCheckAttendance')">
+                  <p class="mb-0">* Vui lòng kết thúc ca làm việc trước của bạn.</p>
                 </div>
               </div>
             </div>

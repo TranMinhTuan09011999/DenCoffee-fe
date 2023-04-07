@@ -32,4 +32,14 @@ export class CustomHandleValidate {
     return this.formClone[key]['errors'][errorCode];
   }
 
+  reset() {
+    for (const key in this.form.controls) {
+      this.formClone[key] = {
+        invalid: null,
+        errors: null,
+        value:  undefined
+      };
+  }
+}
+
 }

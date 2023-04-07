@@ -3,7 +3,6 @@ import {catchError, Observable} from "rxjs";
 import {ApiConstant} from "../constant/api-constant";
 import {ExceptionUtil} from "../util/exception-util";
 import {HttpDaoService} from "./http-dao.service";
-import {ResponseLoginDTO} from "../models/ResponseLoginDTO";
 import {Employee} from "../models/Employee";
 
 @Injectable({

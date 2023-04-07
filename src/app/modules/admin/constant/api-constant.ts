@@ -34,7 +34,7 @@ export class ApiConstant {
   };
 
   public static API_GET_ALL_EMPLOYEE_NAME_BY_STATUS: API = {
-    module: PortalType.BASE,
+    module: PortalType.USER,
     uri: '/employee/employee-name/{status}'
   };
 
@@ -43,6 +43,18 @@ export class ApiConstant {
   public static API_GET_WORK_HISTORY_BY_EMPLOYEE_ID: API = {
     module: PortalType.ADMIN,
     uri: '/work-history/{employeeId}'
+  };
+
+  // ------------------ attendance --------------------
+
+  public static API_SAVE_ATTENDANCE: API = {
+    module: PortalType.USER,
+    uri: '/attendance/save-attendance'
+  };
+
+  public static API_GET_ATTENDANCE_FOR_TODAY: API = {
+    module: PortalType.USER,
+    uri: '/attendance/get-attendance'
   };
 
   // ------------------ session ------------------
