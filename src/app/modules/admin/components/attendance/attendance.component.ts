@@ -6,6 +6,8 @@ import {EmployeeService} from "../../services/employee.service";
 import * as $ from "jquery";
 import {AttendaceSaveRequest} from "../../models/AttendaceSaveRequest";
 import {AttendanceService} from "../../services/attendance.service";
+import {DateUtil} from "../../util/date-util";
+import {AttendanceEndDateTimeUpdate} from "../../models/AttendanceEndDateTimeUpdate";
 
 @Component({
   selector: 'app-attendance',
@@ -31,7 +33,11 @@ export class AttendanceComponent implements OnInit {
   };
 
   header = '';
-  public inputNameModalId = 'inputNameModalId';
+  message = 'message';
+  inputNameModalId = 'inputNameModalId';
+  endAttendanceMessageModalId = 'endAttendanceMessageModalId';
+  endDateTimeForToday: any;
+  attendanceId: any;
   nameList!: Array<any>;
   attendanceForTodayList!: Array<any>;
 
@@ -149,6 +155,41 @@ export class AttendanceComponent implements OnInit {
 
   onSelectEmpoyeeName($event: any) {
     $(".dropdown-multiselect__caret").trigger('click');
+  }
+
+  showEndEttendaceModal(attendanceId: any) {
+    this.attendanceId = attendanceId;
+    this.endDateTimeForToday = new Date();
+    this.contentDialogService.open(this.endAttendanceMessageModalId);
+  }
+
+  acceptEndEttendace() {
+    const attendanceEndDateTimeUpdate = new AttendanceEndDateTimeUpdate;
+    attendanceEndDateTimeUpdate.attendanceId = this.attendanceId;
+    attendanceEndDateTimeUpdate.endDateTime = this.endDateTimeForToday;
+    this.attendanceService.updateAttendanceForEndTimeDate(attendanceEndDateTimeUpdate).subscribe(data => {
+      if (data) {
+        this.getAttendanceForToday();
+        this.contentDialogService.close(this.endAttendanceMessageModalId);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  formatDate(endDateTime: any) {
+    return DateUtil.formatDateToStrWithFormat(endDateTime, 'dd-MM-yyyy HH:mm:ss');
+  }
+
+  getAttendanceHour(startDateTime: any, endDateTime: any) {
+    if (endDateTime != null) {
+      let start = new Date(startDateTime);
+      let end = new Date(endDateTime);
+      let diff = end.getTime() - start.getTime();
+      let hours = diff / (1000 * 60 * 60);
+      return hours;
+    }
+    return null;
   }
 
 }

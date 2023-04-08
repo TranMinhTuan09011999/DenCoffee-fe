@@ -57,6 +57,11 @@ export class ApiConstant {
     uri: '/attendance/get-attendance'
   };
 
+  public static API_UPDATE_END_TIME_DATE: API = {
+    module: PortalType.USER,
+    uri: '/attendance/update-end-date-time'
+  };
+
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,

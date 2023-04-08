@@ -4,6 +4,7 @@ import {ApiConstant} from "../constant/api-constant";
 import {ExceptionUtil} from "../util/exception-util";
 import {HttpDaoService} from "./http-dao.service";
 import {AttendaceSaveRequest} from "../models/AttendaceSaveRequest";
+import {AttendanceEndDateTimeUpdate} from "../models/AttendanceEndDateTimeUpdate";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,12 @@ export class AttendanceService {
 
   getAttendanceForToday(): Observable<any> {
     return this.httpDaoService.doGet(ApiConstant.API_GET_ATTENDANCE_FOR_TODAY, {}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
+
+  updateAttendanceForEndTimeDate(attendanceEndDateTimeUpdate: AttendanceEndDateTimeUpdate): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_END_TIME_DATE, attendanceEndDateTimeUpdate).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

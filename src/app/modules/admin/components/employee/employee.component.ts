@@ -99,7 +99,6 @@ export class EmployeeComponent implements OnInit {
     employee.phoneNumber = employeeInfor.phoneNumber;
     employee.address = employeeInfor.address;
     employee.status = 1;
-    console.log(employee);
     this.employeeService.registerEmployee(employee).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.employeeAdditionModalId);
@@ -131,9 +130,7 @@ export class EmployeeComponent implements OnInit {
     this.openEmployeeModal();
     this.items.forEach(data => {
       if (data.employeeId === employeeId) {
-        console.log(data);
         var birth = DateUtil.formatStr2ObjectDate(data.birthday);
-        console.log(birth);
         this.employeeAdditionForm.patchValue({
           fullname: data.fullname,
           gender: data.gender + '',
@@ -177,7 +174,6 @@ export class EmployeeComponent implements OnInit {
     this.workHistoryService.getWorkHistoryByEmployeeId(employeeId).subscribe(data => {
       if (data) {
         this.workHistoryListByEmployeeId = data;
-        console.log(data);
       }
     }, (error) => {
 
@@ -199,7 +195,6 @@ export class EmployeeComponent implements OnInit {
   changeStatus(employeeId: any, statusUpdate: any) {
     this.employeeService.updateStatusForEmployee(employeeId, statusUpdate).subscribe(data => {
       if (data) {
-        console.log(data);
         this.contentDialogService.close(this.changeStatusModalId);
         this.getAllEmployeeByStatus(this.workingStatus);
       }

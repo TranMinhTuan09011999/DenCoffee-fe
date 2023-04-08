@@ -39,6 +39,7 @@
                     <th scope="col" class="width-20">Họ và tên</th>
                     <th scope="col" class="width-13">Giờ bắt đầu</th>
                     <th scope="col" class="width-10">Giờ kết thúc</th>
+                    <th scope="col" class="width-10">Số giờ làm</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -47,11 +48,12 @@
                       <td>{{item.employee.fullname}}</td>
                       <td>{{item.startDateTime}}</td>
                       <td *ngIf="item.endDateTime == null; else noEndDateTime">
-                        <a class="btn btn-primary btn-sm">Kết thúc</a>
+                        <a class="btn btn-primary btn-sm" (click)="showEndEttendaceModal(item.attendanceId)">Kết thúc</a>
                       </td>
                       <ng-template #noEndDateTime>
                         <td>{{item.endDateTime}}</td>
                       </ng-template>
+                      <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}}</td>
                     </tr>
                   </ng-container>
                   </tbody>
@@ -102,6 +104,20 @@
     </div>
   </ng-template>
   <app-content-dialog [id]="inputNameModalId" [width]="'300px'" [header]="header" [body]="body" [footer]="footer">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #endAttendanceMessageBody>
+    <p class="text-center">{{formatDate(endDateTimeForToday)}}</p>
+  </ng-template>
+  <ng-template #endAttendanceMessageFooter>
+    <div>
+      <a class="btn btn-danger btn-sm" (click)="acceptEndEttendace()">OK</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="endAttendanceMessageModalId" [width]="'300px'" [header]="message" [body]="endAttendanceMessageBody"
+                      [footer]="endAttendanceMessageFooter">
   </app-content-dialog>
 </ng-container>
 
