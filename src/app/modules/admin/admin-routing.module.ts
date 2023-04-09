@@ -5,6 +5,7 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {AttendanceComponent} from "./components/attendance/attendance.component";
 import {EmployeeComponent} from "./components/employee/employee.component";
 import {AdminComponent} from "./admin.component";
+import {AttendanceManagementComponent} from "./components/attendance-management/attendance-management.component";
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: RouterConstant.EMPLOYEE.path,
         component: EmployeeComponent
+      },
+      {
+        path: RouterConstant.ATTENDANCE_MANAGEMENT.path,
+        component: AttendanceManagementComponent
       }
     ]
   }

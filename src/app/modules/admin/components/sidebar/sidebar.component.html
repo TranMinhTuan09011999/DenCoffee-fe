@@ -5,7 +5,7 @@
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse"> <i class="bi bi-menu-button-wide"></i> <span>Điểm Danh</span> <i class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li> <a (click)="toAttendancePage()"> <i class="bi bi-circle"></i><span>Điểm danh nhân viên</span> </a></li>
-        <li> <a> <i class="bi bi-circle"></i><span>Quản lý điểm danh</span> </a></li>
+        <li> <a (click)="toAttendanceManagePage()"> <i class="bi bi-circle"></i><span>Quản lý điểm danh</span> </a></li>
       </ul>
     </li>
     <li class="nav-item"> <a class="nav-link collapsed" (click)="toEmployeePage()" *ngIf="hasRole(['ROLE_ADMIN'])"> <i class="bi bi-menu-button-wide"></i> <span>Nhân Viên</span> </a></li>

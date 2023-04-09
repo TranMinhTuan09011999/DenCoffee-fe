@@ -8,6 +8,7 @@ import {AttendaceSaveRequest} from "../../models/AttendaceSaveRequest";
 import {AttendanceService} from "../../services/attendance.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceEndDateTimeUpdate} from "../../models/AttendanceEndDateTimeUpdate";
+import {DateRequest} from "../../models/DateRequest";
 
 @Component({
   selector: 'app-attendance',
@@ -119,7 +120,9 @@ export class AttendanceComponent implements OnInit {
   }
 
   getAttendanceForToday() {
-    this.attendanceService.getAttendanceForToday().subscribe(data => {
+    const dateRequest = new DateRequest();
+    dateRequest.date = new Date();
+    this.attendanceService.getAttendanceForToday(dateRequest).subscribe(data => {
       if (data) {
         this.attendanceForTodayList = data;
       }
@@ -182,14 +185,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {
-    if (endDateTime != null) {
-      let start = new Date(startDateTime);
-      let end = new Date(endDateTime);
-      let diff = end.getTime() - start.getTime();
-      let hours = diff / (1000 * 60 * 60);
-      return hours;
-    }
-    return null;
+    return DateUtil.getHour(startDateTime, endDateTime);
   }
 
 }

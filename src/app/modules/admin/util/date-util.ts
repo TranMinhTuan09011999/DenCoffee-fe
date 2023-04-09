@@ -20,4 +20,15 @@ export class DateUtil {
     return <string>pipe.transform(date, format);
   }
 
+  public static getHour(startDateTime: any, endDateTime: any) {
+    if (endDateTime != null) {
+      let start = new Date(startDateTime);
+      let end = new Date(endDateTime);
+      let diff = end.getTime() - start.getTime();
+      let hours = diff / (1000 * 60 * 60);
+      return hours;
+    }
+    return null;
+  }
+
 }

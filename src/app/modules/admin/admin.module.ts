@@ -14,6 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { AttendanceManagementComponent } from './components/attendance-management/attendance-management.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     DashboardComponent,
     AttendanceComponent,
     EmployeeComponent,
-    NullHyphenPipe
+    NullHyphenPipe,
+    AttendanceManagementComponent
   ],
   imports: [
     CommonModule,
