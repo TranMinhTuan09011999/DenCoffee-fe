@@ -6,6 +6,7 @@ import {AttendanceComponent} from "./components/attendance/attendance.component"
 import {EmployeeComponent} from "./components/employee/employee.component";
 import {AdminComponent} from "./admin.component";
 import {AttendanceManagementComponent} from "./components/attendance-management/attendance-management.component";
+import {IpAddressComponent} from "./components/ip-address/ip-address.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: RouterConstant.ATTENDANCE_MANAGEMENT.path,
         component: AttendanceManagementComponent
+      },
+      {
+        path: RouterConstant.IP_ADDRESS.path,
+        component: IpAddressComponent
       }
     ]
   }

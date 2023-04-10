@@ -51,7 +51,6 @@ export class AttendanceManagementComponent implements OnInit {
       return;
     }
     var date = new Date(this.inputDateForm.value.attendanceDate);
-    console.log(date);
     this.getAttendanceForDate(date);
   }
 

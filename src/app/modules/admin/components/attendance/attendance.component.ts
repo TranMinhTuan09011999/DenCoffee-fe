@@ -195,7 +195,6 @@ export class AttendanceComponent implements OnInit {
   checkIpAddressForAttendace() {
     this.nonAuthenticateService.checkIpAddessForAttendace().subscribe(data => {
       if (data) {
-        console.log(data);
         this.inactive = false;
       }
     }, (error) => {

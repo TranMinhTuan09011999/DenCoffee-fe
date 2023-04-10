@@ -646,10 +646,6 @@
 	list-style: none;
   }
 
- .sidebar-nav .nav-content li:first-child {
-   margin-bottom: 5px;
- }
-
   .sidebar-nav .nav-content a {
 	display: flex;
 	align-items: center;

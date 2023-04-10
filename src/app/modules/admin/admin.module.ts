@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { AttendanceManagementComponent } from './components/attendance-management/attendance-management.component';
+import { IpAddressComponent } from './components/ip-address/ip-address.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AttendanceManagementComponent } from './components/attendance-managemen
     AttendanceComponent,
     EmployeeComponent,
     NullHyphenPipe,
-    AttendanceManagementComponent
+    AttendanceManagementComponent,
+    IpAddressComponent
   ],
   imports: [
     CommonModule,
