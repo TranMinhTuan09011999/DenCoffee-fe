@@ -77,8 +77,9 @@ export class HeaderComponent implements OnInit {
   logout() {
     sessionStorage.removeItem(SessionAttribute.TOKEN);
     sessionStorage.removeItem(SessionAttribute.ROLES)
-    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.DASHBOARD.path]);
-    window.location.reload();
+    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.ATTENDANCE.path]).then(data => {
+      window.location.reload();
+    });
   }
 
   hasError(key: string, errorCode: string) {

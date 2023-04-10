@@ -26,7 +26,14 @@ export class DateUtil {
       let end = new Date(endDateTime);
       let diff = end.getTime() - start.getTime();
       let hours = diff / (1000 * 60 * 60);
-      return hours;
+      const integerPart = Math.floor(hours);
+      const decimalPart = (hours - integerPart) * 60;
+      if (decimalPart >= 25 && decimalPart <= 55) {
+        return integerPart + 0.5;
+      } else if (decimalPart > 55) {
+        return integerPart + 1;
+      }
+      return integerPart;
     }
     return null;
   }

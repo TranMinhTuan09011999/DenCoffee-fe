@@ -18,4 +18,16 @@ export class NonAuthenticateService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  checkToken(token: string) {
+    return this.httpDaoService.doGet(ApiConstant.CHECK_TOKEN, {token}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
+
+  checkIpAddessForAttendace() {
+    return this.httpDaoService.doGet(ApiConstant.API_CHECK_IP_ADDRESS).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

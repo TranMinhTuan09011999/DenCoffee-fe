@@ -10,8 +10,6 @@ import {AuthorizeService} from "../../services/authorize.service";
 })
 export class SidebarComponent implements OnInit {
 
-  public hasRoleAdmin!: boolean;
-
   constructor(private router: Router,
               private authorizeService: AuthorizeService) { }
 

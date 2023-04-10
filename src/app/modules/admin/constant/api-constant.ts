@@ -7,6 +7,11 @@ export class ApiConstant {
     uri: '/login'
   };
 
+  public static CHECK_TOKEN: API = {
+    module: PortalType.NON_AUTH,
+    uri: '/check-token/{token}'
+  };
+
   // ------------------ employee --------------------
   public static API_GET_EMPLOYEE: API = {
     module: PortalType.USER,
@@ -62,6 +67,15 @@ export class ApiConstant {
     uri: '/attendance/update-end-date-time'
   };
 
+  public static API_GET_ADMIN_ATTENDANCE_FOR_TODAY: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/get-attendance'
+  };
+
+  public static API_CHECK_IP_ADDRESS: API = {
+    module: PortalType.USER,
+    uri: '/ip/ip-address-attendance'
+  };
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,

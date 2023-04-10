@@ -23,7 +23,7 @@
               <div class="row mb-3">
                 <div class="col-lg-2 width-btn">
                   <div class="add-button">
-                    <a class="btn btn-primary btn-sm" (click)="showInputNameForm()"><i class="bi bi-plus"></i>Điểm Danh</a>
+                    <a class="btn btn-primary btn-sm" (click)="showInputNameForm()" [ngClass]="{'btn-inactive' : inactive}"><i class="bi bi-plus"></i>Điểm Danh</a>
                   </div>
                 </div>
                 <div class="col-lg-10 margin-date">
@@ -48,7 +48,7 @@
                       <td>{{item.employee.fullname}}</td>
                       <td>{{item.startDateTime}}</td>
                       <td *ngIf="item.endDateTime == null; else noEndDateTime">
-                        <a class="btn btn-primary btn-sm" (click)="showEndEttendaceModal(item.attendanceId)">Kết thúc</a>
+                        <a class="btn btn-primary btn-sm" [ngClass]="{'btn-inactive' : inactive}" (click)="showEndEttendaceModal(item.attendanceId)">Kết thúc</a>
                       </td>
                       <ng-template #noEndDateTime>
                         <td>{{item.endDateTime}}</td>

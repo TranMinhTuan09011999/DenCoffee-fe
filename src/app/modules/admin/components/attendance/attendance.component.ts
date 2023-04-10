@@ -9,6 +9,7 @@ import {AttendanceService} from "../../services/attendance.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceEndDateTimeUpdate} from "../../models/AttendanceEndDateTimeUpdate";
 import {DateRequest} from "../../models/DateRequest";
+import {NonAuthenticateService} from "../../services/non-authenticate.service";
 
 @Component({
   selector: 'app-attendance',
@@ -41,6 +42,7 @@ export class AttendanceComponent implements OnInit {
   attendanceId: any;
   nameList!: Array<any>;
   attendanceForTodayList!: Array<any>;
+  inactive = true;
 
   public inputNameForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -48,7 +50,8 @@ export class AttendanceComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
               private attendanceService: AttendanceService,
-              private contentDialogService: ContentDialogService) { }
+              private contentDialogService: ContentDialogService,
+              private nonAuthenticateService: NonAuthenticateService) { }
 
   ngOnInit(): void {
     var today = new Date();
@@ -61,6 +64,7 @@ export class AttendanceComponent implements OnInit {
     this.getInputNameForm();
     this.getNameList();
     this.getAttendanceForToday();
+    this.checkIpAddressForAttendace();
   }
 
   getInputNameForm() {
@@ -186,6 +190,17 @@ export class AttendanceComponent implements OnInit {
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {
     return DateUtil.getHour(startDateTime, endDateTime);
+  }
+
+  checkIpAddressForAttendace() {
+    this.nonAuthenticateService.checkIpAddessForAttendace().subscribe(data => {
+      if (data) {
+        console.log(data);
+        this.inactive = false;
+      }
+    }, (error) => {
+
+    });
   }
 
 }

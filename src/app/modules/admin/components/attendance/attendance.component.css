@@ -22,3 +22,9 @@
 .margin-date {
   margin: 3px 0px;
 }
+
+.btn-inactive {
+  pointer-events: none;
+  background-color: #6d6d72;
+  border-color: #6d6d72;
+}

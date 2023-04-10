@@ -37,7 +37,7 @@ export class AttendanceManagementComponent implements OnInit {
   getAttendanceForDate(date: any) {
     const dateRequest = new DateRequest();
     dateRequest.date = date;
-    this.attendanceService.getAttendanceForToday(dateRequest).subscribe(data => {
+    this.attendanceService.getAdminAttendanceForToday(dateRequest).subscribe(data => {
       if (data) {
         this.attendanceList = data;
       }
