@@ -1,1 +1,7 @@
 <router-outlet></router-outlet>
+<ngx-loading [show]="isLoading" [template]="customLoadingTemplate" ></ngx-loading>
+<ng-template #customLoadingTemplate>
+  <div class="cus-loading">
+    Vui lòng chờ
+  </div>
+</ng-template>

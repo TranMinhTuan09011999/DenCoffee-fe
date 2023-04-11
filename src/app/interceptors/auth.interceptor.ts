@@ -11,16 +11,20 @@ import {SessionAttribute} from "../modules/admin/constant/session-attribute";
 import {RouterConstant} from "../modules/admin/constant/router-constant";
 import {Router} from "@angular/router";
 import {NonAuthenticateService} from "../modules/admin/services/non-authenticate.service";
+import {LoadingService} from "../services/loading.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(private router: Router,
-                private nonAuthenticateService: NonAuthenticateService) { }
+                private nonAuthenticateService: NonAuthenticateService,
+                private loadingService: LoadingService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
+      this.loadingService.pushProcessing(request.clone());
       return this.injectScreenId(request, next).pipe(
         catchError((resp: HttpErrorResponse) => {
+          this.loadingService.removeProcessing(resp);
           if (sessionStorage.getItem(SessionAttribute.TOKEN) != null) {
             this.nonAuthenticateService.checkToken(sessionStorage.getItem(SessionAttribute.TOKEN) + '').subscribe(data => {
               if (data) {
@@ -38,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }),
         tap(
           (resp) => {
-
+            this.loadingService.removeProcessing(resp);
           }
         )
       );
