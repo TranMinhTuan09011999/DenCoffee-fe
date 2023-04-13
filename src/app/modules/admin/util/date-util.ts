@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import * as _ from 'underscore';
+import * as moment from 'moment';
 
 export class DateUtil {
 
@@ -36,6 +37,22 @@ export class DateUtil {
       return integerPart;
     }
     return null;
+  }
+
+  public static parseStringToMoment(dateString: string, pattern = 'YYYY/MM/DD'): moment.Moment {
+    return moment(dateString, pattern, true);
+  }
+
+  public static parseInputDateToMoment(dateInput: any, format = 'YYYY-MM-DD'): moment.Moment | null {
+    try {
+      const date = new Date(dateInput.year, dateInput.month - 1, dateInput.day);
+      if (!moment(date, format).isValid()) {
+        return null;
+      }
+      return moment(date, format, true);
+    } catch (error) {
+      return null;
+    }
   }
 
 }

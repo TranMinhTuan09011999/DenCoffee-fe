@@ -1378,7 +1378,7 @@ input[aria-label=multiselect-select-all]+div{
 
 /* ------- Message Error ------- */
 .message-error p {
-  color: red;
+  color: #c14747;
 }
 
 /* ------------ Drop down ----------- */

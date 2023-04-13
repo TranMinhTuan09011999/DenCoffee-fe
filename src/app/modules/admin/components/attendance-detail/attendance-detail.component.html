@@ -1,0 +1,138 @@
+<div class="content-page">
+  <!-- Start content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="page-title-box">
+        <div class="row align-items-center">
+          <div class="col-sm-6 display-100">
+            <h4 class="page-title">Chi tiết điểm danh</h4>
+          </div>
+          <div class="col-sm-6 display-none">
+            <ol class="breadcrumb float-right">
+              <li class="breadcrumb-item"><a href="#">Den-coffee</a></li>
+              <li class="breadcrumb-item active">Chi tiết điểm danh</li>
+            </ol>
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card m-b-30">
+            <div class="card-body">
+              <form [formGroup]="inputDateForm">
+                <div class="row mb-3">
+                  <div class="col-lg-2 width-btn">
+                    <div class="d-flex">
+                      <label class="d-flex__label">Từ </label>
+                      <div>
+                        <input type="date" name="dateFrom" class="form-control date-width" formControlName="dateFrom" [max]="">
+                        <div class="message-error" *ngIf="hasError('dateFrom','required')">
+                          <p class="mb-0">* Vui lòng chọn ngày bắt đầu.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 width-btn">
+                    <div class="d-flex">
+                      <label class="d-flex__label">Đến </label>
+                      <div>
+                        <input type="date" name="dateTo" class="form-control date-width" formControlName="dateTo">
+                        <div class="message-error" *ngIf="hasError('dateTo','required')">
+                          <p class="mb-0">* Vui lòng chọn ngày kết thúc.</p>
+                        </div>
+                        <div class="message-error" *ngIf="hasError('dateTo','dateToError')">
+                          <p class="mb-0">* Ngày kết thúc phải sau ngày bắt đầu.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 width-btn">
+                    <div class="add-button">
+                      <a class="btn btn-primary btn-sm" (click)="search()">Tìm kiếm</a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th scope="col">Nhân viên</th>
+                    <th scope="col">Tổng số giờ làm việc</th>
+                    <th scope="col"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container>
+                    <tr *ngFor="let item of employeeList">
+                      <td>{{item.fullname}}</td>
+                      <td>{{getHoursTotal(item.attendanceDTOList)}} giờ</td>
+                      <td>
+                        <a class="btn btn-primary btn-sm" (click)="showAttendanceDetails(item.employeeId, item.fullname)">Chi Tiết</a>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END ROW -->
+    </div>
+    <!-- container-fluid -->
+  </div>
+</div>
+
+<ng-container>
+  <ng-template #attendanceDetailsBody>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="m-b-30">
+          <div class="card-body p-0">
+            <div class="row height-25 mb-2">
+              <div class="col-lg-12">
+                <label class="fw-bold">Nhân viên: {{fullname}}</label>
+              </div>
+            </div>
+            <div class="table-responsive table-scroll">
+              <table class="table table-modal">
+                <thead>
+                <tr>
+                  <th scope="col">Ngày làm việc</th>
+                  <th scope="col">Giờ bắt đầu</th>
+                  <th scope="col">Giờ kết thúc</th>
+                  <th scope="col">Số giờ làm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container>
+                  <tr *ngFor="let item of attendanceList">
+                    <td>{{getDateOrTime(item.startDateTime, 'D')}}</td>
+                    <td>{{getDateOrTime(item.startDateTime, 'T')}}</td>
+                    <td>{{getDateOrTime(item.endDateTime, 'T')}}</td>
+                    <td>{{getAttendanceHour(item.startDateTime, item.endDateTime)}} giờ</td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+            <div class="row height-25">
+              <div class="col-lg-12">
+                <label class="fw-bold col-label">Tổng: {{getHoursTotal(attendanceList)}} giờ</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #attendanceDetailsFooter>
+    <a class="btn btn-danger btn-sm" (click)="exist()">Thoát</a>
+  </ng-template>
+  <app-content-dialog [id]="attendanceDetailsModalId" [width]="'600px'" [header]="header" [body]="attendanceDetailsBody"
+                      [footer]="attendanceDetailsFooter">
+  </app-content-dialog>
+</ng-container>

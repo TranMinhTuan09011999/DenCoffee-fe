@@ -1,0 +1,40 @@
+.width-btn {
+  width: 205px;
+}
+
+.d-flex__label {
+  margin: 7px 10px 7px 0px;
+  color: #f6f6f6;
+}
+
+.add-button {
+  margin: 3px 0px;
+}
+
+.table-scroll {
+  overflow-y: scroll;
+  max-height: 370px;
+  overflow: auto;
+}
+
+.table-modal thead th {
+  border: none;
+  color: #4e505d;
+}
+
+.table-modal td, table-modal th {
+  border-color: #d4d4d4 !important;
+}
+
+.table-modal tr {
+  border-top: solid 1px #d4d4d4;
+}
+
+.height-25 {
+  height: 25px;
+}
+
+.col-label {
+  margin-right: 69px;
+  float: right
+}

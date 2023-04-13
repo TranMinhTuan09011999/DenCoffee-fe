@@ -6,6 +6,7 @@
       <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li class="nav-content_li--mb"> <a (click)="toAttendancePage()"> <i class="bi bi-circle"></i><span>Điểm danh nhân viên</span> </a></li>
         <li class="nav-content_li--mb" *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toAttendanceManagePage()"> <i class="bi bi-circle"></i><span>Quản lý điểm danh</span> </a></li>
+        <li class="nav-content_li--mb" *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toAttendanceDetailPage()"> <i class="bi bi-circle"></i><span>Chi tiết điểm danh</span> </a></li>
         <li *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toIPAddressPage()"> <i class="bi bi-circle"></i><span>Quản lý địa chỉ IP</span> </a></li>
       </ul>
     </li>

@@ -16,6 +16,7 @@ import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { AttendanceManagementComponent } from './components/attendance-management/attendance-management.component';
 import { IpAddressComponent } from './components/ip-address/ip-address.component';
+import { AttendanceDetailComponent } from './components/attendance-detail/attendance-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { IpAddressComponent } from './components/ip-address/ip-address.component
     EmployeeComponent,
     NullHyphenPipe,
     AttendanceManagementComponent,
-    IpAddressComponent
+    IpAddressComponent,
+    AttendanceDetailComponent
   ],
   imports: [
     CommonModule,

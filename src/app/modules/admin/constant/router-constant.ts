@@ -21,6 +21,10 @@ export class RouterConstant {
     path: 'attendance-management'
   };
 
+  public static ATTENDANCE_DETAIL: IRoute = {
+    path: 'attendance-detail'
+  };
+
   public static IP_ADDRESS: IRoute = {
     path: 'ip-address'
   };

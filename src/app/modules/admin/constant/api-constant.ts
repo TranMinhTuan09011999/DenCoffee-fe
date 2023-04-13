@@ -77,6 +77,11 @@ export class ApiConstant {
     uri: '/ip/ip-address-attendance'
   };
 
+  public static API_GET_ATTENDANCE_FOR_EMPLOYEE: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/get-attendance-for-employee'
+  };
+
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,
