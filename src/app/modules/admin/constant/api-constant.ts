@@ -114,4 +114,20 @@ export class ApiConstant {
     uri: '/ip-address/delete-ip-address'
   };
 
+  // ------------------ payroll ------------------
+  public static API_GET_PAYROLL_FOR_MONTH_YEAR: API = {
+    module: PortalType.ADMIN,
+    uri: '/payroll/get-payroll/{month}/{year}'
+  };
+
+  public static API_ADD_NEW_SALARY_FOR_EMPLOYEE: API = {
+    module: PortalType.ADMIN,
+    uri: '/payroll/new-salary/{employeeId}/{newSalary}'
+  };
+
+  public static API_GET_NEW_SALARY_FOR_EMPLOYEE: API = {
+    module: PortalType.ADMIN,
+    uri: '/payroll/get-new-salary/{employeeId}'
+  };
+
 }

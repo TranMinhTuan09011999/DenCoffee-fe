@@ -5,7 +5,7 @@ import {DateUtil} from "../../util/date-util";
 import {validatorsToDateAfterFromDate} from "../../../../util/validators-from-to-date";
 import {AttendanceService} from "../../services/attendance.service";
 import {AttendanceForEmployeeRequest} from "../../models/AttendanceForEmployeeRequest";
-import {formatDate} from "@angular/common";
+import {DatePipe, formatDate} from "@angular/common";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import * as _ from "underscore";
 
@@ -116,11 +116,15 @@ export class AttendanceDetailComponent implements OnInit {
     if (!_.isEmpty(dateTime)) {
       arrDt = dateTime.split(' ');
       if (type == 'D') {
-        return arrDt[0];
+        const date = new Date(arrDt[0]);
+        const datePipe = new DatePipe('en-US');
+        const formattedDate = datePipe.transform(date, 'dd-MM-yyyy');
+        return formattedDate;
       } else if (type == 'T') {
         return arrDt[1];
       }
     }
+    return null;
   }
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {

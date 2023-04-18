@@ -25,6 +25,10 @@ export class RouterConstant {
     path: 'attendance-detail'
   };
 
+  public static SALARY_MANAGEMENT: IRoute = {
+    path: 'salary-management'
+  };
+
   public static IP_ADDRESS: IRoute = {
     path: 'ip-address'
   };

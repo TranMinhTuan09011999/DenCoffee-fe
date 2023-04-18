@@ -6,4 +6,5 @@ export class Employee {
   phoneNumber!: string;
   address!: string;
   status!: number;
+  salary!: number;
 }

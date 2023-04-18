@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {AttendanceService} from "../../services/attendance.service";
 import {DateRequest} from "../../models/DateRequest";
+import * as _ from "underscore";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-attendance-management',
@@ -56,6 +58,22 @@ export class AttendanceManagementComponent implements OnInit {
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {
     return DateUtil.getHour(startDateTime, endDateTime);
+  }
+
+  getDateOrTime(dateTime: any, type: any) {
+    let arrDt = [];
+    if (!_.isEmpty(dateTime)) {
+      arrDt = dateTime.split(' ');
+      if (type == 'D') {
+        const date = new Date(arrDt[0]);
+        const datePipe = new DatePipe('en-US');
+        const formattedDate = datePipe.transform(date, 'dd-MM-yyyy');
+        return formattedDate;
+      } else if (type == 'T') {
+        return arrDt[1];
+      }
+    }
+    return null;
   }
 
 }

@@ -25,7 +25,7 @@
                   <div class="col-lg-2 width-btn">
                     <div class="d-flex">
                       <label class="d-flex__label">Ngày làm việc </label>
-                      <input type="date" name="birthday" class="form-control date-width" formControlName="attendanceDate">
+                      <input type="date" dataformatas="" name="birthday" class="form-control date-width" formControlName="attendanceDate">
                     </div>
                   </div>
                   <div class="col-lg-2 width-btn">
@@ -40,8 +40,8 @@
                   <thead>
                   <tr>
                     <th scope="col" class="width-20">Họ và tên</th>
-                    <th scope="col" class="width-13">Giờ bắt đầu</th>
-                    <th scope="col" class="width-10">Giờ kết thúc</th>
+                    <th scope="col" class="width-13">Thời gian bắt đầu</th>
+                    <th scope="col" class="width-10">Thời gian kết thúc</th>
                     <th scope="col" class="width-10">Số giờ làm</th>
                   </tr>
                   </thead>
@@ -49,9 +49,9 @@
                   <ng-container *ngFor="let item of attendanceList">
                     <tr>
                       <td>{{item.employee.fullname}}</td>
-                      <td>{{item.startDateTime}}</td>
-                      <td>{{item.endDateTime | nullHyphen}}</td>
-                      <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}}</td>
+                      <td>{{getDateOrTime(item.startDateTime, 'T')}}</td>
+                      <td>{{getDateOrTime(item.endDateTime,'T') | nullHyphen}}</td>
+                      <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}} giờ</td>
                     </tr>
                   </ng-container>
                   </tbody>

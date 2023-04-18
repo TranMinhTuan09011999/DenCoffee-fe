@@ -11,5 +11,6 @@
       </ul>
     </li>
     <li class="nav-item"> <a class="nav-link collapsed" (click)="toEmployeePage()" *ngIf="hasRole(['ROLE_ADMIN'])"> <i class="bi bi-menu-button-wide"></i> <span>Nhân Viên</span> </a></li>
+    <li class="nav-item"> <a class="nav-link collapsed" (click)="toSalaryManagementPage()" *ngIf="hasRole(['ROLE_ADMIN'])"> <i class="bi bi-menu-button-wide"></i> <span>Quản lý lương</span> </a></li>
   </ul>
 </aside>

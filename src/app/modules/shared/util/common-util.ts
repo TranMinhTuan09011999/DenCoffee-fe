@@ -28,4 +28,8 @@ export class CommonUtil {
   static getValueWithDefaultHyphen(object: any, property: string = '') {
     return this.getValueWithDefault(object, property, '-');
   }
+
+  static isNull(value: any): boolean {
+    return (_.isUndefined(value) || _.isNull(value));
+  }
 }

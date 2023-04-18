@@ -17,21 +17,27 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { AttendanceManagementComponent } from './components/attendance-management/attendance-management.component';
 import { IpAddressComponent } from './components/ip-address/ip-address.component';
 import { AttendanceDetailComponent } from './components/attendance-detail/attendance-detail.component';
+import { SalaryManagementComponent } from './components/salary-management/salary-management.component';
+import {AddCommaPipe} from "./pipe/add-comma-pipe";
+import { AddCommaDirective } from './directive/add-comma.directive';
 
 @NgModule({
-  declarations: [
-    AdminComponent,
-    HeaderComponent,
-    FooterComponent,
-    SidebarComponent,
-    DashboardComponent,
-    AttendanceComponent,
-    EmployeeComponent,
-    NullHyphenPipe,
-    AttendanceManagementComponent,
-    IpAddressComponent,
-    AttendanceDetailComponent
-  ],
+    declarations: [
+        AdminComponent,
+        HeaderComponent,
+        FooterComponent,
+        SidebarComponent,
+        DashboardComponent,
+        AttendanceComponent,
+        EmployeeComponent,
+        NullHyphenPipe,
+        AttendanceManagementComponent,
+        IpAddressComponent,
+        AttendanceDetailComponent,
+        SalaryManagementComponent,
+        AddCommaPipe,
+        AddCommaDirective
+    ],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -40,6 +46,7 @@ import { AttendanceDetailComponent } from './components/attendance-detail/attend
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot()
-  ]
+  ],
+  providers: [AddCommaPipe]
 })
 export class AdminModule { }

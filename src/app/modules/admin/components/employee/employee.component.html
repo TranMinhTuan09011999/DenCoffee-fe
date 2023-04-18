@@ -51,11 +51,12 @@
                 <table class="table table-hover">
                   <thead>
                   <tr>
-                    <th scope="col" class="width-20">Họ Và Tên</th>
-                    <th scope="col" class="width-13">Ngày Sinh</th>
+                    <th scope="col" class="width-15">Họ Và Tên</th>
+                    <th scope="col" class="width-10">Ngày Sinh</th>
                     <th scope="col" class="width-10">Giới Tính</th>
                     <th scope="col" class="width-15">Số Điện Thoại</th>
-                    <th scope="col" class="width-25">Địa Chỉ</th>
+                    <th scope="col" class="width-20">Địa Chỉ</th>
+                    <th scope="col" class="width-15" *ngIf="title == workingEmployeeList">Lương cơ bản</th>
                     <th scope="col" colspan="2"></th>
                   </tr>
                   </thead>
@@ -66,6 +67,7 @@
                     <td>{{setGender(item.gender)}}</td>
                     <td>{{item.phoneNumber}}</td>
                     <td>{{item.address}}</td>
+                    <td *ngIf="title == workingEmployeeList"><i class="bi bi-arrow-up-square" (click)="showSalaryIncreaseModal(item)"></i> {{item.salary | addComma}} vnd</td>
                     <td>
                       <div>
                         <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
@@ -163,6 +165,16 @@
                 </div>
               </div>
             </div>
+            <div class="row mb-3" *ngIf="statusForm == 1">
+              <label class="col-sm-4 col-form-label fw-bold">Lương cơ bản: </label>
+              <div class="col-sm-8">
+                <input type="text" formControlName="salary" class="form-control" addCommaDirective
+                       (keypress)="numericOnly($event)">
+                <div class="message-error" *ngIf="hasError('salary','required')">
+                  <p class="mb-0">* Vui lòng nhập lương cơ bản.</p>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -251,5 +263,52 @@
   </ng-template>
   <app-content-dialog [id]="changeStatusModalId" [width]="'300px'" [header]="message" [body]="changeStatusBody"
                       [footer]="changeStatusFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #salaryIncreaseBody>
+    <form [formGroup]="salaryIncreaseForm">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <label class="col-sm-4 col-form-label fw-bold">Nhân viên: </label>
+            <div class="col-sm-8 col-form-label">
+              <p>{{salaryIncreaseEmployeeId.fullname}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-4 col-form-label fw-bold">Lương hiện tại: </label>
+            <div class="col-sm-8 col-form-label">
+              <p>{{salaryIncreaseEmployeeId.basicSalary | addComma}} vnd</p>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-4 col-form-label fw-bold">Lương mới: </label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="salaryIncrease" class="form-control" addCommaDirective
+                     (keypress)="numericOnly($event)">
+              <div class="message-error" *ngIf="hasSalaryIncreaseError('salaryIncrease','required')">
+                <p class="mb-0">* Vui lòng nhập lương mới.</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-form-label">
+              <p class="mb-0" style="color: red;">* Chú ý: Lương mới sẽ được áp dụng vào tháng sau</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #salaryIncreaseFooter>
+    <div>
+      <a class="btn btn-primary btn-sm" (click)="increaseSalary()">Chấp nhận</a>
+      <a class="btn btn-danger btn-sm margin-left" (click)="cancelSalaryIncrease()">Hủy</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="salaryIncreaseModalId" [width]="'440px'" [header]="salaryIncreaseMessage" [body]="salaryIncreaseBody"
+                      [footer]="salaryIncreaseFooter">
   </app-content-dialog>
 </ng-container>

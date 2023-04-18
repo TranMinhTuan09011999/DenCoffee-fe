@@ -8,6 +8,8 @@ import {Employee} from "../../models/Employee";
 import {PaginationComponent} from "../../../../components/pagination/pagination.component";
 import {WorkHistoryService} from "../../services/work-history.service";
 import {DateUtil} from "../../util/date-util";
+import {PayrollService} from "../../services/payroll.service";
+import {AddCommaPipe} from "../../pipe/add-comma-pipe";
 
 @Component({
   selector: 'app-employee',
@@ -28,17 +30,29 @@ export class EmployeeComponent implements OnInit {
   currentStatus: any;
   statusForm: any; // 1: add, 2: edit
   employeeIdForEdit: any;
+  salaryIncreaseEmployeeId = {
+    employeeId: null,
+    fullname: null,
+    basicSalary: null
+  };
 
   public employeeAdditionForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
+
+  public salaryIncreaseForm!: FormGroup;
+  public salaryIncreaseCustomValidate!: CustomHandleValidate;
 
   public employeeAdditionModalId = 'employeeAdditionModalId';
   public successAddModalId = 'successAddModalId';
   public workHistoryModalId = 'workHistoryModalId';
   public changeStatusModalId = 'changeStatusModalId';
+  public salaryIncreaseModalId = 'salaryIncreaseModalId';
   public header: any;
   public message = 'Thông báo';
+  public salaryIncreaseMessage = 'Tăng lương nhân viên';
   public workHistory = 'Lịch sử làm việc';
+  public workingEmployeeList = 'Nhân viên đang làm';
+  public notWorkingEmployeeList = 'Nhân viên đã nghỉ';
   public messageError!: string;
 
   @ViewChild(
@@ -48,12 +62,16 @@ export class EmployeeComponent implements OnInit {
   constructor(private employeeService: EmployeeService,
               private workHistoryService: WorkHistoryService,
               private contentDialogService: ContentDialogService,
+              private payrollService: PayrollService,
               private formBuilder: FormBuilder,
+              private addCommaPipe: AddCommaPipe
               ) { }
 
   ngOnInit(): void {
     this.setEmployeeAdditionForm();
+    this.setSalaryIncreaseForm();
     this.getAllEmployeeByStatus(this.workingStatus);
+
   }
 
   getAllEmployeeByStatus(status: any) {
@@ -61,9 +79,9 @@ export class EmployeeComponent implements OnInit {
       if (data) {
         this.items = data;
         if (status === this.workingStatus) {
-          this.title = "Nhân viên đang làm"
+          this.title = this.workingEmployeeList;
         } else if (status === this.notWorkingStatus) {
-          this.title = "Nhân viên đã nghỉ"
+          this.title = this.notWorkingEmployeeList;
         }
       }
     }, (error) => {
@@ -77,7 +95,8 @@ export class EmployeeComponent implements OnInit {
       gender: ['1'],
       birthday: ['', Validators.required],
       phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      salary: ['', Validators.required]
     });
     this.customValidate = new CustomHandleValidate(this.employeeAdditionForm);
   }
@@ -99,6 +118,7 @@ export class EmployeeComponent implements OnInit {
     employee.phoneNumber = employeeInfor.phoneNumber;
     employee.address = employeeInfor.address;
     employee.status = 1;
+    employee.salary = parseFloat(employeeInfor.salary.replace(/,/g, ''));
     this.employeeService.registerEmployee(employee).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.employeeAdditionModalId);
@@ -208,6 +228,9 @@ export class EmployeeComponent implements OnInit {
   }
 
   editEmployee() {
+    if (!this.customValidate.isValidForm()) {
+      return;
+    }
     const employeeInfor = this.employeeAdditionForm.value;
     const employee = new Employee();
     employee.employeeId = this.employeeIdForEdit;
@@ -216,7 +239,6 @@ export class EmployeeComponent implements OnInit {
     employee.birthday = employeeInfor.birthday;
     employee.phoneNumber = employeeInfor.phoneNumber;
     employee.address = employeeInfor.address;
-    employee.status = 1;
     this.employeeService.updateEmployee(employee).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.employeeAdditionModalId);
@@ -225,5 +247,61 @@ export class EmployeeComponent implements OnInit {
     }, (error) => {
 
     });
+  }
+
+  showSalaryIncreaseModal(item: any) {
+    this.salaryIncreaseEmployeeId = {
+      employeeId: item.employeeId,
+      fullname: item.fullname,
+      basicSalary: item.salary
+    };
+    this.salaryIncreaseForm.patchValue({
+      salaryIncrease: null
+    });
+    this.salaryIncreaseCustomValidate.reset();
+    this.contentDialogService.open(this.salaryIncreaseModalId);
+    this.payrollService.getNewSalary(this.salaryIncreaseEmployeeId.employeeId).subscribe(data => {
+      if (data) {
+        this.salaryIncreaseForm.patchValue({
+          salaryIncrease: this.addCommaPipe.transform(data)
+        });
+      }
+    }, (error) => {
+
+    });
+  }
+
+  cancelSalaryIncrease() {
+    this.salaryIncreaseEmployeeId = {
+      employeeId: null,
+      fullname: null,
+      basicSalary: null
+    };
+    this.contentDialogService.close(this.salaryIncreaseModalId);
+  }
+
+  setSalaryIncreaseForm() {
+    this.salaryIncreaseForm = this.formBuilder.group({
+      salaryIncrease: ['', Validators.required]
+    });
+    this.salaryIncreaseCustomValidate = new CustomHandleValidate(this.salaryIncreaseForm);
+  }
+
+  increaseSalary() {
+    if (!this.salaryIncreaseCustomValidate.isValidForm()) {
+      return;
+    }
+    const salaryIncrease = parseFloat(this.salaryIncreaseForm.value.salaryIncrease.replace(/,/g, ''));
+    this.payrollService.addNewSalaryForEmployee(this.salaryIncreaseEmployeeId.employeeId, salaryIncrease).subscribe(data => {
+      if (data) {
+        this.contentDialogService.close(this.salaryIncreaseModalId);
+      }
+    }, (error) => {
+
+    });
+  }
+
+  hasSalaryIncreaseError(key: string, errorCode: string) {
+    return this.salaryIncreaseCustomValidate.hasError(key, errorCode);
   }
 }

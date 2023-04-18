@@ -1,0 +1,99 @@
+<div class="content-page">
+  <!-- Start content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="page-title-box">
+        <div class="row align-items-center">
+          <div class="col-sm-6 display-100">
+            <h4 class="page-title">Quản lý lương</h4>
+          </div>
+          <div class="col-sm-6 display-none">
+            <ol class="breadcrumb float-right">
+              <li class="breadcrumb-item"><a href="#">Den-coffee</a></li>
+              <li class="breadcrumb-item active">Quản lý lương</li>
+            </ol>
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card m-b-30">
+            <div class="card-body">
+              <form [formGroup]="monthYearForm">
+                <div class="mb-3">
+                  <div class="row">
+                    <div class="col-xl-4">
+                      <div class="row">
+                        <div class="col-lg-3 d-flex width-btn">
+                          <div class="d-flex mr-10">
+                            <label class="d-flex__label">Tháng </label>
+                            <div class="dropdown-custom">
+                              <select class="form-select form-select__reCustom" aria-label="Default select example" formControlName="month">
+                                <ng-container *ngFor="let item of monthList">
+                                  <option [ngValue]="item">{{item}}</option>
+                                </ng-container>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="d-flex">
+                            <label class="d-flex__label">Năm </label>
+                            <div class="dropdown-custom">
+                              <select class="form-select form-select__reCustom" aria-label="Default select example" formControlName="year">
+                                <ng-container *ngFor="let item of yearList">
+                                  <option [ngValue]="item">{{item}}</option>
+                                </ng-container>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-2 p-lg-0">
+                          <div class="add-button">
+                            <a class="btn btn-primary btn-sm" (click)="search()">Tìm kiếm</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-8">
+                      <div class="d-flex justify-content-end">
+                        <div>
+                          <a class="btn btn-primary btn-sm">Thanh toán lương</a>
+                        </div>
+                        <div style="flex-basis: 5%">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th scope="col" class="width-20">Họ và tên</th>
+                    <th scope="col" class="width-13">Tổng số giờ làm</th>
+                    <th scope="col" class="width-10">Lương mỗi giờ</th>
+                    <th scope="col" class="width-10">Tổng lương</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container>
+                    <tr *ngFor="let item of payrollList">
+                      <td>{{item.fullname}}</td>
+                      <td>{{getHoursTotal(item.attendanceDTOList)}} giờ</td>
+                      <td>{{item.currentSalary | addComma}} vnd</td>
+                      <td>{{getSalaryTotalForEmployee(item.attendanceDTOList, item.currentSalary) | addComma}} vnd</td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END ROW -->
+    </div>
+    <!-- container-fluid -->
+  </div>
+</div>
