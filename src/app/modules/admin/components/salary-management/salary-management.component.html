@@ -57,7 +57,7 @@
                     <div class="col-xl-8">
                       <div class="d-flex justify-content-end">
                         <div>
-                          <a class="btn btn-primary btn-sm">Thanh toán lương</a>
+                          <a class="btn btn-primary btn-sm" (click)="downloadExcel()"><i class="bi bi-download"></i> Excel</a>
                         </div>
                         <div style="flex-basis: 5%">
                         </div>
@@ -97,3 +97,17 @@
     <!-- container-fluid -->
   </div>
 </div>
+
+<ng-container>
+  <ng-template #messageBody>
+    <p>Lương tháng {{currentMonth}} - {{currentYear}} đã tồn tại trong file Excel !!!</p>
+  </ng-template>
+  <ng-template #messageFooter>
+    <div>
+      <a class="btn btn-danger btn-sm" (click)="exit()">OK</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="downloadExcelModalId" [width]="'400px'" [header]="message" [body]="messageBody"
+                      [footer]="messageFooter">
+  </app-content-dialog>
+</ng-container>

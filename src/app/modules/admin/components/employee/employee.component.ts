@@ -156,7 +156,8 @@ export class EmployeeComponent implements OnInit {
           gender: data.gender + '',
           birthday: birth.year + '-' + birth.month + '-' + birth.day,
           phoneNumber: data.phoneNumber,
-          address: data.address
+          address: data.address,
+          salary: this.addCommaPipe.transform(data.salary)
         });
       }
     });
@@ -239,6 +240,7 @@ export class EmployeeComponent implements OnInit {
     employee.birthday = employeeInfor.birthday;
     employee.phoneNumber = employeeInfor.phoneNumber;
     employee.address = employeeInfor.address;
+    employee.salary = parseFloat(employeeInfor.salary.replace(/,/g, ''));
     this.employeeService.updateEmployee(employee).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.employeeAdditionModalId);

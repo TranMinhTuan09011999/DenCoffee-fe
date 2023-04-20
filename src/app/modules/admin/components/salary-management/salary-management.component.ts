@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {PayrollService} from "../../services/payroll.service";
 import {DateUtil} from "../../util/date-util";
+import {AttendanceService} from "../../services/attendance.service";
+import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 
 @Component({
   selector: 'app-salary-management',
@@ -11,16 +13,24 @@ import {DateUtil} from "../../util/date-util";
 })
 export class SalaryManagementComponent implements OnInit {
 
+  public downloadExcelModalId = 'downloadExcelModalId';
+  public message = 'Thông báo';
+
   monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   yearList: Array<any> = [];
 
   public monthYearForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
 
+  currentMonth: any;
+  currentYear: any;
+
   payrollList: Array<any> = [];
 
   constructor(private formBuilder: FormBuilder,
-              private payrollService: PayrollService) { }
+              private payrollService: PayrollService,
+              private attendanceService: AttendanceService,
+              private contentDialogService: ContentDialogService) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -56,7 +66,6 @@ export class SalaryManagementComponent implements OnInit {
   getPayrollForMonthYear(month: any, year: any) {
     this.payrollService.getPayrollForMonthYear(month, year).subscribe(data => {
       if (data) {
-        console.log(data);
         this.payrollList = data;
       }
     }, (error) => {
@@ -79,5 +88,23 @@ export class SalaryManagementComponent implements OnInit {
 
   getSalaryTotalForEmployee(attendanceDTOList: any, currentSalary: any) {
     return this.getHoursTotal(attendanceDTOList) * currentSalary;
+  }
+
+  downloadExcel() {
+    const month = this.monthYearForm.value.month;
+    const year = this.monthYearForm.value.year;
+    this.currentMonth = month;
+    this.currentYear = year;
+    this.attendanceService.downloadExcel(month, year).subscribe(data => {
+      if (!data) {
+        this.contentDialogService.open(this.downloadExcelModalId);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  exit() {
+    this.contentDialogService.close(this.downloadExcelModalId);
   }
 }

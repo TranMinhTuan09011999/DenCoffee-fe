@@ -44,4 +44,10 @@ export class AttendanceService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  downloadExcel(month: number, year: number): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_DOWNLOAD_EXCEL, {month, year}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

@@ -53,7 +53,7 @@
                       <ng-template #noEndDateTime>
                         <td>{{item.endDateTime}}</td>
                       </ng-template>
-                      <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}}</td>
+                      <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}} (giờ)</td>
                     </tr>
                   </ng-container>
                   </tbody>

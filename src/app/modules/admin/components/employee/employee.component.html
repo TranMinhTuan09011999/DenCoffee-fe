@@ -71,7 +71,9 @@
                     <td>
                       <div>
                         <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
-                        <a class="btn btn-primary btn-sm margin-left" (click)="showEmployeeEditionModal(item.employeeId)">Sửa</a>
+                        <ng-container *ngIf="title == workingEmployeeList">
+                          <a class="btn btn-primary btn-sm margin-left" (click)="showEmployeeEditionModal(item.employeeId)">Sửa</a>
+                        </ng-container>
                         <ng-container *ngIf="item.status === 1">
                           <a class="btn btn-danger btn-sm margin-left" (click)="showChangeStatusModal(item.employeeId, 0)">Nghỉ</a>
                         </ng-container>
@@ -165,7 +167,7 @@
                 </div>
               </div>
             </div>
-            <div class="row mb-3" *ngIf="statusForm == 1">
+            <div class="row mb-3">
               <label class="col-sm-4 col-form-label fw-bold">Lương cơ bản: </label>
               <div class="col-sm-8">
                 <input type="text" formControlName="salary" class="form-control" addCommaDirective
