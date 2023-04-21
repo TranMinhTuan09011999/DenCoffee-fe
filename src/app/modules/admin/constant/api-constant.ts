@@ -87,6 +87,11 @@ export class ApiConstant {
     uri: '/attendance/download-excel/{month}/{year}'
   };
 
+  public static API_UPDATE_PAYROLL_STATUS: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/update-payroll-status/{employeeId}/{month}/{year}'
+  };
+
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,

@@ -55,4 +55,14 @@ export class DateUtil {
     }
   }
 
+  public static isBeforeMonthYear(date1: Date, date2: Date): boolean {
+    if (date1.getFullYear() < date2.getFullYear()) {
+      return true;
+    } else if (date1.getFullYear() === date2.getFullYear()) {
+      return date1.getMonth() < date2.getMonth();
+    } else {
+      return false;
+    }
+  }
+
 }

@@ -23,7 +23,7 @@
               <form [formGroup]="monthYearForm">
                 <div class="mb-3">
                   <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-xl-10">
                       <div class="row">
                         <div class="col-lg-3 d-flex width-btn">
                           <div class="d-flex mr-10">
@@ -54,9 +54,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-xl-8">
+                    <div class="col-xl-2">
                       <div class="d-flex justify-content-end">
-                        <div>
+                        <div *ngIf="checkDisplay()">
                           <a class="btn btn-primary btn-sm" (click)="downloadExcel()"><i class="bi bi-download"></i> Excel</a>
                         </div>
                         <div style="flex-basis: 5%">
@@ -74,6 +74,7 @@
                     <th scope="col" class="width-13">Tổng số giờ làm</th>
                     <th scope="col" class="width-10">Lương mỗi giờ</th>
                     <th scope="col" class="width-10">Tổng lương</th>
+                    <th *ngIf="checkDisplay()" scope="col" class="width-10"></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -83,6 +84,18 @@
                       <td>{{getHoursTotal(item.attendanceDTOList)}} giờ</td>
                       <td>{{item.currentSalary | addComma}} vnd</td>
                       <td>{{getSalaryTotalForEmployee(item.attendanceDTOList, item.currentSalary) | addComma}} vnd</td>
+                      <ng-container *ngIf="checkDisplay()">
+                        <ng-container *ngIf="checkPayrollStatus(item.employeeId); else checkFalse">
+                          <td>
+                            <a class="btn btn-primary btn-sm margin-right" (click)="paySalary(item.employeeId)">Thanh toán lương</a>
+                          </td>
+                        </ng-container>
+                        <ng-template #checkFalse>
+                          <td>
+                            <a class="btn btn-primary btn-sm margin-right btn-inactive">Đã thanh toán</a>
+                          </td>
+                        </ng-template>
+                      </ng-container>
                     </tr>
                   </ng-container>
                   </tbody>

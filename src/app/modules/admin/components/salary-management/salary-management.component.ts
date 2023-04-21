@@ -67,6 +67,8 @@ export class SalaryManagementComponent implements OnInit {
     this.payrollService.getPayrollForMonthYear(month, year).subscribe(data => {
       if (data) {
         this.payrollList = data;
+        this.currentMonth = month;
+        this.currentYear = year;
       }
     }, (error) => {
 
@@ -93,8 +95,6 @@ export class SalaryManagementComponent implements OnInit {
   downloadExcel() {
     const month = this.monthYearForm.value.month;
     const year = this.monthYearForm.value.year;
-    this.currentMonth = month;
-    this.currentYear = year;
     this.attendanceService.downloadExcel(month, year).subscribe(data => {
       if (!data) {
         this.contentDialogService.open(this.downloadExcelModalId);
@@ -107,4 +107,39 @@ export class SalaryManagementComponent implements OnInit {
   exit() {
     this.contentDialogService.close(this.downloadExcelModalId);
   }
+
+  paySalary(employeeId: any) {
+    this.attendanceService.updatePayrollStatus(employeeId, this.currentMonth, this.currentYear).subscribe(data => {
+      if (data) {
+        this.getPayrollForMonthYear(this.currentMonth, this.currentYear);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  checkPayrollStatus(employeeId: any) {
+    let check = false;
+    if (this.payrollList != null && this.payrollList.length > 0) {
+      this.payrollList.forEach(item => {
+        if (item.employeeId == employeeId) {
+          if (item.attendanceDTOList != null && item.attendanceDTOList.length > 0) {
+            item.attendanceDTOList.forEach((item1: { payrollStatus: number; }) => {
+              if (item1.payrollStatus != 1) {
+                check = true;
+              }
+            })
+          }
+        }
+      })
+    }
+    return check;
+  }
+
+  checkDisplay() {
+    const selectDate = new Date(this.currentYear, this.currentMonth - 1, 1);
+    const today = new Date();
+    return DateUtil.isBeforeMonthYear(selectDate, today);
+  }
+
 }
