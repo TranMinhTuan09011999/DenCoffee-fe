@@ -23,7 +23,7 @@
               <form [formGroup]="monthYearForm">
                 <div class="mb-3">
                   <div class="row">
-                    <div class="col-xl-10">
+                    <div class="col-xl-8">
                       <div class="row">
                         <div class="col-lg-3 d-flex width-btn">
                           <div class="d-flex mr-10">
@@ -54,12 +54,13 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-xl-2">
+                    <div class="col-xl-4">
                       <div class="d-flex justify-content-end">
-                        <div *ngIf="checkDisplay()">
-                          <a class="btn btn-primary btn-sm" (click)="downloadExcel()"><i class="bi bi-download"></i> Excel</a>
+                        <div *ngIf="checkDisplay()" class="mr-10">
+                          <a class="btn btn-primary btn-sm" (click)="downloadExcelForMonthYear()"><i class="bi bi-download"></i> Excel {{currentMonth}} - {{currentYear}}</a>
                         </div>
-                        <div style="flex-basis: 5%">
+                        <div>
+                          <a class="btn btn-primary btn-sm" (click)="downloadExcelForAll()"><i class="bi bi-download"></i> Excel (Tất cả)</a>
                         </div>
                       </div>
                     </div>

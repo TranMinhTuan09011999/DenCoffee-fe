@@ -45,8 +45,14 @@ export class AttendanceService {
     );
   }
 
-  downloadExcel(month: number, year: number): Observable<any> {
-    return this.httpDaoService.doGet(ApiConstant.API_DOWNLOAD_EXCEL, {month, year}).pipe(
+  downloadExcelForMonthYear(month: number, year: number): Observable<any> {
+    return this.httpDaoService.doPostBlobResp(ApiConstant.API_DOWNLOAD_EXCEL_FOR_MONTH_YEAR, {}, {month, year}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
+
+  downloadExcelForAll(): Observable<any> {
+    return this.httpDaoService.doPostBlobResp(ApiConstant.API_DOWNLOAD_EXCEL_FOR_ALL, {}, {}).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

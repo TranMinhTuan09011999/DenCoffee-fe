@@ -5,6 +5,7 @@ import {PayrollService} from "../../services/payroll.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceService} from "../../services/attendance.service";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-salary-management',
@@ -92,13 +93,25 @@ export class SalaryManagementComponent implements OnInit {
     return this.getHoursTotal(attendanceDTOList) * currentSalary;
   }
 
-  downloadExcel() {
+  downloadExcelForMonthYear() {
     const month = this.monthYearForm.value.month;
     const year = this.monthYearForm.value.year;
-    this.attendanceService.downloadExcel(month, year).subscribe(data => {
-      if (!data) {
-        this.contentDialogService.open(this.downloadExcelModalId);
-      }
+    this.attendanceService.downloadExcelForMonthYear(month, year).subscribe(resp => {
+      const file = new File([resp.body],
+        decodeURIComponent(resp.headers.get('Content-Disposition').split('filename=')[1]),
+        { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+      fileSaver.saveAs(file);
+    }, (error) => {
+
+    })
+  }
+
+  downloadExcelForAll() {
+    this.attendanceService.downloadExcelForAll().subscribe(resp => {
+      const file = new File([resp.body],
+        decodeURIComponent(resp.headers.get('Content-Disposition').split('filename=')[1]),
+        { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+      fileSaver.saveAs(file);
     }, (error) => {
 
     })

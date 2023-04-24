@@ -82,9 +82,14 @@ export class ApiConstant {
     uri: '/attendance/get-attendance-for-employee'
   };
 
-  public static API_DOWNLOAD_EXCEL: API = {
+  public static API_DOWNLOAD_EXCEL_FOR_MONTH_YEAR: API = {
     module: PortalType.ADMIN,
     uri: '/attendance/download-excel/{month}/{year}'
+  };
+
+  public static API_DOWNLOAD_EXCEL_FOR_ALL: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/download-excel-all'
   };
 
   public static API_UPDATE_PAYROLL_STATUS: API = {

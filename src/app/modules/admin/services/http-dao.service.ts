@@ -32,6 +32,11 @@ export class HttpDaoService {
     return this.http.get<any[]>(href, {headers: this.headerApplicationJson});
   }
 
+  doPostBlobResp(pathAPI: API, body: any, params?: {}): Observable<any> {
+    const href = this.pathAPI(pathAPI, params);
+    return this.http.post<Blob>(href, body, {observe: 'response', responseType: 'blob' as 'json'});
+  }
+
   pathAPI(pathAPI: API, params?: {}): string {
     let apiFull = environment.baseURL;
     if (pathAPI.module == PortalType.NON_AUTH) {
