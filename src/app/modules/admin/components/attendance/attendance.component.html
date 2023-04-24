@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6 display-none">
             <ol class="breadcrumb float-right">
-              <li class="breadcrumb-item"><a href="#">Den-coffee</a></li>
+              <li class="breadcrumb-item"><a>Den-coffee</a></li>
               <li class="breadcrumb-item active">Điểm danh</li>
             </ol>
           </div>
@@ -46,12 +46,12 @@
                   <ng-container *ngFor="let item of attendanceForTodayList">
                     <tr>
                       <td>{{item.employee.fullname}}</td>
-                      <td>{{item.startDateTime}}</td>
+                      <td>{{item.startDateTime | date: "HH:mm:ss"}}</td>
                       <td *ngIf="item.endDateTime == null; else noEndDateTime">
                         <a class="btn btn-primary btn-sm" [ngClass]="{'btn-inactive' : inactive}" (click)="showEndEttendaceModal(item.attendanceId)">Kết thúc</a>
                       </td>
                       <ng-template #noEndDateTime>
-                        <td>{{item.endDateTime}}</td>
+                        <td>{{item.endDateTime | date: "HH:mm:ss"}}</td>
                       </ng-template>
                       <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}} (giờ)</td>
                     </tr>
