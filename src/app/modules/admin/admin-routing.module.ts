@@ -9,6 +9,7 @@ import {AttendanceManagementComponent} from "./components/attendance-management/
 import {IpAddressComponent} from "./components/ip-address/ip-address.component";
 import {AttendanceDetailComponent} from "./components/attendance-detail/attendance-detail.component";
 import {SalaryManagementComponent} from "./components/salary-management/salary-management.component";
+import {SalaryDetailComponent} from "./components/salary-detail/salary-detail.component";
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
       {
         path: RouterConstant.SALARY_MANAGEMENT.path,
         component: SalaryManagementComponent
+      },
+      {
+        path: RouterConstant.SALARY_DETAIL.path,
+        component: SalaryDetailComponent
       }
     ]
   }

@@ -35,7 +35,7 @@ export class AttendanceComponent implements OnInit {
   };
 
   header = '';
-  message = 'message';
+  message = 'Thông báo';
   inputNameModalId = 'inputNameModalId';
   endAttendanceMessageModalId = 'endAttendanceMessageModalId';
   endDateTimeForToday: any;
@@ -185,7 +185,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   formatDate(endDateTime: any) {
-    return DateUtil.formatDateToStrWithFormat(endDateTime, 'dd-MM-yyyy HH:mm:ss');
+    return DateUtil.formatDateToStrWithFormat(endDateTime, 'HH:mm:ss');
   }
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {

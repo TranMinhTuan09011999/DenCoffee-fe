@@ -20,6 +20,7 @@ import { AttendanceDetailComponent } from './components/attendance-detail/attend
 import { SalaryManagementComponent } from './components/salary-management/salary-management.component';
 import {AddCommaPipe} from "./pipe/add-comma-pipe";
 import { AddCommaDirective } from './directive/add-comma.directive';
+import { SalaryDetailComponent } from './components/salary-detail/salary-detail.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { AddCommaDirective } from './directive/add-comma.directive';
         AttendanceDetailComponent,
         SalaryManagementComponent,
         AddCommaPipe,
-        AddCommaDirective
+        AddCommaDirective,
+        SalaryDetailComponent
     ],
   imports: [
     CommonModule,

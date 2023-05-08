@@ -71,20 +71,32 @@
                 <table class="table table-hover">
                   <thead>
                   <tr>
-                    <th scope="col" class="width-20">Họ và tên</th>
-                    <th scope="col" class="width-13">Tổng số giờ làm</th>
-                    <th scope="col" class="width-10">Lương mỗi giờ</th>
-                    <th scope="col" class="width-10">Tổng lương</th>
-                    <th *ngIf="checkDisplay()" scope="col" class="width-10"></th>
+                    <th scope="col" class="width-140">Họ và tên</th>
+                    <th scope="col" class="width-140">Vị trí</th>
+                    <th scope="col" class="width-170">Tổng giờ làm (giờ)</th>
+                    <th scope="col" class="width-160">Lương giờ (vnd)</th>
+                    <th scope="col" class="width-160">Trợ cấp (vnd)</th>
+                    <th scope="col" class="width-160">Thưởng (vnd)</th>
+                    <th scope="col" class="width-160">Thưởng (CN) (vnd)</th>
+                    <th scope="col" class="width-160">Ứng trước (vnd)</th>
+                    <th scope="col" class="width-160">Tổng lương (vnd)</th>
+                    <th scope="col" class="width-160">Thực lãnh (vnd)</th>
+                    <th scope="col" class="width-140">Thanh toán</th>
                   </tr>
                   </thead>
                   <tbody>
                   <ng-container>
                     <tr *ngFor="let item of payrollList">
                       <td>{{item.fullname}}</td>
-                      <td>{{getHoursTotal(item.attendanceDTOList)}} giờ</td>
-                      <td>{{item.currentSalary | addComma}} vnd</td>
-                      <td>{{getSalaryTotalForEmployee(item.attendanceDTOList, item.currentSalary) | addComma}} vnd</td>
+                      <td>{{item.position}}</td>
+                      <td>{{item.hourTotal | addComma}}</td>
+                      <td>{{item.hourSalary | addComma}}</td>
+                      <td>{{item.allowance | addComma}}</td>
+                      <td>{{item.bonus | addComma}}</td>
+                      <td>{{item.sundayBonus | addComma}}</td>
+                      <td>{{item.salaryAdvance | addComma}}</td>
+                      <td>{{item.salaryAmount | addComma}}</td>
+                      <td>{{item.actualSalary | addComma}}</td>
                       <ng-container *ngIf="checkDisplay()">
                         <ng-container *ngIf="checkPayrollStatus(item.employeeId); else checkFalse">
                           <td>

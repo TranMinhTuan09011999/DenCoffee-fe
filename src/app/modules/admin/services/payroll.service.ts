@@ -17,14 +17,14 @@ export class PayrollService {
     );
   }
 
-  addNewSalaryForEmployee(employeeId: any, newSalary: any): Observable<any> {
-    return this.httpDaoService.doPost(ApiConstant.API_ADD_NEW_SALARY_FOR_EMPLOYEE, {},{employeeId, newSalary}).pipe(
+  getAllCurrentPayroll(): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_GET_ALL_CURRENT_PAYROLL,{}).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }
 
-  getNewSalary(employeeId: any): Observable<any> {
-    return this.httpDaoService.doGet(ApiConstant.API_GET_NEW_SALARY_FOR_EMPLOYEE,{employeeId}).pipe(
+  updateCurrentPayroll(updateInfor: any): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_CURRENT_PAYROLL, updateInfor).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

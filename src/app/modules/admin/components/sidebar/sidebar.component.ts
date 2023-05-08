@@ -48,4 +48,8 @@ export class SidebarComponent implements OnInit {
     this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.SALARY_MANAGEMENT.path]).then();
   }
 
+  toSalaryDetailPage() {
+    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.SALARY_DETAIL.path]).then();
+  }
+
 }

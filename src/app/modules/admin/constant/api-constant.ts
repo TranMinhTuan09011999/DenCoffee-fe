@@ -135,14 +135,20 @@ export class ApiConstant {
     uri: '/payroll/get-payroll/{month}/{year}'
   };
 
-  public static API_ADD_NEW_SALARY_FOR_EMPLOYEE: API = {
+  public static API_GET_ALL_CURRENT_PAYROLL: API = {
     module: PortalType.ADMIN,
-    uri: '/payroll/new-salary/{employeeId}/{newSalary}'
+    uri: '/payroll/get-all-payroll'
   };
 
-  public static API_GET_NEW_SALARY_FOR_EMPLOYEE: API = {
+  public static API_UPDATE_CURRENT_PAYROLL: API = {
     module: PortalType.ADMIN,
-    uri: '/payroll/get-new-salary/{employeeId}'
+    uri: '/payroll/update-payroll'
+  };
+
+  // ------------- Position ----------------
+  public static API_GET_ALL_POSITION: API = {
+    module: PortalType.ADMIN,
+    uri: '/position/get-all-position'
   };
 
 }

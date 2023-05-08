@@ -67,6 +67,7 @@ export class SalaryManagementComponent implements OnInit {
   getPayrollForMonthYear(month: any, year: any) {
     this.payrollService.getPayrollForMonthYear(month, year).subscribe(data => {
       if (data) {
+        console.log(data);
         this.payrollList = data;
         this.currentMonth = month;
         this.currentYear = year;
@@ -87,10 +88,6 @@ export class SalaryManagementComponent implements OnInit {
       });
     }
     return hourTotal;
-  }
-
-  getSalaryTotalForEmployee(attendanceDTOList: any, currentSalary: any) {
-    return this.getHoursTotal(attendanceDTOList) * currentSalary;
   }
 
   downloadExcelForMonthYear() {
