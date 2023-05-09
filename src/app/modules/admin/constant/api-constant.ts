@@ -151,4 +151,15 @@ export class ApiConstant {
     uri: '/position/get-all-position'
   };
 
+  // ------------ Salary Advance -------------
+  public static API_SAVE_SALARY_ADVANCE: API = {
+    module: PortalType.ADMIN,
+    uri: '/salary-advance/save-salary-advance'
+  };
+
+  public static API_GET_SALARY_ADVANCE: API = {
+    module: PortalType.ADMIN,
+    uri: '/salary-advance/get-salary-advance/{employeeId}/{month}/{year}'
+  };
+
 }

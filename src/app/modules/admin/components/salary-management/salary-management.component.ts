@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {PayrollService} from "../../services/payroll.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceService} from "../../services/attendance.service";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import * as fileSaver from 'file-saver';
+import {ValidatorsCharacters} from "../../../shared/util/validators-characters";
+import {SalaryAdvanceService} from "../../services/salary-advance.service";
 
 @Component({
   selector: 'app-salary-management',
@@ -15,10 +17,22 @@ import * as fileSaver from 'file-saver';
 export class SalaryManagementComponent implements OnInit {
 
   public downloadExcelModalId = 'downloadExcelModalId';
+  public salaryAdvanceInfoModalId = 'salaryAdvanceInfoModalId';
   public message = 'Thông báo';
+  public salaryAdvanceInfo = 'Thông tin ứng lương';
+
+  public salaryAdvanceForm!: FormGroup;
+  public salaryAdvanceCustomValidate!: CustomHandleValidate;
+
+  selectedEmployee: {employeeId: number, employeeName: string, salaryAdvance: number} = {
+    employeeId: 0,
+    employeeName: '',
+    salaryAdvance: 0
+  };
 
   monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   yearList: Array<any> = [];
+  salaryAdvanceList!: any;
 
   public monthYearForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -31,7 +45,8 @@ export class SalaryManagementComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private payrollService: PayrollService,
               private attendanceService: AttendanceService,
-              private contentDialogService: ContentDialogService) { }
+              private contentDialogService: ContentDialogService,
+              private salaryAdvanceService: SalaryAdvanceService) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -40,6 +55,7 @@ export class SalaryManagementComponent implements OnInit {
       this.yearList.push(Number(currentYear - i));
     }
     this.setEmployeeAdditionForm(today.getMonth() + 1, today.getFullYear());
+    this.setSalaryAdvanceForm();
     this.getPayrollForMonthYear(today.getMonth() + 1, today.getFullYear());
   }
 
@@ -55,6 +71,13 @@ export class SalaryManagementComponent implements OnInit {
     this.customValidate = new CustomHandleValidate(this.monthYearForm);
   }
 
+  setSalaryAdvanceForm() {
+    this.salaryAdvanceForm = this.formBuilder.group({
+      salaryAdvance: ['', Validators.required]
+    });
+    this.salaryAdvanceCustomValidate = new CustomHandleValidate(this.salaryAdvanceForm);
+  }
+
   search() {
     if (!this.customValidate.isValidForm()) {
       return;
@@ -67,7 +90,6 @@ export class SalaryManagementComponent implements OnInit {
   getPayrollForMonthYear(month: any, year: any) {
     this.payrollService.getPayrollForMonthYear(month, year).subscribe(data => {
       if (data) {
-        console.log(data);
         this.payrollList = data;
         this.currentMonth = month;
         this.currentYear = year;
@@ -128,28 +150,62 @@ export class SalaryManagementComponent implements OnInit {
     })
   }
 
-  checkPayrollStatus(employeeId: any) {
-    let check = false;
-    if (this.payrollList != null && this.payrollList.length > 0) {
-      this.payrollList.forEach(item => {
-        if (item.employeeId == employeeId) {
-          if (item.attendanceDTOList != null && item.attendanceDTOList.length > 0) {
-            item.attendanceDTOList.forEach((item1: { payrollStatus: number; }) => {
-              if (item1.payrollStatus != 1) {
-                check = true;
-              }
-            })
-          }
-        }
-      })
-    }
-    return check;
-  }
-
   checkDisplay() {
     const selectDate = new Date(this.currentYear, this.currentMonth - 1, 1);
     const today = new Date();
     return DateUtil.isBeforeMonthYear(selectDate, today);
+  }
+
+  showSalaryAdvanceModal(employeeId: any, fullname: any, salaryAdvance: any) {
+    this.salaryAdvanceCustomValidate.reset();
+    this.selectedEmployee = {
+      employeeId: employeeId,
+      employeeName: fullname,
+      salaryAdvance: Number(salaryAdvance)
+    };
+    this.salaryAdvanceService.getSalaryAdvance(this.currentMonth, this.currentYear, employeeId).subscribe(data => {
+      if (data) {
+        this.salaryAdvanceList = data;
+        this.contentDialogService.open(this.salaryAdvanceInfoModalId);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  numericOnly(event: any): boolean {
+    const pattern = ValidatorsCharacters.NumericOnly;
+    if (event.key.match(pattern)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hasError(key: string, errorCode: string) {
+    return this.salaryAdvanceCustomValidate.hasError(key, errorCode);
+  }
+
+  advance() {
+    if (!this.salaryAdvanceCustomValidate.isValidForm()) {
+      return;
+    }
+    const condition = {
+      employeeId: this.selectedEmployee.employeeId,
+      salaryAdvanceAmount: parseFloat(this.salaryAdvanceForm.value.salaryAdvance.replace(/,/g, ''))
+    }
+    this.salaryAdvanceService.saveSalaryAdvance(condition).subscribe(data => {
+      if (data) {
+        this.getPayrollForMonthYear(this.currentMonth, this.currentYear);
+        this.contentDialogService.close(this.salaryAdvanceInfoModalId);
+      }
+    }, (error) => {
+
+    })
+  }
+
+  exitSalaryAdvanceModal() {
+    this.contentDialogService.close(this.salaryAdvanceInfoModalId);
   }
 
 }

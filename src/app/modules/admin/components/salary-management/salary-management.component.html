@@ -77,11 +77,11 @@
                     <th scope="col" class="width-160">Lương giờ (vnd)</th>
                     <th scope="col" class="width-160">Trợ cấp (vnd)</th>
                     <th scope="col" class="width-160">Thưởng (vnd)</th>
-                    <th scope="col" class="width-160">Thưởng (CN) (vnd)</th>
+                    <th scope="col" class="width-170">Thưởng (CN) (vnd)</th>
                     <th scope="col" class="width-160">Ứng trước (vnd)</th>
                     <th scope="col" class="width-160">Tổng lương (vnd)</th>
                     <th scope="col" class="width-160">Thực lãnh (vnd)</th>
-                    <th scope="col" class="width-140">Thanh toán</th>
+                    <th scope="col" class="width-140" *ngIf="checkDisplay()">Thanh toán</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -94,18 +94,32 @@
                       <td>{{item.allowance | addComma}}</td>
                       <td>{{item.bonus | addComma}}</td>
                       <td>{{item.sundayBonus | addComma}}</td>
-                      <td>{{item.salaryAdvance | addComma}}</td>
+                      <ng-container *ngIf="checkDisplay(); else checkDisplayFalse">
+                        <ng-container *ngIf="item.salaryAdvance > 0; else notShowUnderline">
+                          <td>
+                            <a class="text-underline" (click)="showSalaryAdvanceModal(item.employeeId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
+                          </td>
+                        </ng-container>
+                        <ng-template #notShowUnderline>
+                          <td>{{item.salaryAdvance | addComma}}</td>
+                        </ng-template>
+                      </ng-container>
+                      <ng-template #checkDisplayFalse>
+                        <td>
+                          <a class="text-underline" (click)="showSalaryAdvanceModal(item.employeeId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
+                        </td>
+                      </ng-template>
                       <td>{{item.salaryAmount | addComma}}</td>
                       <td>{{item.actualSalary | addComma}}</td>
                       <ng-container *ngIf="checkDisplay()">
-                        <ng-container *ngIf="checkPayrollStatus(item.employeeId); else checkFalse">
+                        <ng-container *ngIf="item.paymentStatus == true; else checkFalse">
                           <td>
-                            <a class="btn btn-primary btn-sm margin-right" (click)="paySalary(item.employeeId)">Thanh toán lương</a>
+                            <a class="btn btn-primary btn-sm margin-right btn-inactive">Đã thanh toán</a>
                           </td>
                         </ng-container>
                         <ng-template #checkFalse>
                           <td>
-                            <a class="btn btn-primary btn-sm margin-right btn-inactive">Đã thanh toán</a>
+                            <a class="btn btn-primary btn-sm margin-right" (click)="paySalary(item.employeeId)">Thanh toán lương</a>
                           </td>
                         </ng-template>
                       </ng-container>
@@ -135,5 +149,63 @@
   </ng-template>
   <app-content-dialog [id]="downloadExcelModalId" [width]="'400px'" [header]="message" [body]="messageBody"
                       [footer]="messageFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #salaryAdvanceBody>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <label class="col-sm-5 col-form-label fw-bold width-110">Nhân viên: </label>
+            <div class="col-sm-7 margin-auto">
+              <span>{{this.selectedEmployee.employeeName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive" *ngIf="this.selectedEmployee.salaryAdvance > 0">
+        <table class="table table-modal table-padding">
+          <thead>
+          <tr>
+            <th scope="col">Ngày ứng</th>
+            <th scope="col">Số tiền ứng</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of salaryAdvanceList">
+            <td>{{item.salaryAdvanceDate}}</td>
+            <td>{{item.salaryAdvanceAmount | addComma}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row" *ngIf="!checkDisplay()">
+        <div class="col-lg-12">
+          <form [formGroup]="salaryAdvanceForm">
+            <div class="row">
+              <label class="col-sm-4 col-form-label fw-bold">Số tiền ứng: </label>
+              <div class="col-sm-6 margin-auto">
+                <input type="text" formControlName="salaryAdvance" class="form-control" addCommaDirective
+                       (keypress)="numericOnly($event)">
+                <div class="message-error" *ngIf="hasError('salaryAdvance','required')">
+                  <p class="mb-0">* Vui lòng nhập số tiền.</p>
+                </div>
+              </div>
+              <div class="col-sm-2 mt-1">
+                <a class="btn btn-primary btn-sm margin-right" (click)="advance()">Ứng</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+  <ng-template #salaryAdvanceFooter>
+    <a class="btn btn-danger btn-sm" (click)="exitSalaryAdvanceModal()">Thoát</a>
+  </ng-template>
+  <app-content-dialog [id]="salaryAdvanceInfoModalId" [width]="'400px'" [header]="salaryAdvanceInfo" [body]="salaryAdvanceBody"
+                      [footer]="salaryAdvanceFooter">
   </app-content-dialog>
 </ng-container>
