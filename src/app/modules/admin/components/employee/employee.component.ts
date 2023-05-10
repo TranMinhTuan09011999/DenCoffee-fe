@@ -31,11 +31,6 @@ export class EmployeeComponent implements OnInit {
   currentStatus: any;
   statusForm: any; // 1: add, 2: edit
   employeeIdForEdit: any;
-  salaryIncreaseEmployeeId = {
-    employeeId: null,
-    fullname: null,
-    basicSalary: null
-  };
   positionList = new Array();
 
   public employeeAdditionForm!: FormGroup;

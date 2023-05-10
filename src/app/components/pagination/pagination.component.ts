@@ -11,7 +11,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() items?: Array<any>;
   @Output() changePage = new EventEmitter<any>(true);
   @Input() initialPage = 1;
-  @Input() pageSize = 3;
+  @Input() pageSize = 5;
   @Input() maxPages = 4;
 
   pager?: Pager;
