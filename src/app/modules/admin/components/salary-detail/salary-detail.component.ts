@@ -78,7 +78,6 @@ export class SalaryDetailComponent implements OnInit {
     updatePayroll.salary = parseFloat(this.updateCurrentPayrollForm.value.salary.replace(/,/g, ''))
     updatePayroll.allowance = parseFloat(this.updateCurrentPayrollForm.value.allowance.replace(/,/g, ''))
     updatePayroll.bonus = parseFloat(this.updateCurrentPayrollForm.value.bonus.replace(/,/g, ''))
-    console.log(updatePayroll);
     this.payrollService.updateCurrentPayroll(updatePayroll).subscribe(data => {
       if (data) {
         this.getAllCurrentPayroll();

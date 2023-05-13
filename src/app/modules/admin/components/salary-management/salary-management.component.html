@@ -56,12 +56,15 @@
                     </div>
                     <div class="col-xl-4">
                       <div class="d-flex justify-content-end">
-                        <div *ngIf="checkDisplay()" class="mr-10">
+                        <div class="mr-10">
                           <a class="btn btn-primary btn-sm" (click)="downloadExcelForMonthYear()"><i class="bi bi-download"></i> Excel {{currentMonth}} - {{currentYear}}</a>
                         </div>
-                        <div>
-                          <a class="btn btn-primary btn-sm" (click)="downloadExcelForAll()"><i class="bi bi-download"></i> Excel (Tất cả)</a>
-                        </div>
+<!--                        <div *ngIf="checkDisplay()" class="mr-10">-->
+<!--                          <a class="btn btn-primary btn-sm" (click)="downloadExcelForMonthYear()"><i class="bi bi-download"></i> Excel {{currentMonth}} - {{currentYear}}</a>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                          <a class="btn btn-primary btn-sm" (click)="downloadExcelForAll()"><i class="bi bi-download"></i> Excel (Tất cả)</a>-->
+<!--                        </div>-->
                       </div>
                     </div>
                   </div>

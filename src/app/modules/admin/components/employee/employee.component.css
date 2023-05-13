@@ -98,18 +98,6 @@
   margin-right: 10px;
 }
 
-.width-0 {
-  width: 0%;
-}
-
-.width-7 {
-  width: 7%;
-}
-
-.width-10 {
-  width: 10%;
-}
-
 .bi-arrow-up-square:hover {
   cursor: pointer;
   background-color: #30419b;
@@ -125,4 +113,14 @@
 
 .margin-left-34 {
   margin-left: 34px;
+}
+
+.width-140 {
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.width-230 {
+  min-width: 230px;
+  max-width: 230px;
 }

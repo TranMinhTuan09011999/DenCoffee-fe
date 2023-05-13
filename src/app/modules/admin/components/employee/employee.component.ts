@@ -263,7 +263,6 @@ export class EmployeeComponent implements OnInit {
   getPositionList() {
     this.positionService.getAllPosition().subscribe(data => {
       if (data) {
-        console.log(data);
         this.positionList = data;
       }
     }, (error) => {

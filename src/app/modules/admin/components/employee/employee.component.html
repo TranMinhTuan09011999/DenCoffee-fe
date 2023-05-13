@@ -51,28 +51,24 @@
                 <table class="table table-hover">
                   <thead>
                   <tr>
-                    <th scope="col">Họ Và Tên</th>
-                    <th scope="col">Ngày Sinh</th>
-                    <th scope="col">Giới Tính</th>
-                    <th scope="col">Số Điện Thoại</th>
-                    <th scope="col">Địa Chỉ</th>
-                    <th scope="col" *ngIf="title == workingEmployeeList">Vị trí làm việc</th>
-                    <th scope="col" colspan="2"></th>
+                    <th class="width-140" scope="col">Họ Và Tên</th>
+                    <th class="width-140" scope="col">Ngày Sinh</th>
+                    <th class="width-140" scope="col">Giới Tính</th>
+                    <th class="width-140" scope="col">Số Điện Thoại</th>
+                    <th class="width-230" scope="col">Địa Chỉ</th>
+                    <th class="width-140" scope="col" *ngIf="title == workingEmployeeList">Vị trí làm việc</th>
+                    <th class="width-140" scope="col" colspan="2"></th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr *ngFor="let item of pageOfItems">
-                    <td class="width-10">{{item.fullname}}</td>
-                    <td class="width-7">{{item.birthday}}</td>
-                    <td class="width-7">{{setGender(item.gender)}}</td>
-                    <td class="width-7">{{item.phoneNumber}}</td>
-                    <td class="width-0">
-                      <p style="width: 400px">
-                        {{item.address}}
-                      </p>
-                    </td>
-                    <td class="width-7" *ngIf="title == workingEmployeeList">{{item.position.positionName}}</td>
-                    <td class="width-10">
+                    <td>{{item.fullname}}</td>
+                    <td>{{item.birthday}}</td>
+                    <td>{{setGender(item.gender)}}</td>
+                    <td>{{item.phoneNumber}}</td>
+                    <td class="width-230">{{item.address}}</td>
+                    <td *ngIf="title == workingEmployeeList">{{item.position.positionName}}</td>
+                    <td>
                       <div>
                         <a class="btn btn-primary btn-sm" (click)="showWorkHistory(item.employeeId)">Chi Tiết</a>
                         <ng-container *ngIf="title == workingEmployeeList">

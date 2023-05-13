@@ -59,11 +59,17 @@ export class AttendanceDetailComponent implements OnInit {
   }
 
   search() {
+    const dateFrom = this.inputDateForm.value.dateFrom;
+    const dateTo = this.inputDateForm.value.dateTo;
+    if (dateFrom == '') {
+      this.inputDateForm.controls['dateFrom'].setErrors({required: true});
+    }
+    if (dateTo == '') {
+      this.inputDateForm.controls['dateTo'].setErrors({required: true});
+    }
     if (!this.customValidate.isValidForm()) {
       return;
     }
-    const dateFrom = this.inputDateForm.value.dateFrom;
-    const dateTo = this.inputDateForm.value.dateTo;
     this.getAttendanceList(dateFrom, dateTo);
   }
 
