@@ -27,12 +27,6 @@ export class AttendanceService {
     );
   }
 
-  getAdminAttendanceForToday(dateRequest: DateRequest): Observable<any> {
-    return this.httpDaoService.doPost(ApiConstant.API_GET_ADMIN_ATTENDANCE_FOR_TODAY, dateRequest).pipe(
-      catchError(ExceptionUtil.handleError)
-    );
-  }
-
   updateAttendanceForEndTimeDate(attendanceEndDateTimeUpdate: AttendanceEndDateTimeUpdate): Observable<any> {
     return this.httpDaoService.doPost(ApiConstant.API_UPDATE_END_TIME_DATE, attendanceEndDateTimeUpdate).pipe(
       catchError(ExceptionUtil.handleError)
