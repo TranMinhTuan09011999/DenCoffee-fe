@@ -32,10 +32,6 @@ export class SidebarComponent implements OnInit {
     this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.EMPLOYEE.path]).then();
   }
 
-  toAttendanceManagePage() {
-    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.ATTENDANCE_MANAGEMENT.path]).then();
-  }
-
   toIPAddressPage() {
     this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.IP_ADDRESS.path]).then();
   }

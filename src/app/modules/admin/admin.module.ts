@@ -14,7 +14,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
-import { AttendanceManagementComponent } from './components/attendance-management/attendance-management.component';
 import { IpAddressComponent } from './components/ip-address/ip-address.component';
 import { AttendanceDetailComponent } from './components/attendance-detail/attendance-detail.component';
 import { SalaryManagementComponent } from './components/salary-management/salary-management.component';
@@ -32,7 +31,6 @@ import { SalaryDetailComponent } from './components/salary-detail/salary-detail.
         AttendanceComponent,
         EmployeeComponent,
         NullHyphenPipe,
-        AttendanceManagementComponent,
         IpAddressComponent,
         AttendanceDetailComponent,
         SalaryManagementComponent,

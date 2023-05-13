@@ -5,7 +5,6 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {AttendanceComponent} from "./components/attendance/attendance.component";
 import {EmployeeComponent} from "./components/employee/employee.component";
 import {AdminComponent} from "./admin.component";
-import {AttendanceManagementComponent} from "./components/attendance-management/attendance-management.component";
 import {IpAddressComponent} from "./components/ip-address/ip-address.component";
 import {AttendanceDetailComponent} from "./components/attendance-detail/attendance-detail.component";
 import {SalaryManagementComponent} from "./components/salary-management/salary-management.component";
@@ -27,10 +26,6 @@ const routes: Routes = [
       {
         path: RouterConstant.EMPLOYEE.path,
         component: EmployeeComponent
-      },
-      {
-        path: RouterConstant.ATTENDANCE_MANAGEMENT.path,
-        component: AttendanceManagementComponent
       },
       {
         path: RouterConstant.IP_ADDRESS.path,

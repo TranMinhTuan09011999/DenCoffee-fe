@@ -17,10 +17,6 @@ export class RouterConstant {
     path: 'employee'
   };
 
-  public static ATTENDANCE_MANAGEMENT: IRoute = {
-    path: 'attendance-management'
-  };
-
   public static ATTENDANCE_DETAIL: IRoute = {
     path: 'attendance-detail'
   };
