@@ -95,12 +95,19 @@
                       <td>{{item.hourTotal | addComma}}</td>
                       <td>{{item.hourSalary | addComma}}</td>
                       <td>{{item.allowance | addComma}}</td>
-                      <td>{{item.bonus | addComma}}</td>
+                      <ng-container *ngIf="checkDisplay(); else checkBonusDisplayFalse">
+                        <td>{{item.bonus | addComma}}</td>
+                      </ng-container>
+                      <ng-template #checkBonusDisplayFalse>
+                        <td>
+                          <a class="text-underline" (click)="showBonusModal(item.payrollId,  item.fullname, item.bonus)">{{item.bonus | addComma}}</a>
+                        </td>
+                      </ng-template>
                       <td>{{item.sundayBonus | addComma}}</td>
                       <ng-container *ngIf="checkDisplay(); else checkDisplayFalse">
                         <ng-container *ngIf="item.salaryAdvance > 0; else notShowUnderline">
                           <td>
-                            <a class="text-underline" (click)="showSalaryAdvanceModal(item.employeeId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
+                            <a class="text-underline" (click)="showSalaryAdvanceModal(item.payrollId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
                           </td>
                         </ng-container>
                         <ng-template #notShowUnderline>
@@ -109,7 +116,7 @@
                       </ng-container>
                       <ng-template #checkDisplayFalse>
                         <td>
-                          <a class="text-underline" (click)="showSalaryAdvanceModal(item.employeeId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
+                          <a class="text-underline" (click)="showSalaryAdvanceModal(item.payrollId, item.fullname, item.salaryAdvance)">{{item.salaryAdvance | addComma}}</a>
                         </td>
                       </ng-template>
                       <td>{{item.salaryAmount | addComma}}</td>
@@ -122,7 +129,7 @@
                         </ng-container>
                         <ng-template #checkFalse>
                           <td>
-                            <a class="btn btn-primary btn-sm margin-right" (click)="paySalary(item.employeeId)">Thanh toán lương</a>
+                            <a class="btn btn-primary btn-sm margin-right" (click)="paySalary(item.payrollId)">Thanh toán lương</a>
                           </td>
                         </ng-template>
                       </ng-container>
@@ -210,5 +217,47 @@
   </ng-template>
   <app-content-dialog [id]="salaryAdvanceInfoModalId" [width]="'400px'" [header]="salaryAdvanceInfo" [body]="salaryAdvanceBody"
                       [footer]="salaryAdvanceFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #bonusBody>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <label class="col-sm-5 col-form-label fw-bold width-110">Nhân viên: </label>
+            <div class="col-sm-7 margin-auto">
+              <span>{{this.selectedEmployee.employeeName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!checkDisplay()">
+        <div class="col-lg-12">
+          <form [formGroup]="bonusForm">
+            <div class="row">
+              <label class="col-sm-5 col-form-label fw-bold width-145">Số tiền thưởng: </label>
+              <div class="col-sm-5 margin-auto">
+                <input type="text" formControlName="bonus" class="form-control" addCommaDirective
+                       (keypress)="numericOnly($event)">
+                <div class="message-error" *ngIf="hasBonusFormError('bonus','required')">
+                  <p class="mb-0">* Vui lòng nhập số tiền.</p>
+                </div>
+              </div>
+              <div class="col-sm-2 mt-1">
+                <a class="btn btn-primary btn-sm margin-right" (click)="bonus()">Thưởng</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+  <ng-template #bonusFooter>
+    <a class="btn btn-danger btn-sm" (click)="exitBonusModal()">Thoát</a>
+  </ng-template>
+  <app-content-dialog [id]="bonusModalId" [width]="'465px'" [header]="bonusInfo" [body]="bonusBody"
+                      [footer]="bonusFooter">
   </app-content-dialog>
 </ng-container>

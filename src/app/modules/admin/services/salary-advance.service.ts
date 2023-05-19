@@ -17,8 +17,8 @@ export class SalaryAdvanceService {
     );
   }
 
-  getSalaryAdvance(month: any, year: any, employeeId: any): Observable<any> {
-    return this.httpDaoService.doGet(ApiConstant.API_GET_SALARY_ADVANCE, {employeeId, month, year}).pipe(
+  getSalaryAdvance(payrollId: any): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_GET_SALARY_ADVANCE, {payrollId}).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

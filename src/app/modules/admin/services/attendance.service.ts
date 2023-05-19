@@ -51,8 +51,8 @@ export class AttendanceService {
     );
   }
 
-  updatePayrollStatus(employeeId: number, month: number, year: number): Observable<any> {
-    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_PAYROLL_STATUS, {}, {employeeId, month, year}).pipe(
+  updatePayrollStatus(payrollId: number): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_PAYROLL_STATUS, {}, {payrollId}).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

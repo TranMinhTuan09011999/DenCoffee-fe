@@ -70,6 +70,10 @@
   width: 110px;
 }
 
+.width-145 {
+  width: 145px;
+}
+
 @media (max-width: 1654px) {
   .table-modal {
     width: 450px !important;

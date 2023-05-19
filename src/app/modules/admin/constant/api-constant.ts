@@ -67,11 +67,6 @@ export class ApiConstant {
     uri: '/attendance/update-end-date-time'
   };
 
-  public static API_GET_ADMIN_ATTENDANCE_FOR_TODAY: API = {
-    module: PortalType.ADMIN,
-    uri: '/attendance/get-attendance'
-  };
-
   public static API_CHECK_IP_ADDRESS: API = {
     module: PortalType.USER,
     uri: '/ip/ip-address-attendance'
@@ -94,7 +89,7 @@ export class ApiConstant {
 
   public static API_UPDATE_PAYROLL_STATUS: API = {
     module: PortalType.ADMIN,
-    uri: '/attendance/update-payroll-status/{employeeId}/{month}/{year}'
+    uri: '/attendance/update-payroll-status/{payrollId}'
   };
 
   // ------------------ session ------------------
@@ -135,14 +130,9 @@ export class ApiConstant {
     uri: '/payroll/get-payroll/{month}/{year}'
   };
 
-  public static API_GET_ALL_CURRENT_PAYROLL: API = {
+  public static API_UPDATE_BONUS_PAYROLL: API = {
     module: PortalType.ADMIN,
-    uri: '/payroll/get-all-payroll'
-  };
-
-  public static API_UPDATE_CURRENT_PAYROLL: API = {
-    module: PortalType.ADMIN,
-    uri: '/payroll/update-payroll'
+    uri: '/payroll/update-bonus/{payrollId}/{bonus}'
   };
 
   // ------------- Position ----------------
@@ -159,7 +149,18 @@ export class ApiConstant {
 
   public static API_GET_SALARY_ADVANCE: API = {
     module: PortalType.ADMIN,
-    uri: '/salary-advance/get-salary-advance/{employeeId}/{month}/{year}'
+    uri: '/salary-advance/get-salary-advance/{payrollId}'
+  };
+
+  // ------------- Salary Detail ---------------
+  public static API_GET_ALL_CURRENT_SALARY_DETAIL: API = {
+    module: PortalType.ADMIN,
+    uri: '/salary-detail/get-all-salary-detail'
+  };
+
+  public static API_UPDATE_CURRENT_SALARY_DETAIL: API = {
+    module: PortalType.ADMIN,
+    uri: '/salary-detail/update-salary-detail'
   };
 
 }

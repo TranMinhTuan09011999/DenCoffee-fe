@@ -97,7 +97,7 @@ export class AttendanceComponent implements OnInit {
       this.attendanceForTodayList.find(item => {
         if (this.inputNameForm.value.fullname != null) {
           if (this.inputNameForm.value.fullname.length != 0) {
-            if (item.employee.employeeId == this.inputNameForm.value.fullname[0].employeeId
+            if (item.payroll.employee.employeeId == this.inputNameForm.value.fullname[0].employeeId
               && item.endDateTime == null) {
               this.inputNameForm.controls['fullname'].setErrors({noCheckAttendance: true});
               return;
@@ -112,7 +112,13 @@ export class AttendanceComponent implements OnInit {
 
     const attendaceSaveRequest = new AttendaceSaveRequest;
     attendaceSaveRequest.employeeId = this.inputNameForm.value.fullname[0].employeeId;
-    attendaceSaveRequest.startDateTime = new Date();
+    attendaceSaveRequest.actualStartDateTime = new Date();
+    if (attendaceSaveRequest.actualStartDateTime.getMinutes() < 10) {
+      attendaceSaveRequest.startDateTime = new Date();
+      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.startDateTime .getHours(),0,0);
+    } else {
+      attendaceSaveRequest.startDateTime = attendaceSaveRequest.actualStartDateTime;
+    }
     this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
       if (data) {
         this.getAttendanceForToday();
@@ -170,7 +176,7 @@ export class AttendanceComponent implements OnInit {
     this.contentDialogService.open(this.endAttendanceMessageModalId);
   }
 
-  acceptEndEttendace() {
+  acceptEndAttendace() {
     const attendanceEndDateTimeUpdate = new AttendanceEndDateTimeUpdate;
     attendanceEndDateTimeUpdate.attendanceId = this.attendanceId;
     attendanceEndDateTimeUpdate.endDateTime = this.endDateTimeForToday;

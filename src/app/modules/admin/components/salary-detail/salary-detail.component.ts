@@ -5,7 +5,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {ValidatorsCharacters} from "../../../shared/util/validators-characters";
 import {AddCommaPipe} from "../../pipe/add-comma-pipe";
-import {UpdatePayroll} from "../../models/UpdatePayroll";
+import {UpdateSalaryDetail} from "../../models/UpdateSalaryDetail";
+import {SalaryDetailService} from "../../services/salary-detail.service";
 
 @Component({
   selector: 'app-salary-detail',
@@ -14,73 +15,73 @@ import {UpdatePayroll} from "../../models/UpdatePayroll";
 })
 export class SalaryDetailComponent implements OnInit {
 
-  currentPayrollList!: any;
-  currentUpdatePayroll!: any;
+  currentSalaryDetailList = new Array();
+  currentUpdateSalaryDetail!: any;
 
   updateCurrentPayrollHeader = 'Cập nhật thông tin lương';
   messageHeader = 'Thông báo';
   updateCurrentPayrollModalId = 'updateCurrentPayrollModalId';
   messageModalId = 'messageModalId';
 
-  public updateCurrentPayrollForm!: FormGroup;
+  public updateCurrentSalaryDetailForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
 
-  constructor(private payrollService: PayrollService,
+  constructor(private salaryDetailService: SalaryDetailService,
               private contentDialogService: ContentDialogService,
               private formBuilder: FormBuilder,
               private addCommaPipe: AddCommaPipe) { }
 
   ngOnInit(): void {
-    this.getAllCurrentPayroll();
-    this.setUpdateCurrentPayrollForm();
+    this.getAllCurrentSalaryDetail();
+    this.setUpdateCurrentSalaryDetailForm();
   }
 
-  setUpdateCurrentPayrollForm() {
-    this.updateCurrentPayrollForm = this.formBuilder.group({
+  setUpdateCurrentSalaryDetailForm() {
+    this.updateCurrentSalaryDetailForm = this.formBuilder.group({
       salary: ['', Validators.required],
-      allowance: ['', Validators.required],
-      bonus: ['', Validators.required]
+      allowance: ['', Validators.required]
     });
-    this.customValidate = new CustomHandleValidate(this.updateCurrentPayrollForm);
+    this.customValidate = new CustomHandleValidate(this.updateCurrentSalaryDetailForm);
   }
 
-  getAllCurrentPayroll() {
-    this.payrollService.getAllCurrentPayroll().subscribe(data => {
+  getAllCurrentSalaryDetail() {
+    this.salaryDetailService.getAllCurrentSalaryDetail().subscribe(data => {
       if (data) {
-        this.currentPayrollList = data;
+        this.currentSalaryDetailList = data;
       }
     }, (error) => {
 
     })
   }
 
-  showUpdateCurrentPayrollModal(payrollId: any) {
-    this.customValidate.reset();
+  showUpdateCurrentPayrollModal(positionId: any) {
     this.contentDialogService.open(this.updateCurrentPayrollModalId);
-    this.patchValueForUpdateCurrentPayrollForm(payrollId);
+    this.patchValueForUpdateCurrentSalaryDetailForm(positionId);
   }
 
-  patchValueForUpdateCurrentPayrollForm(payrollId: any) {
-    this.currentUpdatePayroll = this.currentPayrollList.find((item: { payrollId: any; }) => item.payrollId = payrollId);
-    this.updateCurrentPayrollForm.patchValue({
-      salary: this.addCommaPipe.transform(this.currentUpdatePayroll.salary),
-      allowance: this.addCommaPipe.transform(this.currentUpdatePayroll.allowance),
-      bonus: this.addCommaPipe.transform(this.currentUpdatePayroll.bonus)
+  patchValueForUpdateCurrentSalaryDetailForm(positionId: any) {
+    this.currentSalaryDetailList.forEach(item => {
+      if (item.position.positionId == positionId) {
+        this.currentUpdateSalaryDetail = item;
+      }
+    })
+    this.updateCurrentSalaryDetailForm.patchValue({
+      salary: this.addCommaPipe.transform(this.currentUpdateSalaryDetail.salary),
+      allowance: this.addCommaPipe.transform(this.currentUpdateSalaryDetail.allowance)
     });
   }
 
-  updateCurrentPayroll() {
+  updateCurrentSalaryDetail() {
     if (!this.customValidate.isValidForm()) {
       return;
     }
-    const updatePayroll = new UpdatePayroll();
-    updatePayroll.payrollId = this.currentUpdatePayroll.payrollId;
-    updatePayroll.salary = parseFloat(this.updateCurrentPayrollForm.value.salary.replace(/,/g, ''))
-    updatePayroll.allowance = parseFloat(this.updateCurrentPayrollForm.value.allowance.replace(/,/g, ''))
-    updatePayroll.bonus = parseFloat(this.updateCurrentPayrollForm.value.bonus.replace(/,/g, ''))
-    this.payrollService.updateCurrentPayroll(updatePayroll).subscribe(data => {
+    const updateSalaryDetail = new UpdateSalaryDetail();
+    updateSalaryDetail.salaryDetailId = this.currentUpdateSalaryDetail.salaryDetailId;
+    updateSalaryDetail.salary = parseFloat(this.updateCurrentSalaryDetailForm.value.salary.replace(/,/g, ''))
+    updateSalaryDetail.allowance = parseFloat(this.updateCurrentSalaryDetailForm.value.allowance.replace(/,/g, ''))
+    this.salaryDetailService.updateCurrentSalaryDetail(updateSalaryDetail).subscribe(data => {
       if (data) {
-        this.getAllCurrentPayroll();
+        this.getAllCurrentSalaryDetail();
         this.contentDialogService.close(this.updateCurrentPayrollModalId);
         this.contentDialogService.open(this.messageModalId);
       }

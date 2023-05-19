@@ -103,6 +103,7 @@
                 <tr>
                   <th scope="col">Ngày làm việc</th>
                   <th scope="col">Thời gian bắt đầu</th>
+                  <th scope="col">Thời gian bắt đầu thực tế</th>
                   <th scope="col">Thời gian kết thúc</th>
                   <th scope="col">Số giờ làm</th>
                 </tr>
@@ -112,8 +113,9 @@
                   <tr *ngFor="let item of attendanceList">
                     <td>{{getDateOrTime(item.startDateTime, 'D')}}</td>
                     <td>{{getDateOrTime(item.startDateTime, 'T')}}</td>
-                    <td>{{getDateOrTime(item.endDateTime, 'T')}}</td>
-                    <td>{{getAttendanceHour(item.startDateTime, item.endDateTime)}} giờ</td>
+                    <td>{{getDateOrTime(item.actualStartDateTime, 'T')}}</td>
+                    <td>{{getDateOrTime(item.endDateTime, 'T') | nullHyphen}}</td>
+                    <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | nullHyphen}} giờ</td>
                   </tr>
                 </ng-container>
                 </tbody>
@@ -132,7 +134,7 @@
   <ng-template #attendanceDetailsFooter>
     <a class="btn btn-danger btn-sm" (click)="exist()">Thoát</a>
   </ng-template>
-  <app-content-dialog [id]="attendanceDetailsModalId" [width]="'600px'" [header]="header" [body]="attendanceDetailsBody"
+  <app-content-dialog [id]="attendanceDetailsModalId" [width]="'820px'" [header]="header" [body]="attendanceDetailsBody"
                       [footer]="attendanceDetailsFooter">
   </app-content-dialog>
 </ng-container>

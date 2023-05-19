@@ -7,19 +7,20 @@ import {ExceptionUtil} from "../util/exception-util";
 @Injectable({
   providedIn: 'root'
 })
-export class PayrollService {
+export class SalaryDetailService {
 
   constructor(private httpDaoService: HttpDaoService) { }
 
-  getPayrollForMonthYear(month: number, year: number): Observable<any> {
-    return this.httpDaoService.doGet(ApiConstant.API_GET_PAYROLL_FOR_MONTH_YEAR, {month, year}).pipe(
+  getAllCurrentSalaryDetail(): Observable<any> {
+    return this.httpDaoService.doGet(ApiConstant.API_GET_ALL_CURRENT_SALARY_DETAIL,{}).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }
 
-  updateBonusPayroll(payrollId: number, bonus: number): Observable<any> {
-    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_BONUS_PAYROLL, {}, {payrollId, bonus}).pipe(
+  updateCurrentSalaryDetail(updateInfor: any): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_CURRENT_SALARY_DETAIL, updateInfor).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }
+
 }
