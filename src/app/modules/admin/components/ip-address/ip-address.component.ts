@@ -37,7 +37,8 @@ export class IpAddressComponent implements OnInit {
 
   getInputNameForm() {
     this.inputIpAddressForm = this.formBuilder.group({
-      ipAddress: ['', Validators.required]
+      ipAddress: ['', Validators.required],
+      location: ['', Validators.required]
     });
     this.customValidate = new CustomHandleValidate(this.inputIpAddressForm);
   }
@@ -77,6 +78,7 @@ export class IpAddressComponent implements OnInit {
       }
       const ipAddressRequest = new IpAddressRequest();
       ipAddressRequest.ipAddress = this.inputIpAddressForm.value.ipAddress;
+      ipAddressRequest.location = this.inputIpAddressForm.value.location;
       this.ipAddressService.registerIpAddress(ipAddressRequest).subscribe(data => {
         if (data) {
           this.contentDialogService.close(this.inputIpAddressModalId);
@@ -90,14 +92,15 @@ export class IpAddressComponent implements OnInit {
     })
   }
 
-  showEditIpAddressModal(ipAddressId: number, ipAddress: any) {
+  showEditIpAddressModal(item: any) {
     this.header = 'Sửa địa chỉ IP';
     this.statusForm = 2;
-    this.editingIpAddressId = ipAddressId;
-    this.editingIpAddress = ipAddress;
+    this.editingIpAddressId = item.ipAddressId;
+    this.editingIpAddress = item.ipAddress;
     this.customValidate.reset();
     this.inputIpAddressForm.patchValue({
-      ipAddress: ipAddress
+      ipAddress: item.ipAddress,
+      location: item.location
     });
     this.contentDialogService.open(this.inputIpAddressModalId);
   }
@@ -117,6 +120,7 @@ export class IpAddressComponent implements OnInit {
         const ipAddress = new IpAddress();
         ipAddress.ipAddressId = this.editingIpAddressId;
         ipAddress.ipAddress = this.inputIpAddressForm.value.ipAddress;
+        ipAddress.location = this.inputIpAddressForm.value.location;
         this.ipAddressService.updateIpAddress(ipAddress).subscribe(data => {
           if (data) {
             this.contentDialogService.close(this.inputIpAddressModalId);
@@ -141,7 +145,6 @@ export class IpAddressComponent implements OnInit {
   deleteIpAddress() {
     const ipAddress = new IpAddress();
     ipAddress.ipAddressId = this.deletingIpAddressId;
-    ipAddress.status = 0;
     this.ipAddressService.deleteIpAddress(ipAddress).subscribe(data => {
       if (data) {
         this.contentDialogService.close(this.deleteIpAddressModalId);
