@@ -2,6 +2,11 @@
   margin-right: 10px;
 }
 
+.dropdown-header {
+  border-bottom: solid 2px #444444;
+  margin: 0px 35px;
+}
+
 @media (max-width: 575px) {
   ::ng-deep .modal-dialog {
     width: 280px !important;

@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="col-md-12 login-bg">
+      <div class="login align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <h3 class="display-1 display-title">ĐEN-COFFEE</h3>
+              <form class="form" [formGroup]="loginForm" (keyup.enter)="login()">
+                <div class="form-containner">
+                  <div class="mb-3">
+                    <div class="message-error">
+                      <p>{{messageError}}</p>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <input id="inputEmail" type="email" formControlName="username" placeholder="Tên đăng nhập"
+                           required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4"/>
+                    <div class="message-error" *ngIf="hasError('username','required')">
+                      <p class="mb-0">* Vui lòng nhập tên đăng nhập.</p>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <input id="inputPassword" type="password" formControlName="password" placeholder="Mật khẩu"
+                           required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"/>
+                    <div class="message-error" *ngIf="hasError('password','required')">
+                      <p class="mb-0">* Vui lòng nhập mật khẩu.</p>
+                    </div>
+                  </div>
+                  <div class="d-grid gap-2 mt-2 form-submit">
+                    <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                            (click)="login()">Đăng nhập
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

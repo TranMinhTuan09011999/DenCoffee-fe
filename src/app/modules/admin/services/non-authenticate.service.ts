@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {catchError, Observable} from "rxjs";
 import {ApiConstant} from "../constant/api-constant";
 import {HttpDaoService} from "./http-dao.service";
@@ -11,7 +11,8 @@ import {ResponseLoginDTO} from "../models/ResponseLoginDTO";
 })
 export class NonAuthenticateService {
 
-  constructor(private httpDaoService: HttpDaoService) { }
+  constructor(private httpDaoService: HttpDaoService) {
+  }
 
   login(jwtRequestDTO: JwtRequestDTO): Observable<ResponseLoginDTO> {
     return this.httpDaoService.doPost(ApiConstant.LOGIN, jwtRequestDTO).pipe(
@@ -25,8 +26,8 @@ export class NonAuthenticateService {
     );
   }
 
-  checkIpAddessForAttendace() {
-    return this.httpDaoService.doGet(ApiConstant.API_CHECK_IP_ADDRESS).pipe(
+  logout() {
+    return this.httpDaoService.doGet(ApiConstant.LOGOUT).pipe(
       catchError(ExceptionUtil.handleError)
     );
   }

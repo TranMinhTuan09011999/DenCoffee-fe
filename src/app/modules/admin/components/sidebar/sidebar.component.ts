@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {RouterConstant} from "../../constant/router-constant";
 import {AuthorizeService} from "../../services/authorize.service";
+import {Role} from "../../constant/role.enum";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,14 +11,16 @@ import {AuthorizeService} from "../../services/authorize.service";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private router: Router,
-              private authorizeService: AuthorizeService) { }
+  public hasAdminRole: any;
+  public hasUserRole: any;
 
-  ngOnInit(): void {
+  constructor(private router: Router,
+              private authorizeService: AuthorizeService) {
   }
 
-  hasRole(roles: any) {
-    return this.authorizeService.hasRole(roles);
+  async ngOnInit() {
+    this.hasAdminRole = await this.authorizeService.hasPermission(Role.ADMIN).toPromise();
+    this.hasUserRole = await this.authorizeService.hasPermission(Role.USER).toPromise();
   }
 
   toDashboardPage() {
@@ -30,10 +33,6 @@ export class SidebarComponent implements OnInit {
 
   toEmployeePage() {
     this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.EMPLOYEE.path]).then();
-  }
-
-  toIPAddressPage() {
-    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.IP_ADDRESS.path]).then();
   }
 
   toAttendanceDetailPage() {

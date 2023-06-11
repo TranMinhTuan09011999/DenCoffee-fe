@@ -2,13 +2,11 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import {NonAuthenticateService} from "../../services/non-authenticate.service";
-import {JwtRequestDTO} from "../../models/JwtRequestDTO";
-import {SessionAttribute} from "../../constant/session-attribute";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CustomHandleValidate} from "../../util/custom-handle-validate";
+import {FormBuilder} from "@angular/forms";
 import {AuthorizeService} from "../../services/authorize.service";
 import {Router} from "@angular/router";
 import {RouterConstant} from "../../constant/router-constant";
+import {Role} from "../../constant/role.enum";
 
 @Component({
   selector: 'app-header',
@@ -17,33 +15,30 @@ import {RouterConstant} from "../../constant/router-constant";
 })
 export class HeaderComponent implements OnInit {
 
-  public modalId = 'modalId';
-  public header = 'Đăng Nhập';
+  private ADMIN = "Admin";
+  private USER = "User";
+
   public messageError!: string;
 
-  public loginForm!: FormGroup;
-  public customValidate!: CustomHandleValidate;
+  public hasAdminRole!: any;
+  public hasUserRole!: any;
+
+  public roleName!: any;
 
   constructor(@Inject(DOCUMENT) private document: Document,
               private contentDialogService: ContentDialogService,
               private nonAuthenticateService: NonAuthenticateService,
               private formBuilder: FormBuilder,
               private authorizeService: AuthorizeService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-    });
-    this.customValidate = new CustomHandleValidate(this.loginForm);
+  async ngOnInit() {
     $(() => {
       (window as any).showMain();
     });
-  }
-
-  hasRole(roles: any) {
-    return this.authorizeService.hasRole(roles);
+    this.hasAdminRole = await this.authorizeService.hasPermission(Role.ADMIN).toPromise();
+    this.hasUserRole = await this.authorizeService.hasPermission(Role.USER).toPromise();
   }
 
   sidebarToggle() {
@@ -51,39 +46,20 @@ export class HeaderComponent implements OnInit {
     this.document.body.classList.toggle('toggle-sidebar');
   }
 
-  loginModal() {
-    this.contentDialogService.open(this.modalId);
-  }
-
-  login() {
-    if (!this.customValidate.isValidForm()) {
-      return;
-    }
-    const dataLogin = this.loginForm.value;
-    const jwtRequestDTO = new JwtRequestDTO();
-    jwtRequestDTO.username = dataLogin.username;
-    jwtRequestDTO.password = dataLogin.password;
-    this.nonAuthenticateService.login(jwtRequestDTO).subscribe(data => {
-      if (data) {
-        sessionStorage.setItem(SessionAttribute.TOKEN, data.token);
-        sessionStorage.setItem(SessionAttribute.ROLES, JSON.stringify(data.roles))
-        window.location.reload();
-      }
-    }, (error) => {
-      this.messageError = '* Tên đăng nhập hoặc mật khẩu không đúng!'
-    });
-  }
-
   logout() {
-    sessionStorage.removeItem(SessionAttribute.TOKEN);
-    sessionStorage.removeItem(SessionAttribute.ROLES)
-    this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.ATTENDANCE.path]).then(data => {
-      window.location.reload();
+    this.nonAuthenticateService.logout().subscribe(data => {
+      this.router.navigate([RouterConstant.DEN_COFFEE.path, RouterConstant.LOGIN.path]).then();
     });
   }
 
-  hasError(key: string, errorCode: string) {
-    return this.customValidate.hasError(key, errorCode);
+  getRoleName() {
+    if (this.hasAdminRole) {
+      return this.ADMIN;
+    }
+    if (this.hasUserRole) {
+      return this.USER;
+    }
+    return null;
   }
 
 }

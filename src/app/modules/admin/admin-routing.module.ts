@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {RouterConstant} from "./constant/router-constant";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {AttendanceComponent} from "./components/attendance/attendance.component";
 import {EmployeeComponent} from "./components/employee/employee.component";
 import {AdminComponent} from "./admin.component";
-import {IpAddressComponent} from "./components/ip-address/ip-address.component";
 import {AttendanceDetailComponent} from "./components/attendance-detail/attendance-detail.component";
 import {SalaryManagementComponent} from "./components/salary-management/salary-management.component";
 import {SalaryDetailComponent} from "./components/salary-detail/salary-detail.component";
@@ -28,10 +27,6 @@ const routes: Routes = [
         component: EmployeeComponent
       },
       {
-        path: RouterConstant.IP_ADDRESS.path,
-        component: IpAddressComponent
-      },
-      {
         path: RouterConstant.ATTENDANCE_DETAIL.path,
         component: AttendanceDetailComponent
       },
@@ -51,4 +46,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {
+}

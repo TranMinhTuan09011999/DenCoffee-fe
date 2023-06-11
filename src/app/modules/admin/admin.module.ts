@@ -1,43 +1,41 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AdminRoutingModule } from './admin-routing.module';
-import { AdminComponent } from './admin.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AttendanceComponent } from './components/attendance/attendance.component';
-import { EmployeeComponent } from './components/employee/employee.component';
+import {AdminRoutingModule} from './admin-routing.module';
+import {AdminComponent} from './admin.component';
+import {HeaderComponent} from './components/header/header.component';
+import {FooterComponent} from './components/footer/footer.component';
+import {SidebarComponent} from './components/sidebar/sidebar.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {AttendanceComponent} from './components/attendance/attendance.component';
+import {EmployeeComponent} from './components/employee/employee.component';
 import {SharedModule} from '../shared/shared.module';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NullHyphenPipe} from "./pipe/null-hyphen.pipe";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
-import { IpAddressComponent } from './components/ip-address/ip-address.component';
-import { AttendanceDetailComponent } from './components/attendance-detail/attendance-detail.component';
-import { SalaryManagementComponent } from './components/salary-management/salary-management.component';
+import {AttendanceDetailComponent} from './components/attendance-detail/attendance-detail.component';
+import {SalaryManagementComponent} from './components/salary-management/salary-management.component';
 import {AddCommaPipe} from "./pipe/add-comma-pipe";
-import { AddCommaDirective } from './directive/add-comma.directive';
-import { SalaryDetailComponent } from './components/salary-detail/salary-detail.component';
+import {AddCommaDirective} from './directive/add-comma.directive';
+import {SalaryDetailComponent} from './components/salary-detail/salary-detail.component';
 
 @NgModule({
-    declarations: [
-        AdminComponent,
-        HeaderComponent,
-        FooterComponent,
-        SidebarComponent,
-        DashboardComponent,
-        AttendanceComponent,
-        EmployeeComponent,
-        NullHyphenPipe,
-        IpAddressComponent,
-        AttendanceDetailComponent,
-        SalaryManagementComponent,
-        AddCommaPipe,
-        AddCommaDirective,
-        SalaryDetailComponent
-    ],
+  declarations: [
+    AdminComponent,
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    DashboardComponent,
+    AttendanceComponent,
+    EmployeeComponent,
+    NullHyphenPipe,
+    AttendanceDetailComponent,
+    SalaryManagementComponent,
+    AddCommaPipe,
+    AddCommaDirective,
+    SalaryDetailComponent
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -49,4 +47,5 @@ import { SalaryDetailComponent } from './components/salary-detail/salary-detail.
   ],
   providers: [AddCommaPipe]
 })
-export class AdminModule { }
+export class AdminModule {
+}

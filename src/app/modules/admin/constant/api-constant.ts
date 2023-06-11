@@ -12,6 +12,16 @@ export class ApiConstant {
     uri: '/check-token/{token}'
   };
 
+  public static LOGOUT: API = {
+    module: PortalType.NON_AUTH,
+    uri: '/logout'
+  };
+
+  public static HAS_AUTHORIZE: API = {
+    module: PortalType.NON_AUTH,
+    uri: '/hasAuthorize/{role}'
+  };
+
   // ------------------ employee --------------------
   public static API_GET_EMPLOYEE: API = {
     module: PortalType.USER,
@@ -67,11 +77,6 @@ export class ApiConstant {
     uri: '/attendance/update-end-date-time'
   };
 
-  public static API_CHECK_IP_ADDRESS: API = {
-    module: PortalType.USER,
-    uri: '/ip/ip-address-attendance'
-  };
-
   public static API_GET_ATTENDANCE_FOR_EMPLOYEE: API = {
     module: PortalType.ADMIN,
     uri: '/attendance/get-attendance-for-employee'
@@ -96,32 +101,6 @@ export class ApiConstant {
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,
     uri: '/{attrName}'
-  };
-
-  // ------------------ ip address ------------------
-  public static API_REGISTER_IP_ADDRESS: API = {
-    module: PortalType.ADMIN,
-    uri: '/ip-address/register-ip-address'
-  };
-
-  public static API_GET_IP_ADDRESS: API = {
-    module: PortalType.ADMIN,
-    uri: '/ip-address/get-ip-address'
-  };
-
-  public static API_UPDATE_IP_ADDRESS: API = {
-    module: PortalType.ADMIN,
-    uri: '/ip-address/update-ip-address'
-  };
-
-  public static API_CHECK_EXIST_IP_ADDRESS: API = {
-    module: PortalType.ADMIN,
-    uri: '/ip-address/check-exist-ip-address/{ipAddress}'
-  };
-
-  public static API_DELETE_IP_ADDRESS: API = {
-    module: PortalType.ADMIN,
-    uri: '/ip-address/delete-ip-address'
   };
 
   // ------------------ payroll ------------------

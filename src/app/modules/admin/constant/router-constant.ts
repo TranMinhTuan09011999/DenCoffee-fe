@@ -5,6 +5,10 @@ export class RouterConstant {
     path: 'den-coffee'
   };
 
+  public static LOGIN: IRoute = {
+    path: 'login'
+  };
+
   public static DASHBOARD: IRoute = {
     path: 'dashboard'
   };

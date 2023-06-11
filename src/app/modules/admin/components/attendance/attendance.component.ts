@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
@@ -9,7 +9,6 @@ import {AttendanceService} from "../../services/attendance.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceEndDateTimeUpdate} from "../../models/AttendanceEndDateTimeUpdate";
 import {DateRequest} from "../../models/DateRequest";
-import {NonAuthenticateService} from "../../services/non-authenticate.service";
 
 @Component({
   selector: 'app-attendance',
@@ -27,7 +26,7 @@ export class AttendanceComponent implements OnInit {
     itemsShowLimit: 1
   };
 
-  today: { day: string, date: number, month: number, year: number} = {
+  today: { day: string, date: number, month: number, year: number } = {
     day: '',
     date: 0,
     month: 0,
@@ -42,7 +41,6 @@ export class AttendanceComponent implements OnInit {
   attendanceId: any;
   nameList!: Array<any>;
   attendanceForTodayList!: Array<any>;
-  inactive = true;
 
   public inputNameForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
@@ -50,8 +48,8 @@ export class AttendanceComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
               private attendanceService: AttendanceService,
-              private contentDialogService: ContentDialogService,
-              private nonAuthenticateService: NonAuthenticateService) { }
+              private contentDialogService: ContentDialogService) {
+  }
 
   ngOnInit(): void {
     var today = new Date();
@@ -64,7 +62,6 @@ export class AttendanceComponent implements OnInit {
     this.getInputNameForm();
     this.getNameList();
     this.getAttendanceForToday();
-    this.checkIpAddressForAttendace();
   }
 
   getInputNameForm() {
@@ -115,7 +112,7 @@ export class AttendanceComponent implements OnInit {
     attendaceSaveRequest.actualStartDateTime = new Date();
     if (attendaceSaveRequest.actualStartDateTime.getMinutes() < 10) {
       attendaceSaveRequest.startDateTime = new Date();
-      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.startDateTime .getHours(),0,0);
+      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.startDateTime.getHours(), 0, 0);
     } else {
       attendaceSaveRequest.startDateTime = attendaceSaveRequest.actualStartDateTime;
     }
@@ -196,16 +193,6 @@ export class AttendanceComponent implements OnInit {
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {
     return DateUtil.getHour(startDateTime, endDateTime);
-  }
-
-  checkIpAddressForAttendace() {
-    this.nonAuthenticateService.checkIpAddessForAttendace().subscribe(data => {
-      if (data) {
-        this.inactive = false;
-      }
-    }, (error) => {
-
-    });
   }
 
 }

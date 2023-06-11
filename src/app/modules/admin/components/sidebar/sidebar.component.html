@@ -1,20 +1,28 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
-<!--    <li class="nav-item"> <a class="nav-link " (click)="toDashboardPage()"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>-->
+    <!--    <li class="nav-item"> <a class="nav-link " (click)="toDashboardPage()"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a></li>-->
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse"> <i class="bi bi-menu-button-wide"></i> <span>Điểm Danh</span> <i class="bi bi-chevron-down ms-auto"></i> </a>
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse"
+         *ngIf="hasAdminRole || hasUserRole"> <i class="bi bi-menu-button-wide"></i> <span>Điểm Danh</span> <i
+        class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li class="nav-content_li--mb"> <a (click)="toAttendancePage()"> <i class="bi bi-circle"></i><span>Điểm danh nhân viên</span> </a></li>
-        <li class="nav-content_li--mb" *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toAttendanceDetailPage()"> <i class="bi bi-circle"></i><span>Chi tiết điểm danh</span> </a></li>
-        <li *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toIPAddressPage()"> <i class="bi bi-circle"></i><span>Quản lý địa chỉ IP</span> </a></li>
+        <li class="nav-content_li--mb" *ngIf="hasAdminRole || hasUserRole"><a (click)="toAttendancePage()"> <i
+          class="bi bi-circle"></i><span>Điểm danh nhân viên</span> </a></li>
+        <li class="nav-content_li--mb" *ngIf="hasAdminRole"><a (click)="toAttendanceDetailPage()"> <i
+          class="bi bi-circle"></i><span>Chi tiết điểm danh</span> </a></li>
       </ul>
     </li>
-    <li class="nav-item"> <a class="nav-link collapsed" (click)="toEmployeePage()" *ngIf="hasRole(['ROLE_ADMIN'])"> <i class="bi bi-menu-button-wide"></i> <span>Nhân Viên</span> </a></li>
+    <li class="nav-item"><a class="nav-link collapsed" (click)="toEmployeePage()" *ngIf="hasAdminRole"> <i
+      class="bi bi-menu-button-wide"></i> <span>Nhân Viên</span> </a></li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#components-nav-salary" data-bs-toggle="collapse" *ngIf="hasRole(['ROLE_ADMIN'])"> <i class="bi bi-menu-button-wide"></i> <span>Quản lý lương</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+      <a class="nav-link collapsed" data-bs-target="#components-nav-salary" data-bs-toggle="collapse"
+         *ngIf="hasAdminRole"> <i class="bi bi-menu-button-wide"></i> <span>Quản lý lương</span><i
+        class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="components-nav-salary" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li class="nav-content_li--mb" *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toSalaryDetailPage()"> <i class="bi bi-circle"></i><span>Chi tiết lương</span> </a></li>
-        <li class="nav-content_li--mb" *ngIf="hasRole(['ROLE_ADMIN'])"> <a (click)="toSalaryManagementPage()"> <i class="bi bi-circle"></i><span>Quản lí lương</span> </a></li>
+        <li class="nav-content_li--mb" *ngIf="hasAdminRole"><a (click)="toSalaryDetailPage()"> <i
+          class="bi bi-circle"></i><span>Chi tiết lương</span> </a></li>
+        <li class="nav-content_li--mb" *ngIf="hasAdminRole"><a (click)="toSalaryManagementPage()"> <i
+          class="bi bi-circle"></i><span>Quản lí lương</span> </a></li>
       </ul>
     </li>
   </ul>
