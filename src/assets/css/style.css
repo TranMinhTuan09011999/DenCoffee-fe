@@ -1571,9 +1571,6 @@ input[aria-label=multiselect-select-all] + div {
 /* ----------- search -------------- */
 
 /* ----------- Calender -------------- */
-.date-width {
-  width: 150px;
-}
 
 /* ----------- Form -------------- */
 .form-check-input:hover, form-check-label:hover {

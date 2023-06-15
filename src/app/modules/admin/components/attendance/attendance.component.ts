@@ -111,11 +111,11 @@ export class AttendanceComponent implements OnInit {
     attendaceSaveRequest.employeeId = this.inputNameForm.value.fullname[0].employeeId;
     attendaceSaveRequest.actualStartDateTime = new Date();
     if (attendaceSaveRequest.actualStartDateTime.getMinutes() < 10) {
-      attendaceSaveRequest.startDateTime = new Date();
-      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.startDateTime.getHours(), 0, 0);
+      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.actualStartDateTime.getHours(), 0, 0);
     } else {
       attendaceSaveRequest.startDateTime = attendaceSaveRequest.actualStartDateTime;
     }
+    attendaceSaveRequest.endDateTime = null;
     this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
       if (data) {
         this.getAttendanceForToday();

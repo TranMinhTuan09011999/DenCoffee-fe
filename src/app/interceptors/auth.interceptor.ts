@@ -21,13 +21,10 @@ export class AuthInterceptor implements HttpInterceptor {
       withCredentials: true,
       headers: tmpHeaders
     });
-    console.log(request);
     return next.handle(request).pipe(
       catchError((resp: HttpErrorResponse) => {
         this.loadingService.removeProcessing(resp);
-        console.log(resp);
         if (resp.error.status == 403) {
-          console.log("aaaa");
           // if request is unauthorized
           if (resp.error.message == 'Access Denied') {
             // if token is invalid

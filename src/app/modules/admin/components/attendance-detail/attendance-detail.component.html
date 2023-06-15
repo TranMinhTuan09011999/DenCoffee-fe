@@ -52,6 +52,13 @@
                       <a class="btn btn-primary btn-sm" (click)="search()">Tìm kiếm</a>
                     </div>
                   </div>
+                  <div class="col-lg-6">
+                    <div class="d-flex justify-content-end">
+                      <div class="add-button">
+                        <a class="btn btn-primary btn-sm" (click)="showAddAttendaceModal()"><i class="bi bi-plus"></i>Thêm</a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </form>
               <div class="table-responsive">
@@ -136,5 +143,64 @@
   </ng-template>
   <app-content-dialog [id]="attendanceDetailsModalId" [width]="'820px'" [header]="header" [body]="attendanceDetailsBody"
                       [footer]="attendanceDetailsFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #addAttendanceBody>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <form [formGroup]="addAttendanceForm" (keyup.enter)="addAttendance()">
+            <div class="row mb-3">
+              <label class="col-sm-5 col-form-label fw-bold">Nhân Viên: </label>
+              <div class="col-sm-7">
+                <ng-multiselect-dropdown
+                  formControlName="fullname"
+                  [data]="nameList"
+                  [settings]="dropdownSingleSettings"
+                  [placeholder]="' '"
+                  (onSelect)="onSelectEmpoyeeName($event)">
+                </ng-multiselect-dropdown>
+                <div class="message-error" *ngIf="hasAddAttendanceError('employeeId','required')">
+                  <p class="mb-0">* Vui lòng chọn họ và tên.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-5 col-form-label fw-bold">Thời gian bắt đầu: </label>
+              <div class="col-sm-7">
+                <input type="datetime-local" name="start-time" class="form-control" formControlName="startTime">
+                <div class="message-error" *ngIf="hasAddAttendanceError('startTime','required')">
+                  <p class="mb-0">* Vui lòng nhập thời gian bắt đầu.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-5 col-form-label fw-bold">Thời gian kết thúc: </label>
+              <div class="col-sm-7">
+                <input type="datetime-local" name="end-time" class="form-control" formControlName="endTime">
+                <div class="message-error" *ngIf="hasAddAttendanceError('endTime','required')">
+                  <p class="mb-0">* Vui lòng nhập thời gian kết thúc.</p>
+                </div>
+                <div class="message-error" *ngIf="hasAddAttendanceError('endTime','dateToError')">
+                  <p class="mb-0">* Thời gian kết thúc phải sau thời gian bắt đầu.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+
+  <ng-template #addAttendanceFooter>
+    <div>
+      <a class="btn btn-primary btn-sm margin-right" (click)="addAttendance()">Thêm</a>
+    </div>
+  </ng-template>
+
+  <app-content-dialog [id]="addAttendanceModalId" [width]="'500px'" [header]="addAttendanceHeader" [body]="addAttendanceBody"
+                      [footer]="addAttendanceFooter">
   </app-content-dialog>
 </ng-container>

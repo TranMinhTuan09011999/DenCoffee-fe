@@ -6,7 +6,7 @@
          *ngIf="hasAdminRole || hasUserRole"> <i class="bi bi-menu-button-wide"></i> <span>Điểm Danh</span> <i
         class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li class="nav-content_li--mb" *ngIf="hasAdminRole || hasUserRole"><a (click)="toAttendancePage()"> <i
+        <li class="nav-content_li--mb" *ngIf="hasUserRole"><a (click)="toAttendancePage()"> <i
           class="bi bi-circle"></i><span>Điểm danh nhân viên</span> </a></li>
         <li class="nav-content_li--mb" *ngIf="hasAdminRole"><a (click)="toAttendanceDetailPage()"> <i
           class="bi bi-circle"></i><span>Chi tiết điểm danh</span> </a></li>

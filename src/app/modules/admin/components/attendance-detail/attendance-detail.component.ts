@@ -8,6 +8,9 @@ import {AttendanceForEmployeeRequest} from "../../models/AttendanceForEmployeeRe
 import {DatePipe, formatDate} from "@angular/common";
 import {ContentDialogService} from "../../../../components/content-dialog/content-dialog.service";
 import * as _ from "underscore";
+import {EmployeeService} from "../../services/employee.service";
+import * as $ from "jquery";
+import {AttendaceSaveRequest} from "../../models/AttendaceSaveRequest";
 
 @Component({
   selector: 'app-attendance-detail',
@@ -21,16 +24,35 @@ export class AttendanceDetailComponent implements OnInit {
   public employeeList!: Array<any>;
   public attendanceList!: Array<any>;
   public fullname!: any;
+  private dateFrom!: any;
+  private dateTo!: any;
+
+  nameList!: Array<any>;
+  public dropdownSingleSettings = {
+    singleSelection: true,
+    allowSearchFilter: true,
+    idField: 'employeeId',
+    textField: 'fullname',
+    searchPlaceholderText: 'Tìm kiếm',
+    itemsShowLimit: 1
+  };
 
   attendanceDetailsModalId = 'attendanceDetailsModalId';
+  addAttendanceModalId = 'addAttendanceModalId';
   header = 'Chi tiết điểm danh';
+  addAttendanceHeader = 'Thêm điểm danh';
+
+  public addAttendanceForm!: FormGroup;
+  public addAttendanceCustomValidate!: CustomHandleValidate;
 
   constructor(private formBuilder: FormBuilder,
               private attendanceService: AttendanceService,
-              private contentDialogService: ContentDialogService) { }
+              private contentDialogService: ContentDialogService,
+              private employeeService: EmployeeService) { }
 
   ngOnInit(): void {
     this.setInputDateForm();
+    this.setAddAttendanceForm();
   }
 
   setInputDateForm() {
@@ -45,32 +67,49 @@ export class AttendanceDetailComponent implements OnInit {
     this.customValidate = new CustomHandleValidate(this.inputDateForm);
     const currentDate = new Date();
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const dateFrom = DateUtil.formatDateToStrWithFormat(firstDayOfMonth, 'yyyy-MM-dd');
-    const dateTo = DateUtil.formatDateToStrWithFormat(new Date(), 'yyyy-MM-dd');
+    this.dateFrom = DateUtil.formatDateToStrWithFormat(firstDayOfMonth, 'yyyy-MM-dd');
+    this.dateTo = DateUtil.formatDateToStrWithFormat(new Date(), 'yyyy-MM-dd');
     this.inputDateForm.patchValue({
-      dateFrom: dateFrom,
-      dateTo: dateTo
+      dateFrom: this.dateFrom,
+      dateTo: this.dateTo
     });
-    this.getAttendanceList(dateFrom, dateTo);
+    this.getAttendanceList(this.dateFrom, this.dateTo);
+  }
+
+  setAddAttendanceForm() {
+    this.addAttendanceForm = this.formBuilder.group({
+      fullname: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required]
+    }, {
+      validators: [
+        validatorsToDateAfterFromDate('startTime', 'endTime', 'YYYY-MM-DDTHH:mm')
+      ]
+    });
+    this.addAttendanceCustomValidate = new CustomHandleValidate(this.addAttendanceForm);
   }
 
   hasError(key: string, errorCode: string) {
     return this.customValidate.hasError(key, errorCode);
   }
 
+  hasAddAttendanceError(key: string, errorCode: string) {
+    return this.addAttendanceCustomValidate.hasError(key, errorCode);
+  }
+
   search() {
-    const dateFrom = this.inputDateForm.value.dateFrom;
-    const dateTo = this.inputDateForm.value.dateTo;
-    if (dateFrom == '') {
+    this.dateFrom = this.inputDateForm.value.dateFrom;
+    this.dateTo = this.inputDateForm.value.dateTo;
+    if (this.dateFrom == '') {
       this.inputDateForm.controls['dateFrom'].setErrors({required: true});
     }
-    if (dateTo == '') {
+    if (this.dateTo == '') {
       this.inputDateForm.controls['dateTo'].setErrors({required: true});
     }
     if (!this.customValidate.isValidForm()) {
       return;
     }
-    this.getAttendanceList(dateFrom, dateTo);
+    this.getAttendanceList(this.dateFrom, this.dateTo);
   }
 
   getAttendanceList(dateFrom: any, dateTo: any) {
@@ -137,4 +176,63 @@ export class AttendanceDetailComponent implements OnInit {
     return DateUtil.getHour(startDateTime, endDateTime);
   }
 
+  showAddAttendaceModal() {
+    this.getNameList();
+    this.addAttendanceForm.patchValue({
+      fullname: null,
+      startTime: null,
+      endTime: null
+    });
+    this.addAttendanceCustomValidate.reset();
+    this.contentDialogService.open(this.addAttendanceModalId);
+  }
+
+  getNameList() {
+    this.employeeService.getAllEmployeeNameByStatus(1).subscribe(data => {
+      if (data) {
+        this.nameList = data;
+      }
+    }, (error) => {
+
+    });
+  }
+
+  onSelectEmpoyeeName($event: any) {
+    $(".dropdown-multiselect__caret").trigger('click');
+  }
+
+  addAttendance() {
+    if (!this.addAttendanceCustomValidate.isValidForm()) {
+      return;
+    }
+
+    const attendaceSaveRequest = new AttendaceSaveRequest;
+
+    const format = 'yyyy-MM-ddTHH:mm'
+
+    let actualStartDateTime = new Date(formatDate(this.addAttendanceForm.value.startTime, format, 'en-US'));
+
+    let startDateTime = new Date(formatDate(this.addAttendanceForm.value.startTime, format, 'en-US'));
+    if (actualStartDateTime.getMinutes() < 10) {
+      startDateTime.setHours(actualStartDateTime.getHours(), 0, 0);
+    }
+
+    let endDateTime = new Date(formatDate(this.addAttendanceForm.value.endTime, format, 'en-US'));
+
+    if (this.addAttendanceForm.value.fullname && this.addAttendanceForm.value.fullname.length > 0) {
+      attendaceSaveRequest.employeeId = this.addAttendanceForm.value.fullname[0].employeeId;
+      attendaceSaveRequest.startDateTime = startDateTime;
+      attendaceSaveRequest.actualStartDateTime = actualStartDateTime;
+      attendaceSaveRequest.endDateTime = endDateTime;
+    }
+    this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
+      if (data) {
+        this.contentDialogService.close(this.addAttendanceModalId);
+        this.getAttendanceList(this.dateFrom, this.dateTo);
+      }
+    }, (error) => {
+
+    });
+
+  }
 }
