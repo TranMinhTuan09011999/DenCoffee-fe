@@ -97,6 +97,11 @@ export class ApiConstant {
     uri: '/attendance/update-payroll-status/{payrollId}'
   };
 
+  public static API_UPDATE_ATTENDANCE: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/update-attendance'
+  };
+
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,

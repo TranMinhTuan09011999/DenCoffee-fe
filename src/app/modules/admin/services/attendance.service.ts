@@ -56,4 +56,10 @@ export class AttendanceService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  updateAttendance(condition: any): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_UPDATE_ATTENDANCE, condition).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

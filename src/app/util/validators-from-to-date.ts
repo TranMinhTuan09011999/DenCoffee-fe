@@ -7,6 +7,10 @@ export function validatorsToDateAfterFromDate(dateFrom: string, dateTo: string, 
     const dateFromControl = formGroup.controls[dateFrom];
     const dateToControl = formGroup.controls[dateTo];
 
+    if (dateToControl.errors) {
+      return;
+    }
+
     // set error on dateToControl if validation fails
     if (!dateFromControl.value || !dateToControl.value || (dateFromControl.errors && (dateFromControl.errors['ngbDate'] && dateFromControl.errors['ngbDate'].invalid))) {
       dateToControl.setErrors(null);

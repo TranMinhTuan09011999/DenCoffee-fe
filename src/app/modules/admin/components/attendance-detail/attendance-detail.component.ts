@@ -24,8 +24,11 @@ export class AttendanceDetailComponent implements OnInit {
   public employeeList!: Array<any>;
   public attendanceList!: Array<any>;
   public fullname!: any;
+  public employeeId!: any;
+  public editAttendanceId!: any;
   private dateFrom!: any;
   private dateTo!: any;
+  private showAttendanceDetail = false;
 
   nameList!: Array<any>;
   public dropdownSingleSettings = {
@@ -39,11 +42,16 @@ export class AttendanceDetailComponent implements OnInit {
 
   attendanceDetailsModalId = 'attendanceDetailsModalId';
   addAttendanceModalId = 'addAttendanceModalId';
+  editAttendanceModalId = 'editAttendanceModalId';
   header = 'Chi tiết điểm danh';
   addAttendanceHeader = 'Thêm điểm danh';
+  editAttendanceHeader = 'Sửa điểm danh';
 
   public addAttendanceForm!: FormGroup;
   public addAttendanceCustomValidate!: CustomHandleValidate;
+
+  public editAttendanceForm!: FormGroup;
+  public editAttendanceCustomValidate!: CustomHandleValidate;
 
   constructor(private formBuilder: FormBuilder,
               private attendanceService: AttendanceService,
@@ -53,6 +61,7 @@ export class AttendanceDetailComponent implements OnInit {
   ngOnInit(): void {
     this.setInputDateForm();
     this.setAddAttendanceForm();
+    this.setEditAttendanceForm();
   }
 
   setInputDateForm() {
@@ -89,12 +98,28 @@ export class AttendanceDetailComponent implements OnInit {
     this.addAttendanceCustomValidate = new CustomHandleValidate(this.addAttendanceForm);
   }
 
+  setEditAttendanceForm() {
+    this.editAttendanceForm = this.formBuilder.group({
+      startTime: [null, Validators.required],
+      endTime: [null, Validators.required]
+    }, {
+      validators: [
+        validatorsToDateAfterFromDate('startTime', 'endTime', 'YYYY-MM-DDTHH:mm')
+      ]
+    });
+    this.editAttendanceCustomValidate = new CustomHandleValidate(this.editAttendanceForm);
+  }
+
   hasError(key: string, errorCode: string) {
     return this.customValidate.hasError(key, errorCode);
   }
 
   hasAddAttendanceError(key: string, errorCode: string) {
     return this.addAttendanceCustomValidate.hasError(key, errorCode);
+  }
+
+  hasEditAttendanceError(key: string, errorCode: string) {
+    return this.editAttendanceCustomValidate.hasError(key, errorCode);
   }
 
   search() {
@@ -122,6 +147,10 @@ export class AttendanceDetailComponent implements OnInit {
     this.attendanceService.getAttendanceForEmployee(attendanceForEmployeeRequest).subscribe(data => {
       if (data) {
         this.employeeList = data;
+        if (this.showAttendanceDetail) {
+          this.showAttendanceDetails(this.employeeId, this.fullname);
+          this.showAttendanceDetail = false;
+        }
       }
     }, (error) => {
 
@@ -142,6 +171,7 @@ export class AttendanceDetailComponent implements OnInit {
   }
 
   showAttendanceDetails(employeeId: any, fullname: any) {
+    this.employeeId = employeeId;
     this.fullname = fullname;
     this.employeeList.find(item => {
       if (item.employeeId == employeeId) {
@@ -234,5 +264,58 @@ export class AttendanceDetailComponent implements OnInit {
 
     });
 
+  }
+
+  showButton(index: any) {
+    $(`.btn-edit-${index}`).removeClass(`btn-display`);
+  }
+
+  hiddenButton(index: any) {
+    $(`.btn-edit-${index}`).addClass(`btn-display`);
+  }
+
+  showEditModal(item: any) {
+    this.editAttendanceId = item.attendanceId;
+    this.contentDialogService.close(this.attendanceDetailsModalId);
+    this.contentDialogService.open(this.editAttendanceModalId);
+    this.setEditAttendanceForm();
+    const format = 'yyyy-MM-ddTHH:mm'
+    this.editAttendanceForm.patchValue({
+      startTime: DateUtil.formatDateToStrWithFormat(item.actualStartDateTime, format),
+      endTime: DateUtil.formatDateToStrWithFormat(item.endDateTime, format)
+    })
+  }
+
+  editAttendance() {
+    if (!this.editAttendanceCustomValidate.isValidForm()) {
+      return;
+    }
+
+    const format = 'yyyy-MM-ddTHH:mm'
+    let actualStartDateTime = new Date(formatDate(this.editAttendanceForm.value.startTime, format, 'en-US'));
+
+    let startDateTime = new Date(formatDate(this.editAttendanceForm.value.startTime, format, 'en-US'));
+    if (actualStartDateTime.getMinutes() < 10) {
+      startDateTime.setHours(actualStartDateTime.getHours(), 0, 0);
+    }
+
+    let endDateTime = new Date(formatDate(this.editAttendanceForm.value.endTime, format, 'en-US'));
+
+    const condition = {
+      attendanceId: this.editAttendanceId,
+      actualStartDateTime: actualStartDateTime,
+      startDateTime: startDateTime,
+      endDateTime: endDateTime
+    }
+
+    this.attendanceService.updateAttendance(condition).subscribe(data => {
+      if (data) {
+        this.contentDialogService.close(this.editAttendanceModalId);
+        this.showAttendanceDetail = true;
+        this.getAttendanceList(this.dateFrom, this.dateTo);
+      }
+    }, (error) => {
+
+    })
   }
 }

@@ -38,3 +38,22 @@
   margin-right: 69px;
   float: right
 }
+
+.table-row:focus, .table-row:hover{
+  cursor: pointer;
+  background-color: #dadada;
+}
+
+.btn-display {
+  display: none;
+}
+
+.width-130 {
+  min-width: 130px;
+  max-width: 130px;
+}
+
+.width-20 {
+  min-width: 20px;
+  max-width: 20px;
+}
