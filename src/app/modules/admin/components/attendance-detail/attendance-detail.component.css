@@ -57,3 +57,11 @@
   min-width: 20px;
   max-width: 20px;
 }
+
+.margin-right-5 {
+  margin-right: 5px;
+}
+
+.margin-left {
+  margin-left: 0.5rem!important;
+}

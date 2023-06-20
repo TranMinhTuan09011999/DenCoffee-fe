@@ -124,7 +124,10 @@
                     <td class="width-130">{{getDateOrTime(item.actualStartDateTime, 'T')}}</td>
                     <td class="width-130">{{getDateOrTime(item.endDateTime, 'T') | nullHyphen}}</td>
                     <td class="width-130">{{getAttendanceHour(item.startDateTime, item.endDateTime) | nullHyphen}} giờ</td>
-                    <td class="width-20"><i class="bi bi-pencil btn-edit-{{i}} btn-display" (click)="showEditModal(item)"></i></td>
+                    <td class="width-20">
+                      <i class="bi bi-pencil btn-edit-{{i}} btn-display margin-right-5" (click)="showEditModal(item)"></i>
+                      <i class="bi bi-trash btn-edit-{{i}} btn-display" (click)="showDeleteModal(item.attendanceId)"></i>
+                    </td>
                   </tr>
                 </ng-container>
                 </tbody>
@@ -251,5 +254,20 @@
 
   <app-content-dialog [id]="editAttendanceModalId" [width]="'500px'" [header]="editAttendanceHeader" [body]="editAttendanceBody"
                       [footer]="editAttendanceFooter">
+  </app-content-dialog>
+</ng-container>
+
+<ng-container>
+  <ng-template #deleteAttendanceBody>
+    <p>Bạn có chắc chắn xóa điểm danh này không ???</p>
+  </ng-template>
+  <ng-template #deleteAttendanceFooter>
+    <div>
+      <a class="btn btn-primary btn-sm" (click)="deleteAttendance()">Chấp nhận</a>
+      <a class="btn btn-danger btn-sm margin-left" (click)="cancelDeleteAttendance()">Hủy</a>
+    </div>
+  </ng-template>
+  <app-content-dialog [id]="deleteAttendanceModalId" [width]="'300px'" [header]="deleteAttendanceHeader" [body]="deleteAttendanceBody"
+                      [footer]="deleteAttendanceFooter">
   </app-content-dialog>
 </ng-container>

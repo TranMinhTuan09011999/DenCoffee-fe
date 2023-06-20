@@ -26,6 +26,7 @@ export class AttendanceDetailComponent implements OnInit {
   public fullname!: any;
   public employeeId!: any;
   public editAttendanceId!: any;
+  public deleteAttendanceId!: any;
   private dateFrom!: any;
   private dateTo!: any;
   private showAttendanceDetail = false;
@@ -43,9 +44,11 @@ export class AttendanceDetailComponent implements OnInit {
   attendanceDetailsModalId = 'attendanceDetailsModalId';
   addAttendanceModalId = 'addAttendanceModalId';
   editAttendanceModalId = 'editAttendanceModalId';
+  deleteAttendanceModalId = 'deleteAttendanceModalId';
   header = 'Chi tiết điểm danh';
   addAttendanceHeader = 'Thêm điểm danh';
   editAttendanceHeader = 'Sửa điểm danh';
+  deleteAttendanceHeader = 'Xóa điểm danh';
 
   public addAttendanceForm!: FormGroup;
   public addAttendanceCustomValidate!: CustomHandleValidate;
@@ -286,6 +289,12 @@ export class AttendanceDetailComponent implements OnInit {
     })
   }
 
+  showDeleteModal(attendanceId: any) {
+    this.deleteAttendanceId = attendanceId;
+    this.contentDialogService.close(this.attendanceDetailsModalId);
+    this.contentDialogService.open(this.deleteAttendanceModalId);
+  }
+
   editAttendance() {
     if (!this.editAttendanceCustomValidate.isValidForm()) {
       return;
@@ -317,5 +326,21 @@ export class AttendanceDetailComponent implements OnInit {
     }, (error) => {
 
     })
+  }
+
+  deleteAttendance() {
+    this.attendanceService.deleteAttendance(this.deleteAttendanceId).subscribe(data => {
+      this.contentDialogService.close(this.deleteAttendanceModalId);
+      this.showAttendanceDetail = true;
+      this.getAttendanceList(this.dateFrom, this.dateTo);
+    }, (error) => {
+
+    })
+  }
+
+  cancelDeleteAttendance() {
+    this.deleteAttendanceId = null;
+    this.contentDialogService.close(this.deleteAttendanceModalId);
+    this.contentDialogService.open(this.attendanceDetailsModalId);
   }
 }

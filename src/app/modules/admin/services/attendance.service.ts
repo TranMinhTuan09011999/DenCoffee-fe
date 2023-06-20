@@ -62,4 +62,10 @@ export class AttendanceService {
       catchError(ExceptionUtil.handleError)
     );
   }
+
+  deleteAttendance(attendanceId: any): Observable<any> {
+    return this.httpDaoService.doPost(ApiConstant.API_DELETE_ATTENDANCE, {}, {attendanceId}).pipe(
+      catchError(ExceptionUtil.handleError)
+    );
+  }
 }

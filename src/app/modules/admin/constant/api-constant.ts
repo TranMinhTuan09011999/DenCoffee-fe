@@ -102,6 +102,11 @@ export class ApiConstant {
     uri: '/attendance/update-attendance'
   };
 
+  public static API_DELETE_ATTENDANCE: API = {
+    module: PortalType.ADMIN,
+    uri: '/attendance/delete-attendance/{attendanceId}'
+  };
+
   // ------------------ session ------------------
   public static API_SESSION_ATTR_GET: API = {
     module: PortalType.SESSION,
