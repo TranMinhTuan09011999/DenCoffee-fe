@@ -26,7 +26,8 @@
                     <div class="d-flex">
                       <label class="d-flex__label">Từ </label>
                       <div>
-                        <input type="date" name="dateFrom" class="form-control date-width" formControlName="dateFrom" [max]="">
+                        <input type="date" name="dateFrom" class="form-control date-width" formControlName="dateFrom"
+                               [max]="">
                         <div class="message-error" *ngIf="hasError('dateFrom','required')">
                           <p class="mb-0">* Vui lòng chọn ngày bắt đầu.</p>
                         </div>
@@ -76,7 +77,8 @@
                       <td>{{item.fullname}}</td>
                       <td>{{getHoursTotal(item.attendanceDTOList)}} giờ</td>
                       <td>
-                        <a class="btn btn-primary btn-sm" (click)="showAttendanceDetails(item.employeeId, item.fullname)">Chi Tiết</a>
+                        <a class="btn btn-primary btn-sm"
+                           (click)="showAttendanceDetails(item.employeeId, item.fullname)">Chi Tiết</a>
                       </td>
                     </tr>
                   </ng-container>
@@ -110,7 +112,6 @@
                 <tr>
                   <th class="width-130" scope="col">Ngày làm việc</th>
                   <th class="width-130" scope="col">Thời gian bắt đầu</th>
-                  <th class="width-130" scope="col">Thời gian bắt đầu thực tế</th>
                   <th class="width-130" scope="col">Thời gian kết thúc</th>
                   <th class="width-130" scope="col">Số giờ làm</th>
                   <th class="width-130"></th>
@@ -118,15 +119,18 @@
                 </thead>
                 <tbody>
                 <ng-container>
-                  <tr class="table-row" *ngFor="let item of attendanceList; let i = index" (mouseenter)="showButton(i)" (mouseleave)="hiddenButton(i)">
+                  <tr class="table-row" *ngFor="let item of attendanceList; let i = index" (mouseenter)="showButton(i)"
+                      (mouseleave)="hiddenButton(i)">
                     <td class="width-130">{{getDateOrTime(item.startDateTime, 'D')}}</td>
                     <td class="width-130">{{getDateOrTime(item.startDateTime, 'T')}}</td>
-                    <td class="width-130">{{getDateOrTime(item.actualStartDateTime, 'T')}}</td>
                     <td class="width-130">{{getDateOrTime(item.endDateTime, 'T') | nullHyphen}}</td>
-                    <td class="width-130">{{getAttendanceHour(item.startDateTime, item.endDateTime) | nullHyphen}} giờ</td>
+                    <td class="width-130">{{getAttendanceHour(item.startDateTime, item.endDateTime) | nullHyphen}}giờ
+                    </td>
                     <td class="width-20">
-                      <i class="bi bi-pencil btn-edit-{{i}} btn-display margin-right-5" (click)="showEditModal(item)"></i>
-                      <i class="bi bi-trash btn-edit-{{i}} btn-display" (click)="showDeleteModal(item.attendanceId)"></i>
+                      <i class="bi bi-pencil btn-edit-{{i}} btn-display margin-right-5"
+                         (click)="showEditModal(item)"></i>
+                      <i class="bi bi-trash btn-edit-{{i}} btn-display"
+                         (click)="showDeleteModal(item.attendanceId)"></i>
                     </td>
                   </tr>
                 </ng-container>
@@ -205,7 +209,8 @@
     </div>
   </ng-template>
 
-  <app-content-dialog [id]="addAttendanceModalId" [width]="'500px'" [header]="addAttendanceHeader" [body]="addAttendanceBody"
+  <app-content-dialog [id]="addAttendanceModalId" [width]="'500px'" [header]="addAttendanceHeader"
+                      [body]="addAttendanceBody"
                       [footer]="addAttendanceFooter">
   </app-content-dialog>
 </ng-container>
@@ -252,7 +257,8 @@
     </div>
   </ng-template>
 
-  <app-content-dialog [id]="editAttendanceModalId" [width]="'500px'" [header]="editAttendanceHeader" [body]="editAttendanceBody"
+  <app-content-dialog [id]="editAttendanceModalId" [width]="'500px'" [header]="editAttendanceHeader"
+                      [body]="editAttendanceBody"
                       [footer]="editAttendanceFooter">
   </app-content-dialog>
 </ng-container>
@@ -267,7 +273,8 @@
       <a class="btn btn-danger btn-sm margin-left" (click)="cancelDeleteAttendance()">Hủy</a>
     </div>
   </ng-template>
-  <app-content-dialog [id]="deleteAttendanceModalId" [width]="'300px'" [header]="deleteAttendanceHeader" [body]="deleteAttendanceBody"
+  <app-content-dialog [id]="deleteAttendanceModalId" [width]="'300px'" [header]="deleteAttendanceHeader"
+                      [body]="deleteAttendanceBody"
                       [footer]="deleteAttendanceFooter">
   </app-content-dialog>
 </ng-container>

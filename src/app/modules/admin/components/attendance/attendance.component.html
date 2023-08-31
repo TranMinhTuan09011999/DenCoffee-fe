@@ -41,6 +41,7 @@
                     <th scope="col" class="width-13">Giờ bắt đầu</th>
                     <th scope="col" class="width-10">Giờ kết thúc</th>
                     <th scope="col" class="width-10">Số giờ làm</th>
+                    <th scope="col" class="width-10">Ca làm việc</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -49,7 +50,8 @@
                       <td>{{item.payroll.employee.fullname}}</td>
                       <td>{{item.startDateTime | date: "HH:mm:ss"}}</td>
                       <td *ngIf="item.endDateTime == null; else noEndDateTime">
-                        <a class="btn btn-primary btn-sm" (click)="showEndEttendaceModal(item.attendanceId)">Kết
+                        <a class="btn btn-primary btn-sm"
+                           (click)="showEndEttendaceModal(item.attendanceId, item.employeeShift)">Kết
                           thúc</a>
                       </td>
                       <ng-template #noEndDateTime>
@@ -57,6 +59,12 @@
                       </ng-template>
                       <td>{{getAttendanceHour(item.startDateTime, item.endDateTime) | number: "1.0-1" | nullHyphen}}
                         (giờ)
+                      </td>
+                      <td *ngIf="item.employeeShift == null">
+                        Ca ngoài
+                      </td>
+                      <td *ngIf="item.employeeShift != null">
+                        {{item.employeeShift.employeeShiftName}}
                       </td>
                     </tr>
                   </ng-container>
@@ -79,9 +87,14 @@
       <div class="row">
         <div class="col-lg-12">
           <form [formGroup]="inputNameForm" (keyup.enter)="search()">
-            <div class="row">
-              <label class="col-sm-12 col-form-label fw-bold text-center">Nhập họ tên</label>
-              <div class="col-sm-12">
+            <div class="row fw-bold text-center">
+              <h4 *ngIf="isShiftStatus">{{employeeShiftInfor?.employeeShiftName}}: ({{employeeShiftInfor?.startTime}}
+                - {{employeeShiftInfor?.endTime}})</h4>
+              <h4 *ngIf="!isShiftStatus">Ca Ngoài</h4>
+            </div>
+            <div class="row pb-2">
+              <label class="col-sm-4 col-form-label fw-bold">Nhập họ tên: </label>
+              <div class="col-sm-8">
                 <ng-multiselect-dropdown
                   formControlName="fullname"
                   [data]="nameList"
@@ -93,9 +106,26 @@
                   <p class="mb-0">* Vui lòng chọn họ và tên.</p>
                 </div>
                 <div class="message-error" *ngIf="hasError('fullname','noCheckAttendance')">
-                  <p class="mb-0">* Vui lòng kết thúc ca làm việc trước của bạn.</p>
+                  <p class="mb-0">* Bạn đang trong thời gian làm việc, vui lòng kết thúc nó.</p>
+                </div>
+                <div class="message-error" *ngIf="hasError('fullname','ExistEmployeeShift')">
+                  <p class="mb-0">* Bạn đã điểm danh ca làm việc này.</p>
                 </div>
               </div>
+            </div>
+            <div class="row pb-2" *ngIf="showShiftStatusCheckBox">
+              <div class="d-flex">
+                <input type="checkbox" id="inputStatusCheckBox" (change)="checkShiftStatus($event)">
+                <label class="m-checkBox__box" for="inputStatusCheckBox"></label>
+                <label for="inputStatusCheckBox">Làm việc ngoài ca.</label>
+              </div>
+            </div>
+            <div class="row">
+              <p *ngIf="isShiftStatus" class="mb-0 text-danger">* Lưu ý: Nếu bạn điểm danh
+                từ {{noteTimeInfor.beforeTime}} đến {{noteTimeInfor.endTime}}, bạn sẽ được
+                tính {{noteTimeInfor.time}}</p>
+              <p *ngIf="!isShiftStatus" class="mb-0 text-danger">* Lưu ý: Khi điểm danh bạn sẽ không bị phụ thuộc vào
+                thời gian ca làm việc.</p>
             </div>
           </form>
         </div>
@@ -107,13 +137,15 @@
       <a class="btn btn-primary btn-sm margin-right" (click)="search()">Điểm danh</a>
     </div>
   </ng-template>
-  <app-content-dialog [id]="inputNameModalId" [width]="'300px'" [header]="header" [body]="body" [footer]="footer">
+  <app-content-dialog [id]="inputNameModalId" [width]="'450px'" [header]="header" [body]="body" [footer]="footer">
   </app-content-dialog>
 </ng-container>
 
 <ng-container>
   <ng-template #endAttendanceMessageBody>
-    <p class="text-center">{{formatDate(endDateTimeForToday)}}</p>
+    <p class="text-center" *ngIf="overShiftTime">Bạn đã quá thời gian kết thúc điểm danh,
+      vui lòng liên hệ với chủ quán để đươc cập nhật kết thúc điểm danh.</p>
+    <p class="text-center" *ngIf="!overShiftTime">{{formatDate(endDateTimeForToday)}}</p>
   </ng-template>
   <ng-template #endAttendanceMessageFooter>
     <div>

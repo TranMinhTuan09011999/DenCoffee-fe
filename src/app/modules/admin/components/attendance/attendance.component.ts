@@ -9,6 +9,8 @@ import {AttendanceService} from "../../services/attendance.service";
 import {DateUtil} from "../../util/date-util";
 import {AttendanceEndDateTimeUpdate} from "../../models/AttendanceEndDateTimeUpdate";
 import {DateRequest} from "../../models/DateRequest";
+import {EmployeeShiftService} from "../../services/employee-shift.service";
+import {addMinutes} from "date-fns";
 
 @Component({
   selector: 'app-attendance',
@@ -33,7 +35,7 @@ export class AttendanceComponent implements OnInit {
     year: 0
   };
 
-  header = '';
+  header = 'Thông tin điểm danh';
   message = 'Thông báo';
   inputNameModalId = 'inputNameModalId';
   endAttendanceMessageModalId = 'endAttendanceMessageModalId';
@@ -45,10 +47,22 @@ export class AttendanceComponent implements OnInit {
   public inputNameForm!: FormGroup;
   public customValidate!: CustomHandleValidate;
 
+  employeeShiftInfor: any;
+  noteTimeInfor = {
+    beforeTime: '',
+    endTime: '',
+    time: ''
+  };
+
+  isShiftStatus = true;
+  showShiftStatusCheckBox = true;
+  overShiftTime = true;
+
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
               private attendanceService: AttendanceService,
-              private contentDialogService: ContentDialogService) {
+              private contentDialogService: ContentDialogService,
+              private employeeShiftService: EmployeeShiftService) {
   }
 
   ngOnInit(): void {
@@ -86,7 +100,13 @@ export class AttendanceComponent implements OnInit {
     this.inputNameForm.patchValue({
       fullname: null
     });
+    this.showEmployeeCurrentShift();
+    this.setCheckBox('inputStatusCheckBox', false);
     this.contentDialogService.open(this.inputNameModalId);
+  }
+
+  setCheckBox(id: any, status: any) {
+    $(`#${id}`).prop('checked', status);
   }
 
   search() {
@@ -96,8 +116,17 @@ export class AttendanceComponent implements OnInit {
           if (this.inputNameForm.value.fullname.length != 0) {
             if (item.payroll.employee.employeeId == this.inputNameForm.value.fullname[0].employeeId
               && item.endDateTime == null) {
-              this.inputNameForm.controls['fullname'].setErrors({noCheckAttendance: true});
-              return;
+              if (item.employeeShift == null) {
+                this.inputNameForm.controls['fullname'].setErrors({noCheckAttendance: true});
+                return;
+              } else {
+                if (this.employeeShiftInfor) {
+                  if (item.employeeShift.employeeShiftId == this.employeeShiftInfor.employeeShiftId) {
+                    this.inputNameForm.controls['fullname'].setErrors({ExistEmployeeShift: true});
+                    return;
+                  }
+                }
+              }
             }
           }
         }
@@ -109,11 +138,12 @@ export class AttendanceComponent implements OnInit {
 
     const attendaceSaveRequest = new AttendaceSaveRequest;
     attendaceSaveRequest.employeeId = this.inputNameForm.value.fullname[0].employeeId;
-    attendaceSaveRequest.actualStartDateTime = new Date();
-    if (attendaceSaveRequest.actualStartDateTime.getMinutes() < 10) {
-      attendaceSaveRequest.startDateTime.setHours(attendaceSaveRequest.actualStartDateTime.getHours(), 0, 0);
+    attendaceSaveRequest.startDateTime = new Date();
+    if (this.isShiftStatus) {
+      attendaceSaveRequest.startDateTime = this.setNewDate(attendaceSaveRequest.startDateTime, this.employeeShiftInfor.startTime);
+      attendaceSaveRequest.employeeShiftId = this.employeeShiftInfor?.employeeShiftId;
     } else {
-      attendaceSaveRequest.startDateTime = attendaceSaveRequest.actualStartDateTime;
+      attendaceSaveRequest.employeeShiftId = null;
     }
     attendaceSaveRequest.endDateTime = null;
     this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
@@ -124,6 +154,17 @@ export class AttendanceComponent implements OnInit {
     }, (error) => {
 
     });
+  }
+
+  setNewDate(date: Date, time: any) {
+    if (time) {
+      const hour = parseInt(time.substring(0, 2));
+      const minute = parseInt(time.substring(3, 5));
+      const second = parseInt(time.substring(6, 8));
+      const dateClone = new Date(date);
+      return DateUtil.setNewDate(dateClone, null, null, null, hour, minute, second);
+    }
+    return date;
   }
 
   getAttendanceForToday() {
@@ -167,13 +208,30 @@ export class AttendanceComponent implements OnInit {
     $(".dropdown-multiselect__caret").trigger('click');
   }
 
-  showEndEttendaceModal(attendanceId: any) {
+  showEndEttendaceModal(attendanceId: any, employeeShift: any) {
+    this.overShiftTime = false;
     this.attendanceId = attendanceId;
     this.endDateTimeForToday = new Date();
+    if (employeeShift != null) {
+      const endShiftDateTime = this.setNewDate(this.endDateTimeForToday, employeeShift.endTime);
+      const endShiftDateTimeLimit = addMinutes(endShiftDateTime, 30);
+      const compare = DateUtil.between2DateTime(endShiftDateTime, endShiftDateTimeLimit, this.endDateTimeForToday);
+      if (compare) {
+        this.endDateTimeForToday = endShiftDateTime;
+      } else {
+        if (DateUtil.compare2DateTime(this.endDateTimeForToday, endShiftDateTimeLimit) == 1) {
+          this.overShiftTime = true;
+        }
+      }
+    }
     this.contentDialogService.open(this.endAttendanceMessageModalId);
   }
 
   acceptEndAttendace() {
+    if (this.overShiftTime) {
+      this.contentDialogService.close(this.endAttendanceMessageModalId);
+      return;
+    }
     const attendanceEndDateTimeUpdate = new AttendanceEndDateTimeUpdate;
     attendanceEndDateTimeUpdate.attendanceId = this.attendanceId;
     attendanceEndDateTimeUpdate.endDateTime = this.endDateTimeForToday;
@@ -193,6 +251,36 @@ export class AttendanceComponent implements OnInit {
 
   getAttendanceHour(startDateTime: any, endDateTime: any) {
     return DateUtil.getHour(startDateTime, endDateTime);
+  }
+
+  showEmployeeCurrentShift() {
+    this.employeeShiftService.getEmployeeShiftByCurrentTime().subscribe(data => {
+      if (data) {
+        this.showShiftStatusCheckBox = true;
+        this.isShiftStatus = true;
+        this.employeeShiftInfor = data;
+        this.getTimeInfor(this.employeeShiftInfor.startTime);
+      } else {
+        this.showShiftStatusCheckBox = false;
+        this.isShiftStatus = false;
+      }
+    }, (error) => {
+
+    })
+  }
+
+  getTimeInfor(time: string) {
+    this.noteTimeInfor.beforeTime = DateUtil.changeTimeByMinutes(time, 30, DateUtil.SUB_METHOD);
+    this.noteTimeInfor.endTime = DateUtil.changeTimeByMinutes(time, 10, DateUtil.ADD_METHOD);
+    this.noteTimeInfor.time = DateUtil.changeTimeByMinutes(time, 0, null);
+  }
+
+  checkShiftStatus(event: any) {
+    if (event.target.checked) {
+      this.isShiftStatus = false;
+    } else {
+      this.isShiftStatus = true;
+    }
   }
 
 }

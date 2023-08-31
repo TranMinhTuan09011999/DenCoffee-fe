@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomHandleValidate} from "../../util/custom-handle-validate";
 import {DateUtil} from "../../util/date-util";
@@ -59,7 +59,8 @@ export class AttendanceDetailComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private attendanceService: AttendanceService,
               private contentDialogService: ContentDialogService,
-              private employeeService: EmployeeService) { }
+              private employeeService: EmployeeService) {
+  }
 
   ngOnInit(): void {
     this.setInputDateForm();
@@ -72,9 +73,9 @@ export class AttendanceDetailComponent implements OnInit {
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required]
     }, {
-        validators: [
-          validatorsToDateAfterFromDate('dateFrom', 'dateTo', 'YYYY-MM-DD')
-        ]
+      validators: [
+        validatorsToDateAfterFromDate('dateFrom', 'dateTo', 'YYYY-MM-DD')
+      ]
     });
     this.customValidate = new CustomHandleValidate(this.inputDateForm);
     const currentDate = new Date();
@@ -243,19 +244,13 @@ export class AttendanceDetailComponent implements OnInit {
 
     const format = 'yyyy-MM-ddTHH:mm'
 
-    let actualStartDateTime = new Date(formatDate(this.addAttendanceForm.value.startTime, format, 'en-US'));
-
     let startDateTime = new Date(formatDate(this.addAttendanceForm.value.startTime, format, 'en-US'));
-    if (actualStartDateTime.getMinutes() < 10) {
-      startDateTime.setHours(actualStartDateTime.getHours(), 0, 0);
-    }
 
     let endDateTime = new Date(formatDate(this.addAttendanceForm.value.endTime, format, 'en-US'));
 
     if (this.addAttendanceForm.value.fullname && this.addAttendanceForm.value.fullname.length > 0) {
       attendaceSaveRequest.employeeId = this.addAttendanceForm.value.fullname[0].employeeId;
       attendaceSaveRequest.startDateTime = startDateTime;
-      attendaceSaveRequest.actualStartDateTime = actualStartDateTime;
       attendaceSaveRequest.endDateTime = endDateTime;
     }
     this.attendanceService.saveAttendance(attendaceSaveRequest).subscribe(data => {
@@ -284,7 +279,7 @@ export class AttendanceDetailComponent implements OnInit {
     this.setEditAttendanceForm();
     const format = 'yyyy-MM-ddTHH:mm'
     this.editAttendanceForm.patchValue({
-      startTime: DateUtil.formatDateToStrWithFormat(item.actualStartDateTime, format),
+      startTime: DateUtil.formatDateToStrWithFormat(item.startDateTime, format),
       endTime: DateUtil.formatDateToStrWithFormat(item.endDateTime, format)
     })
   }
@@ -301,18 +296,13 @@ export class AttendanceDetailComponent implements OnInit {
     }
 
     const format = 'yyyy-MM-ddTHH:mm'
-    let actualStartDateTime = new Date(formatDate(this.editAttendanceForm.value.startTime, format, 'en-US'));
 
     let startDateTime = new Date(formatDate(this.editAttendanceForm.value.startTime, format, 'en-US'));
-    if (actualStartDateTime.getMinutes() < 10) {
-      startDateTime.setHours(actualStartDateTime.getHours(), 0, 0);
-    }
 
     let endDateTime = new Date(formatDate(this.editAttendanceForm.value.endTime, format, 'en-US'));
 
     const condition = {
       attendanceId: this.editAttendanceId,
-      actualStartDateTime: actualStartDateTime,
       startDateTime: startDateTime,
       endDateTime: endDateTime
     }

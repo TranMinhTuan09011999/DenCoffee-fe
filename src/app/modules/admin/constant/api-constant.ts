@@ -152,4 +152,10 @@ export class ApiConstant {
     uri: '/salary-detail/update-salary-detail'
   };
 
+  // ------------ Employee Shift --------------
+  public static API_GET_EMPLOYEE_SHIFT_CURRENT_TIME: API = {
+    module: PortalType.USER,
+    uri: '/employee-shift/current-time'
+  };
+
 }

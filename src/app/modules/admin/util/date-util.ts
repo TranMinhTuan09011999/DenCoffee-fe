@@ -1,8 +1,15 @@
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import {addMinutes, format, parse, subMinutes} from 'date-fns';
 
 export class DateUtil {
+
+  public static FULL_TIME = 'HH:mm:ss';
+  public static SHORT_TIME = 'HH:mm';
+
+  public static ADD_METHOD = 'ADD';
+  public static SUB_METHOD = 'SUB';
 
   public static formatStr2ObjectDate(dtStr: string): any {
     let arrDt = [];
@@ -63,6 +70,42 @@ export class DateUtil {
     } else {
       return false;
     }
+  }
+
+  public static changeTimeByMinutes(time: string, minutesChange: number, method: string | null): string {
+    const parsedTime = parse(time, this.FULL_TIME, new Date());
+    if (method == this.SUB_METHOD) {
+      return format(subMinutes(parsedTime, minutesChange), this.SHORT_TIME);
+    } else if (method == this.ADD_METHOD) {
+      return format(addMinutes(parsedTime, minutesChange), this.SHORT_TIME);
+    } else {
+      return format(parsedTime, this.SHORT_TIME);
+    }
+  }
+
+  public static setNewDate(date: Date, day: any, month: any, year: any,
+                           hour: any, minute: any, second: any) {
+    date.setDate(day !== null ? day : date.getDate());
+    date.setMonth(month !== null ? month : date.getMonth());
+    date.setFullYear(year !== null ? year : date.getFullYear());
+    date.setHours(hour !== null ? hour : date.getHours());
+    date.setMinutes(minute !== null ? minute : date.getMinutes());
+    date.setSeconds(second !== null ? second : date.getSeconds());
+    return date;
+  }
+
+  public static compare2DateTime(date1: Date, date2: Date) {
+    if (date1 > date2) {
+      return 1;
+    } else if (date1 < date2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  public static between2DateTime(startDate: Date, endDate: Date, targetDate: Date) {
+    return targetDate >= startDate && targetDate <= endDate;
   }
 
 }
